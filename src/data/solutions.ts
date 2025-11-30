@@ -48,6 +48,27 @@ export const capabilities: Solution[] = [
 			"Strategic guidance and mentorship from seasoned healthcare AI professionals. We help organizations define their AI roadmap, ensure successful implementation, and accelerate digital transformation.",
 		icon: "users",
 	},
+	{
+		id: "multi-criteria-decision",
+		title: "Multi-Criteria Decision Making",
+		description:
+			"Advanced decision support systems that evaluate complex healthcare scenarios across multiple weighted criteria. Optimize resource allocation, treatment selection, and operational decisions with transparent, explainable AI.",
+		icon: "scale",
+	},
+	{
+		id: "multi-agent-simulation",
+		title: "Multi-Agent Simulation",
+		description:
+			"Sophisticated agent-based modeling to simulate complex healthcare ecosystems, patient flows, and epidemic dynamics. Predict outcomes and test interventions in virtual environments before real-world implementation.",
+		icon: "network",
+	},
+	{
+		id: "agentic-workflows",
+		title: "Agentic Workflows for Automation",
+		description:
+			"Design and deploy autonomous AI agents that orchestrate complex healthcare workflows. From clinical documentation to care coordination, our agentic systems work seamlessly with human oversight.",
+		icon: "workflow",
+	},
 ];
 
 export const coreFeatures = [
