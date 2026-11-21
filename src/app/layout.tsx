@@ -22,7 +22,7 @@ export const metadata: Metadata = {
         template: "%s | yDataLabs",
     },
     description:
-        "Leading healthcare AI consulting firm specializing in medical NLP, clinical MLOps, and generative AI solutions. Founded by Dr. Veysel Kocaman, PhD with 20+ years experience in healthcare AI.",
+        "Leading healthcare AI consulting firm specializing in medical NLP, clinical MLOps, and generative AI solutions. Founded by Dr. Veysel Kocaman, PhD, with 10+ years in healthcare AI.",
     keywords: [
         "healthcare AI",
         "medical NLP",
@@ -59,14 +59,6 @@ export const metadata: Metadata = {
         title: "yDataLabs - Healthcare AI & Data Science Consulting",
         description:
             "Leading healthcare AI consulting firm specializing in medical NLP, clinical MLOps, and generative AI solutions. Founded by Dr. Veysel Kocaman, PhD.",
-        images: [
-            {
-                url: "/og-image.png",
-                width: 1200,
-                height: 630,
-                alt: "yDataLabs - Healthcare AI & Data Science Consulting",
-            },
-        ],
     },
     twitter: {
         card: "summary_large_image",
@@ -74,13 +66,6 @@ export const metadata: Metadata = {
         description:
             "Leading healthcare AI consulting firm specializing in medical NLP, clinical MLOps, and generative AI solutions.",
         creator: "@ydatalabs",
-        images: ["/og-image.png"],
-    },
-    alternates: {
-        canonical: "https://ydatalabs.nl",
-    },
-    verification: {
-        google: "your-google-verification-code",
     },
 };
 
@@ -100,7 +85,7 @@ const organizationSchema = {
         name: "Dr. Veysel Kocaman",
         jobTitle: "Founder & Director",
         description:
-            "PhD in Computer Vision, 20+ years experience in healthcare AI and machine learning",
+            "PhD in Computer Vision, 20+ years in software, 10+ years in healthcare AI and machine learning",
         alumniOf: "Leiden University",
         knowsAbout: [
             "Healthcare AI",
@@ -186,7 +171,6 @@ export default function RootLayout({
         <html lang="en" className="scroll-smooth">
             <head>
                 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-                <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                 <meta name="theme-color" content="#0f172a" />
                 <script
                     type="application/ld+json"

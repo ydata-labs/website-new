@@ -226,7 +226,7 @@ export const founderInfo = {
     bio: [
         "Dr. Veysel Kocaman is a seasoned Data Scientist and ML Engineer with over a decade of experience leading advanced AI and machine learning initiatives across healthcare, life sciences, and enterprise domains. He is the Director of yDataLabs, a Dutch consultancy focused on transforming data into business value through cutting-edge AI solutions.",
         'In addition to his role at yDataLabs, Veysel serves as the VP of Engineering and fractional CTO at several US-based AI startups, contributing strategic leadership to AI driven healthcare innovation and medical NLP platforms. He earned his Ph.D. in Computer Vision from Leiden University with a dissertation on "Learning from Small Samples" and has taught graduate-level AI courses during his academic tenure.',
-        "Veysel has led multimillion-dollar AI programs for global pharmaceutical and healthcare companies, integrating intelligent systems into mission-critical workflows. With more than 30 peer-reviewed publications in medical AI, Dr. Kocaman is recognized internationally for his contributions to the field.",
+        "Veysel has led multimillion-dollar AI programs for global pharmaceutical and healthcare companies, integrating intelligent systems into mission-critical workflows. With more than 40 peer-reviewed publications in medical AI, Dr. Kocaman is recognized internationally for his contributions to the field.",
     ],
     achievements: [
         "Google-recognized ML Developer Expert",
@@ -244,7 +244,7 @@ export const activities = [
 		title: "Peer-reviewed Publications",
 		icon: "book",
 		description:
-			"With more than 30 peer-reviewed publications in medical AI, Dr. Kocaman is recognized internationally for his contributions to the field. His research spans clinical NLP, computer vision, machine learning, and healthcare AI applications.",
+			"With more than 40 peer-reviewed publications in medical AI, Dr. Kocaman is recognized internationally for his contributions to the field. His research spans clinical NLP, computer vision, machine learning, and healthcare AI applications.",
 	},
 	{
 		title: "Public Speaking Engagements",

@@ -13,7 +13,9 @@ export const metadata: Metadata = {
 	title: "Portfolio - Healthcare AI & Data Science Projects",
 	description:
 		"Explore yDataLabs portfolio of healthcare AI projects, medical NLP solutions, and clinical MLOps implementations. Over 100+ projects delivered with measurable impact.",
+	alternates: { canonical: "/portfolio" },
 	openGraph: {
+		url: "/portfolio",
 		title: "Portfolio - yDataLabs Healthcare AI Projects",
 		description:
 			"Explore our portfolio of healthcare AI projects, medical NLP solutions, and clinical MLOps implementations.",

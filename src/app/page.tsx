@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Header, Footer } from "@/components/ui";
 import {
     Hero,
@@ -8,6 +9,10 @@ import {
     Partners,
     Contact,
 } from "@/components/sections";
+
+export const metadata: Metadata = {
+    alternates: { canonical: "/" },
+};
 
 export default function Home() {
     return (
