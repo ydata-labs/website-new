@@ -108,6 +108,9 @@ All animations are CSS-only for performance:
 - Comprehensive metadata in `layout.tsx`
 - JSON-LD structured data for Organization and Person schemas
 - Open Graph and Twitter card meta tags
+- The share image is `public/og-image.png` (source: `scripts/og-image.html`). A page with its own `openGraph` block must add `images: [shareImage]` from `src/data/seo.ts`, or it loses the image
+- Every page sets its own `alternates.canonical`. Never set one in the root layout
+- New pages must be added to `src/app/sitemap.ts`
 - Semantic HTML with proper heading hierarchy
 
 ### Contact Form

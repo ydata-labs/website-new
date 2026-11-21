@@ -8,6 +8,7 @@ import {
 	activities,
 } from "@/data/portfolio";
 import { cn } from "@/lib/cn";
+import { shareImage } from "@/data/seo";
 
 export const metadata: Metadata = {
 	title: "Portfolio - Healthcare AI & Data Science Projects",
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 	alternates: { canonical: "/portfolio" },
 	openGraph: {
 		url: "/portfolio",
+		images: [shareImage],
 		title: "Portfolio - yDataLabs Healthcare AI Projects",
 		description:
 			"Explore our portfolio of healthcare AI projects, medical NLP solutions, and clinical MLOps implementations.",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Libre_Franklin } from "next/font/google";
 import "./globals.css";
+import { shareImage } from "@/data/seo";
 
 const jetbrainsMono = JetBrains_Mono({
     variable: "--font-heading",
@@ -59,6 +60,7 @@ export const metadata: Metadata = {
         title: "yDataLabs - Healthcare AI & Data Science Consulting",
         description:
             "Leading healthcare AI consulting firm specializing in medical NLP, clinical MLOps, and generative AI solutions. Founded by Dr. Veysel Kocaman, PhD.",
+        images: [shareImage],
     },
     twitter: {
         card: "summary_large_image",
@@ -66,6 +68,7 @@ export const metadata: Metadata = {
         description:
             "Leading healthcare AI consulting firm specializing in medical NLP, clinical MLOps, and generative AI solutions.",
         creator: "@ydatalabs",
+        images: [shareImage],
     },
 };
 

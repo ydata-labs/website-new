@@ -1,0 +1,35 @@
+<!doctype html>
+<!-- Source of public/og-image.png (1200x630). Render it with headless
+     Chrome; the command is in docs/superpowers/plans/2026-11-21-phase-1-fixes.md, Task 4. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=block" rel="stylesheet">
+<style>
+	* { box-sizing: border-box; margin: 0; }
+	html, body { width: 1200px; height: 630px; overflow: hidden; }
+	body {
+		padding: 64px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		font-family: "JetBrains Mono", monospace;
+		color: #f8fafc;
+		background-color: #0b1220;
+		background-image:
+			linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+		background-size: 32px 32px;
+	}
+	.name { font-size: 34px; font-weight: 700; }
+	.accent { color: #2dd4bf; }
+	h1 { font-size: 68px; line-height: 1.18; font-weight: 700; max-width: 1000px; }
+	.foot { display: flex; justify-content: space-between; font-size: 26px; font-weight: 500; color: #94a3b8; }
+</style>
+</head>
+<body>
+	<div class="name">y<span class="accent">Data</span>Labs</div>
+	<h1>LLMs and AI that run where <span class="accent">your data</span> lives.</h1>
+	<div class="foot"><span>Proven in healthcare</span><span>ydatalabs.nl</span></div>
+</body>
+</html>
