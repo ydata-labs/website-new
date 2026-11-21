@@ -1,6 +1,11 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseContact, handleContact } from "./contact.ts";
+import {
+	parseContact,
+	handleContact,
+	readContactResult,
+	SEND_FAILED,
+} from "./contact.ts";
 
 const valid = {
 	name: " Ada Lovelace ",
@@ -73,6 +78,13 @@ test("collapses line breaks in single-line fields", () => {
 	assert.equal(/[\r\n]/.test(r.data.subject), false);
 });
 
+test("collapses line breaks in the name, rejects them in the email", () => {
+	const r = parseContact({ ...valid, name: "Ada\r\nBcc: evil@example.com" });
+	assert.equal(r.ok, true);
+	assert.equal(/[\r\n]/.test(r.data.name), false);
+	assert.equal(parseContact({ ...valid, email: "ada@example.com\nx@y.zz" }).ok, false);
+});
+
 test("honeypot marks spam before other checks", () => {
 	const r = parseContact({ ...valid, email: "bad", ref_code: "http://spam" });
 	assert.deepEqual(r, { ok: false, spam: true });
@@ -132,4 +144,56 @@ test("fetch throw gives 502", async () => {
 	};
 	const res = await handleContact(post(valid), env, boom);
 	assert.equal(res.status, 502);
+});
+
+test("email call carries an abort signal, so a stalled service cannot hang the form", async () => {
+	const f = fakeFetch(200);
+	await handleContact(post(valid), env, f.fn);
+	assert.ok(f.calls[0].init.signal instanceof AbortSignal);
+});
+
+test("a honeypot drop is logged without personal data", async (t) => {
+	const warn = t.mock.method(console, "warn", () => {});
+	await handleContact(post({ ...valid, ref_code: "x" }), env, fakeFetch().fn);
+	assert.equal(warn.mock.callCount(), 1);
+	assert.equal(/ada|example\.com/i.test(warn.mock.calls[0].arguments.join(" ")), false);
+});
+
+test("uses CONTACT_EMAIL and CONTACT_FROM when set", async () => {
+	const f = fakeFetch(200);
+	const custom = { ...env, CONTACT_EMAIL: "a@b.cd", CONTACT_FROM: "X <x@b.cd>" };
+	await handleContact(post(valid), custom, f.fn);
+	const sent = JSON.parse(f.calls[0].init.body);
+	assert.deepEqual(sent.to, ["a@b.cd"]);
+	assert.equal(sent.from, "X <x@b.cd>");
+});
+
+test("form shows sent only for a 200 with ok true", async () => {
+	assert.deepEqual(await readContactResult(Response.json({ ok: true })), { sent: true });
+});
+
+test("form does not show sent for a 200 without ok true", async () => {
+	for (const res of [
+		new Response("<html>challenge</html>", { status: 200 }),
+		Response.json({}),
+		Response.json(null),
+	]) {
+		assert.deepEqual(await readContactResult(res), { sent: false, message: SEND_FAILED });
+	}
+});
+
+test("form shows the server sentence for a 400", async () => {
+	const res = Response.json({ error: "Please enter a valid email address." }, { status: 400 });
+	assert.deepEqual(await readContactResult(res), {
+		sent: false,
+		message: "Please enter a valid email address.",
+	});
+});
+
+test("form shows the fallback with the email address for 5xx", async () => {
+	for (const status of [500, 502]) {
+		const res = Response.json({ error: "send_failed" }, { status });
+		assert.deepEqual(await readContactResult(res), { sent: false, message: SEND_FAILED });
+	}
+	assert.match(SEND_FAILED, /info@ydatalabs\.nl/);
 });

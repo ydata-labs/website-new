@@ -19,7 +19,7 @@ const sections = [
 	},
 	{
 		title: "Who receives it",
-		body: "yDataLabs receives your message. Resend delivers the email to our mailbox. Cloudflare hosts this website and processes technical data such as IP addresses to keep the site running and secure.",
+		body: "yDataLabs receives your message. Resend delivers the email to our mailbox, which Google Workspace hosts. Cloudflare hosts this website and processes technical data such as IP addresses to keep the site running and secure.",
 	},
 	{
 		title: "How long we keep it",

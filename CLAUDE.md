@@ -12,7 +12,7 @@ This is the yDataLabs website - a modern, production-ready landing page for a he
 - **React**: 19.1.0
 - **TypeScript**: Strict mode with proper typing
 - **Styling**: Tailwind CSS 4 with custom theme configuration
-- **Deployment**: Cloudflare Pages via OpenNext
+- **Deployment**: Cloudflare Workers via OpenNext
 - **Package Manager**: pnpm
 
 ## Build & Development Commands
@@ -51,8 +51,13 @@ src/
 │   ├── layout.tsx          # Root layout with SEO metadata, fonts, JSON-LD
 │   ├── page.tsx            # Landing page
 │   ├── globals.css         # Tailwind theme configuration
+│   ├── sitemap.ts          # Sitemap (add every new page here)
+│   ├── robots.ts           # robots.txt
+│   ├── apple-icon.png      # Phone home-screen icon (source: scripts/apple-icon.html)
 │   ├── portfolio/
 │   │   └── page.tsx        # Full portfolio page
+│   ├── privacy/
+│   │   └── page.tsx        # Privacy page (linked from the contact form and footer)
 │   └── api/
 │       └── contact/
 │           └── route.ts    # Contact form API (sends through Resend)
@@ -76,7 +81,8 @@ src/
 │   ├── navigation.ts
 │   ├── products.ts
 │   ├── solutions.ts
-│   └── portfolio.ts
+│   ├── portfolio.ts
+│   └── seo.ts              # Share image constant
 └── lib/
     ├── cn.ts               # Tailwind merge utility
     ├── contact.ts          # Contact form logic (no imports, tested)
@@ -119,10 +125,10 @@ All animations are CSS-only for performance:
 - `src/lib/contact.ts` has no imports on purpose, so `pnpm test` can run it with plain Node
 - The form must never show "sent" when the email was not sent
 
-### Static Export Compatibility
-- All pages are compatible with static export
-- No server-side features that require Node.js runtime
-- Images are optimized for static hosting
+### Static Pages
+- Every page is built as a static page. There is no file system at run time on Cloudflare Workers
+- The only dynamic route is `POST /api/contact`
+- `pnpm test` needs Node 22.18 or newer (Node runs the TypeScript file directly)
 
 ## Common Tasks
 

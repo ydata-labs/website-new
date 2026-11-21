@@ -10,7 +10,7 @@ The yDataLabs website is a modern Next.js application deployed on Cloudflare Pag
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Cloudflare Edge                          │
 │  ┌──────────────┐  ┌──────────────┐  ┌────────────────────────┐│
-│  │   CDN/Cache  │  │ Email Workers│  │    Pages (OpenNext)    ││
+│  │   CDN/Cache  │  │ Static Assets│  │   Workers (OpenNext)   ││
 │  └──────────────┘  └──────────────┘  └────────────────────────┘│
 └─────────────────────────────────────────────────────────────────┘
                               │
@@ -107,9 +107,11 @@ data/
 ### Contact Form Flow
 
 ```
-User Input → Contact.tsx → POST /api/contact → Cloudflare Email Workers → Inbox
+User Input → Contact.tsx → POST /api/contact → src/lib/contact.ts → Resend HTTP API → Inbox
                                     │
-                                    └── Fallback: Console log (dev mode)
+                                    ├── Bad input: 400 with a sentence for the visitor
+                                    ├── Honeypot filled: 200, nothing sent, one log line
+                                    └── No API key (500) or Resend failure (502): the form shows the direct email address
 ```
 
 ## Styling Architecture
@@ -168,7 +170,7 @@ Output:
 
 Key bindings in `wrangler.jsonc`:
 - `ASSETS`: Static asset binding
-- `EMAIL` (optional): Email Workers binding
+- `RESEND_API_KEY` (secret, not in the file): set with `pnpm exec wrangler secret put RESEND_API_KEY`
 
 ## Performance Optimizations
 
@@ -204,7 +206,7 @@ Key bindings in `wrangler.jsonc`:
 The API routes support Cloudflare bindings:
 - D1 Database
 - KV Storage
-- Email Workers
+- Email Service (not Email Routing: mail for this domain runs on Google)
 - AI (Workers AI)
 
 ## Monitoring & Analytics

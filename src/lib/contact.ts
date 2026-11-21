@@ -84,10 +84,13 @@ export async function handleContact(
 
 	const parsed = parseContact(body);
 	if (!parsed.ok) {
-		// Spam gets a fake success so bots do not learn the field is a trap.
-		return parsed.spam
-			? Response.json({ ok: true })
-			: Response.json({ error: parsed.error }, { status: 400 });
+		if (parsed.spam) {
+			// Spam gets a fake success so bots do not learn the field is a trap.
+			// The log line is the only trace if a real visitor is ever dropped.
+			console.warn("contact: honeypot drop");
+			return Response.json({ ok: true });
+		}
+		return Response.json({ error: parsed.error }, { status: 400 });
 	}
 
 	if (!env.RESEND_API_KEY) {
@@ -99,6 +102,9 @@ export async function handleContact(
 	try {
 		const res = await fetchFn("https://api.resend.com/emails", {
 			method: "POST",
+			// A stalled service must not leave the visitor on "Sending..." forever.
+			// The abort lands in the catch below and becomes a 502.
+			signal: AbortSignal.timeout(10_000),
 			headers: {
 				Authorization: `Bearer ${env.RESEND_API_KEY}`,
 				"Content-Type": "application/json",
@@ -121,4 +127,23 @@ export async function handleContact(
 	}
 
 	return Response.json({ ok: true });
+}
+
+export const SEND_FAILED =
+	"Something went wrong. Please email us directly at info@ydatalabs.nl.";
+
+export type ContactResult = { sent: true } | { sent: false; message: string };
+
+// Used by the form. "Sent" needs a 200 AND our own `{ ok: true }` body, so a
+// proxy or challenge page that answers 200 can never look like success.
+export async function readContactResult(res: Response): Promise<ContactResult> {
+	const body = (await res.json().catch(() => null)) as {
+		ok?: unknown;
+		error?: unknown;
+	} | null;
+	if (res.status === 200 && body?.ok === true) return { sent: true };
+	if (res.status === 400 && typeof body?.error === "string") {
+		return { sent: false, message: body.error };
+	}
+	return { sent: false, message: SEND_FAILED };
 }

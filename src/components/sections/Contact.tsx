@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { SectionHeader, Button, ArrowIcon } from "@/components/ui";
 import { cn } from "@/lib/cn";
+import { readContactResult, SEND_FAILED } from "@/lib/contact";
 
 interface FormData {
 	name: string;
@@ -22,9 +23,6 @@ const emptyForm: FormData = {
 	message: "",
 	ref_code: "",
 };
-
-const SEND_FAILED =
-	"Something went wrong. Please email us directly at info@ydatalabs.nl.";
 
 interface FormStatus {
 	type: "idle" | "loading" | "success" | "error";
@@ -54,20 +52,15 @@ export function Contact() {
 				body: JSON.stringify(formData),
 			});
 
-			if (response.ok) {
+			const result = await readContactResult(response);
+			if (result.sent) {
 				setStatus({
 					type: "success",
 					message: "Thank you! Your message has been sent successfully.",
 				});
 				setFormData(emptyForm);
-			} else if (response.status === 400) {
-				// 400 carries a sentence written for the visitor.
-				const body = (await response.json().catch(() => null)) as {
-					error?: string;
-				} | null;
-				setStatus({ type: "error", message: body?.error || SEND_FAILED });
 			} else {
-				setStatus({ type: "error", message: SEND_FAILED });
+				setStatus({ type: "error", message: result.message });
 			}
 		} catch {
 			setStatus({ type: "error", message: SEND_FAILED });
@@ -90,7 +83,12 @@ export function Contact() {
 							<div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 lg:p-10">
 								<h2 className="text-h3 text-navy mb-8">Send a message</h2>
 
-								<form onSubmit={handleSubmit} className="relative space-y-6">
+								<form
+									onSubmit={handleSubmit}
+									method="post"
+									action="/api/contact"
+									className="relative space-y-6"
+								>
 									<input
 										type="text"
 										name="ref_code"
@@ -160,7 +158,7 @@ export function Contact() {
 											value={formData.message}
 											onChange={handleChange}
 											placeholder="Your message"
-												aria-label="Your message"
+											aria-label="Your message"
 											rows={4}
 											required
 											className="w-full px-0 py-3 border-b-2 border-slate-200 bg-transparent focus:border-teal focus:outline-none transition-colors placeholder:text-slate-400 resize-none"
@@ -189,6 +187,7 @@ export function Contact() {
 									{/* Status message */}
 									{status.type !== "idle" && status.type !== "loading" && (
 										<div
+											role={status.type === "error" ? "alert" : "status"}
 											className={cn(
 												"p-4 rounded-lg text-sm",
 												status.type === "success" &&
