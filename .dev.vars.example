@@ -1,2 +1,6 @@
 # Load .env.development* files when running `wrangler dev`
 NEXTJS_ENV=development
+
+# Resend API key for the contact form (https://resend.com/api-keys, "sending access").
+# Copy this file to .dev.vars and fill it in. Leave it empty to test the error path.
+RESEND_API_KEY=

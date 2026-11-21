@@ -27,26 +27,14 @@
      * https://developers.cloudflare.com/workers/runtime-apis/bindings/
      */
     /**
-     * Email Workers Binding
-     * To enable email sending, set up Email Workers in Cloudflare Dashboard:
-     * 1. Go to Workers & Pages > Email Workers
-     * 2. Create a new Email Worker or use existing
-     * 3. Add the binding below with your configured email route
-     * https://developers.cloudflare.com/email-routing/email-workers/
+     * Contact form email
+     * The form posts to /api/contact, which sends mail through Resend.
+     * Set the API key as a secret (never in this file):
+     *   pnpm exec wrangler secret put RESEND_API_KEY
+     * Optional vars: CONTACT_EMAIL (default info@ydatalabs.nl) and
+     * CONTACT_FROM (default "yDataLabs Website <website@ydatalabs.nl>").
+     * Cloudflare Email Routing is not an option: mail for this domain runs on Google.
      */
-    // "send_email": [
-    //   {
-    //     "name": "EMAIL",
-    //     "destination_address": "info@ydatalabs.nl"
-    //   }
-    // ]
-    /**
-     * Environment Variables
-     * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
-     */
-    // "vars": {
-    //   "CONTACT_EMAIL": "info@ydatalabs.nl"
-    // }
     /**
      * Note: Use secrets to store sensitive data.
      * https://developers.cloudflare.com/workers/configuration/secrets/

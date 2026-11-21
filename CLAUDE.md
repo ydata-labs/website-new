@@ -33,6 +33,9 @@ pnpm start
 # Lint code
 pnpm lint
 
+# Run tests (Node built-in test runner, no extra dependency)
+pnpm test
+
 # Preview on Cloudflare (local)
 pnpm preview
 
@@ -52,7 +55,7 @@ src/
 │   │   └── page.tsx        # Full portfolio page
 │   └── api/
 │       └── contact/
-│           └── route.ts    # Contact form API (Cloudflare Email Workers)
+│           └── route.ts    # Contact form API (sends through Resend)
 ├── components/
 │   ├── sections/           # Page sections (Hero, Products, Solutions, etc.)
 │   │   ├── Hero.tsx
@@ -75,7 +78,9 @@ src/
 │   ├── solutions.ts
 │   └── portfolio.ts
 └── lib/
-    └── cn.ts               # Tailwind merge utility
+    ├── cn.ts               # Tailwind merge utility
+    ├── contact.ts          # Contact form logic (no imports, tested)
+    └── contact.test.mjs    # Tests, run with `pnpm test`
 ```
 
 ## Design System
@@ -106,9 +111,10 @@ All animations are CSS-only for performance:
 - Semantic HTML with proper heading hierarchy
 
 ### Contact Form
-- API route at `/api/contact`
-- Designed for Cloudflare Email Workers (see `wrangler.jsonc`)
-- Fallback logging for development
+- The form posts to `/api/contact` (`src/app/api/contact/route.ts`, a thin wrapper)
+- All logic is in `src/lib/contact.ts`: input checks, a honeypot field named `website`, and one HTTP call to Resend
+- `src/lib/contact.ts` has no imports on purpose, so `pnpm test` can run it with plain Node
+- The form must never show "sent" when the email was not sent
 
 ### Static Export Compatibility
 - All pages are compatible with static export
@@ -135,18 +141,15 @@ All animations are CSS-only for performance:
 
 ## Deployment
 
-The site is configured for Cloudflare Pages deployment:
+**A push to `main` publishes the live site.** Cloudflare builds and deploys on every push.
+Work on a branch. Never push or merge to `main` without the owner's yes.
 
-1. Build with `pnpm build`
-2. Deploy with `pnpm deploy`
-
-Configuration in `wrangler.jsonc` includes:
-- OpenNext worker configuration
-- Asset bindings
-- Email Workers configuration (commented, requires setup)
+`pnpm deploy` also deploys by hand. `pnpm preview` runs the Cloudflare build locally.
 
 ## Environment Variables
 
-For Cloudflare Email Workers, configure in Cloudflare Dashboard or `wrangler.jsonc`:
-- `CONTACT_EMAIL`: Destination email for contact form submissions
+- `RESEND_API_KEY` (secret, required): set with `pnpm exec wrangler secret put RESEND_API_KEY`. For local use, copy `.dev.vars.example` to `.dev.vars`.
+- `CONTACT_EMAIL` (optional): where form messages go. Default `info@ydatalabs.nl`.
+- `CONTACT_FROM` (optional): the sender. Default `yDataLabs Website <website@ydatalabs.nl>`.
 
+Email for `ydatalabs.nl` runs on Google Workspace, so Cloudflare Email Routing cannot be used.
