@@ -74,7 +74,7 @@ test("collapses line breaks in single-line fields", () => {
 });
 
 test("honeypot marks spam before other checks", () => {
-	const r = parseContact({ ...valid, email: "bad", website: "http://spam" });
+	const r = parseContact({ ...valid, email: "bad", ref_code: "http://spam" });
 	assert.deepEqual(r, { ok: false, spam: true });
 });
 
@@ -95,7 +95,7 @@ test("sends one email with the right fields", async () => {
 
 test("spam gives 200 and sends nothing", async () => {
 	const f = fakeFetch();
-	const res = await handleContact(post({ ...valid, website: "x" }), env, f.fn);
+	const res = await handleContact(post({ ...valid, ref_code: "x" }), env, f.fn);
 	assert.equal(res.status, 200);
 	assert.equal(f.calls.length, 0);
 });

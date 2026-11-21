@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { SectionHeader, Button, ArrowIcon } from "@/components/ui";
 import { cn } from "@/lib/cn";
 
@@ -10,7 +11,20 @@ interface FormData {
 	subject: string;
 	phone: string;
 	message: string;
+	ref_code: string; // honeypot: people never see or fill this
 }
+
+const emptyForm: FormData = {
+	name: "",
+	email: "",
+	subject: "",
+	phone: "",
+	message: "",
+	ref_code: "",
+};
+
+const SEND_FAILED =
+	"Something went wrong. Please email us directly at info@ydatalabs.nl.";
 
 interface FormStatus {
 	type: "idle" | "loading" | "success" | "error";
@@ -18,15 +32,8 @@ interface FormStatus {
 }
 
 export function Contact() {
-	const [formData, setFormData] = useState<FormData>({
-		name: "",
-		email: "",
-		subject: "",
-		phone: "",
-		message: "",
-	});
+	const [formData, setFormData] = useState<FormData>(emptyForm);
 	const [status, setStatus] = useState<FormStatus>({ type: "idle" });
-	const [agreed, setAgreed] = useState(false);
 
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,14 +44,6 @@ export function Contact() {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-
-		if (!agreed) {
-			setStatus({
-				type: "error",
-				message: "Please agree to the terms before submitting.",
-			});
-			return;
-		}
 
 		setStatus({ type: "loading" });
 
@@ -60,16 +59,18 @@ export function Contact() {
 					type: "success",
 					message: "Thank you! Your message has been sent successfully.",
 				});
-				setFormData({ name: "", email: "", subject: "", phone: "", message: "" });
-				setAgreed(false);
+				setFormData(emptyForm);
+			} else if (response.status === 400) {
+				// 400 carries a sentence written for the visitor.
+				const body = (await response.json().catch(() => null)) as {
+					error?: string;
+				} | null;
+				setStatus({ type: "error", message: body?.error || SEND_FAILED });
 			} else {
-				throw new Error("Failed to send message");
+				setStatus({ type: "error", message: SEND_FAILED });
 			}
 		} catch {
-			setStatus({
-				type: "error",
-				message: "Something went wrong. Please try again or email us directly.",
-			});
+			setStatus({ type: "error", message: SEND_FAILED });
 		}
 	};
 
@@ -89,7 +90,17 @@ export function Contact() {
 							<div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 lg:p-10">
 								<h2 className="text-h3 text-navy mb-8">Send a message</h2>
 
-								<form onSubmit={handleSubmit} className="space-y-6">
+								<form onSubmit={handleSubmit} className="relative space-y-6">
+									<input
+										type="text"
+										name="ref_code"
+										value={formData.ref_code}
+										onChange={handleChange}
+										tabIndex={-1}
+										autoComplete="off"
+										aria-hidden="true"
+										className="absolute -left-[9999px] h-0 w-0 opacity-0"
+									/>
 									<div className="grid sm:grid-cols-2 gap-6">
 										<div>
 											<input
@@ -98,6 +109,7 @@ export function Contact() {
 												value={formData.name}
 												onChange={handleChange}
 												placeholder="Full name"
+												aria-label="Full name"
 												required
 												className="w-full px-0 py-3 border-b-2 border-slate-200 bg-transparent focus:border-teal focus:outline-none transition-colors placeholder:text-slate-400"
 											/>
@@ -109,6 +121,7 @@ export function Contact() {
 												value={formData.email}
 												onChange={handleChange}
 												placeholder="Email address"
+												aria-label="Email address"
 												required
 												className="w-full px-0 py-3 border-b-2 border-slate-200 bg-transparent focus:border-teal focus:outline-none transition-colors placeholder:text-slate-400"
 											/>
@@ -123,6 +136,7 @@ export function Contact() {
 												value={formData.subject}
 												onChange={handleChange}
 												placeholder="Subject"
+												aria-label="Subject"
 												required
 												className="w-full px-0 py-3 border-b-2 border-slate-200 bg-transparent focus:border-teal focus:outline-none transition-colors placeholder:text-slate-400"
 											/>
@@ -134,6 +148,7 @@ export function Contact() {
 												value={formData.phone}
 												onChange={handleChange}
 												placeholder="Phone number (optional)"
+												aria-label="Phone number (optional)"
 												className="w-full px-0 py-3 border-b-2 border-slate-200 bg-transparent focus:border-teal focus:outline-none transition-colors placeholder:text-slate-400"
 											/>
 										</div>
@@ -145,6 +160,7 @@ export function Contact() {
 											value={formData.message}
 											onChange={handleChange}
 											placeholder="Your message"
+												aria-label="Your message"
 											rows={4}
 											required
 											className="w-full px-0 py-3 border-b-2 border-slate-200 bg-transparent focus:border-teal focus:outline-none transition-colors placeholder:text-slate-400 resize-none"
@@ -152,33 +168,13 @@ export function Contact() {
 									</div>
 
 									<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-										<label className="flex items-start gap-3 cursor-pointer">
-											<input
-												type="checkbox"
-												checked={agreed}
-												onChange={(e) => setAgreed(e.target.checked)}
-												className="sr-only peer"
-											/>
-											<span className="w-5 h-5 rounded border-2 border-slate-300 flex items-center justify-center flex-shrink-0 mt-0.5 peer-checked:bg-teal peer-checked:border-teal transition-colors">
-												<svg
-													className="w-3 h-3 text-white opacity-0 peer-checked:opacity-100"
-													fill="none"
-													viewBox="0 0 24 24"
-													stroke="currentColor"
-													strokeWidth={3}
-												>
-													<path
-														strokeLinecap="round"
-														strokeLinejoin="round"
-														d="M5 13l4 4L19 7"
-													/>
-												</svg>
-											</span>
-											<span className="text-sm text-slate-500">
-												By clicking, you agree to our terms and consent to
-												cookie usage.
-											</span>
-										</label>
+										<p className="text-sm text-slate-500">
+											We use your details only to answer your message. See our{" "}
+											<Link href="/privacy" className="text-teal-dark underline hover:text-teal">
+												privacy page
+											</Link>
+											.
+										</p>
 
 										<Button
 											type="submit"

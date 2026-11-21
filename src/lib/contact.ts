@@ -31,7 +31,9 @@ export function parseContact(body: unknown): ParseResult {
 	const raw = body as Record<string, unknown>;
 
 	// Honeypot first: a bot that fills it gets no hint about other fields.
-	if (typeof raw.website === "string" && raw.website.trim() !== "") {
+	// The name is meaningless on purpose. A name like "website" or "company"
+	// gets filled by browser autofill, and a real message would be dropped.
+	if (typeof raw.ref_code === "string" && raw.ref_code.trim() !== "") {
 		return { ok: false, spam: true };
 	}
 

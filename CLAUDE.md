@@ -112,7 +112,7 @@ All animations are CSS-only for performance:
 
 ### Contact Form
 - The form posts to `/api/contact` (`src/app/api/contact/route.ts`, a thin wrapper)
-- All logic is in `src/lib/contact.ts`: input checks, a honeypot field named `website`, and one HTTP call to Resend
+- All logic is in `src/lib/contact.ts`: input checks, a honeypot field named `ref_code` (a meaningless name, so browser autofill never fills it), and one HTTP call to Resend
 - `src/lib/contact.ts` has no imports on purpose, so `pnpm test` can run it with plain Node
 - The form must never show "sent" when the email was not sent
 

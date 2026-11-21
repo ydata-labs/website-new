@@ -22,6 +22,7 @@ export const footerNavigation = {
 		{ label: "About Us", href: "/#about" },
 		{ label: "Portfolio", href: "/portfolio" },
 		{ label: "Contact", href: "/#contact" },
+		{ label: "Privacy", href: "/privacy" },
 	],
 	solutions: [
 		{ label: "Healthcare AI", href: "/#solutions" },
