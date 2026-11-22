@@ -68,8 +68,6 @@ test("type scale tokens are valid sizes with a line height", () => {
 // Files that still have the old look. Each task removes its files.
 // Task 8 deletes this list.
 const NOT_YET = [
-	"src/app/portfolio/page.tsx",
-	"src/app/privacy/page.tsx",
 ];
 const OLD_CLASS =
 	/\b(?:bg|text|border|from|via|to|ring|fill|stroke|divide|outline|decoration|placeholder|shadow)-(?:navy|teal|slate|white|black|amber|emerald|rose|primary|secondary|background|foreground)\b/;

@@ -38,16 +38,19 @@ export default function PrivacyPage() {
 	return (
 		<>
 			<Header />
-			<main className="pt-24 bg-white">
-				<article className="max-w-md mx-auto px-4 md:px-8 py-16 lg:py-24">
-					<h1 className="text-h2 md:text-h1 text-navy mb-4">Privacy</h1>
-					<p className="text-body-sm text-slate-500 mb-12">
+			<main className="pt-32 pb-24">
+				<article className="max-w-md mx-auto px-4 md:px-8">
+					<p className="mb-3 font-heading text-sm text-accent">
+						{"// privacy"}
+					</p>
+					<h1 className="text-h2 md:text-h1 mb-4">Privacy</h1>
+					<p className="mb-12 font-heading text-xs text-muted">
 						Last updated: 21 November 2026
 					</p>
 					{sections.map((section) => (
 						<section key={section.title} className="mb-10">
-							<h2 className="text-h4 text-navy mb-3">{section.title}</h2>
-							<p className="text-body text-slate-600">{section.body}</p>
+							<h2 className="text-h4 mb-3">{section.title}</h2>
+							<p className="max-w-prose text-ink">{section.body}</p>
 						</section>
 					))}
 				</article>
