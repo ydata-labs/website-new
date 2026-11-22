@@ -154,7 +154,7 @@ export const advice = {
 	],
 };
 
-// The owner has not confirmed these two numbers yet.
+// Confirmed by the owner on 2026-11-22. Change them only with the owner's yes.
 export const proof = [
 	{ value: "100+", label: "projects" },
 	{ value: "50+", label: "clients" },

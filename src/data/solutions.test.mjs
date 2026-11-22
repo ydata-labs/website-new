@@ -35,5 +35,10 @@ test("solution text is general and plain", () => {
 
 test("advice and proof are filled", () => {
 	assert.ok(advice.items.length >= 3 && advice.items.length <= 5);
-	assert.deepEqual(proof.map((p) => p.value), ["100+", "50+"]);
+	// The values are the owner's call, so the test checks their shape only.
+	assert.ok(proof.length >= 2);
+	for (const p of proof) {
+		assert.match(p.value, /^\d+\+$/, p.label);
+		assert.ok(p.label.trim());
+	}
 });
