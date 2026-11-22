@@ -65,7 +65,7 @@ export const sitemapEntries = (
 		.map(({ path }) => ({ url: path === "/" ? SITE_URL : SITE_URL + path })),
 	...posts.map((post) => ({
 		url: SITE_URL + postPath(post),
-		lastModified: post.date,
+		lastModified: post.updated ?? post.date,
 	})),
 ];
 
@@ -131,6 +131,7 @@ export function postMetadata(post: PostMeta): Metadata {
 			title,
 			description: post.description,
 			publishedTime: post.date,
+			...(post.updated && { modifiedTime: post.updated }),
 			authors: [post.author],
 			images,
 		},
@@ -149,6 +150,7 @@ export const blogPostingSchema = (post: PostMeta) => ({
 	headline: post.title,
 	description: post.description,
 	datePublished: post.date,
+	dateModified: post.updated ?? post.date,
 	author: { "@type": "Person", name: post.author },
 	publisher: {
 		"@type": "Organization",

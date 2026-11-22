@@ -25,26 +25,28 @@ topic: platform-engineering
 author: Dr. Veysel Kocaman
 draft: false
 image: /images/blog/my-image.webp
+updated: 2027-01-15
 ---
 ```
 
 | Key | Needed | Allowed values | Example | What it does |
 |---|---|---|---|---|
-| `title` | yes | any text | `Local LLMs: a short guide` | The heading of the page and the title in Google |
-| `description` | yes | one or two sentences | `What a local LLM is.` | Shown in the blog list and in Google |
+| `title` | yes | any text, 60 characters at most | `Local LLMs: a short guide` | The heading of the page and the title in Google |
+| `description` | yes | one or two sentences, 160 characters at most | `What a local LLM is.` | Shown in the blog list and in Google |
 | `date` | yes | `YYYY-MM-DD` | `2026-12-01` | Shown on the post. Newer posts come first |
 | `audience` | yes | `leaders`, `research` | `leaders` | The label and the filter on the blog page |
 | `topic` | yes | `ai-engineering`, `platform-engineering`, `data-science` | `data-science` | A label on the post |
 | `author` | yes | a name | `Dr. Veysel Kocaman` | Shown on the post |
 | `draft` | no | `true`, `false` | `true` | A draft is not on the live site |
 | `image` | no | a path that starts with `/` | `/images/blog/x.webp` | The picture for shared links |
+| `updated` | no | `YYYY-MM-DD`, not before `date` | `2027-01-15` | The day of the last change. Shown on the post and told to Google |
 
 Two rules for the block:
 
 - A value may contain a colon. `title: Local LLMs: a short guide` works.
 - Text after ` #` is a comment. If your value needs a `#`, put the value in quotes.
 
-A misspelled key, a missing detail, or a wrong date stops the build with a clear message. Nothing half-right goes live.
+A misspelled key, a missing detail, a wrong date, or a title that is too long stops the build with a clear message. Nothing half-right goes live.
 
 ## The file name is the address
 

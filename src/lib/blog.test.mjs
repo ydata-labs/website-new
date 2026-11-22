@@ -77,6 +77,41 @@ test("rejects a post with missing or wrong details, and names the file", () => {
 	assert.throws(() => parsePost("My Post", file()), /file name/);
 });
 
+test("a title or description that Google would cut stops the build", () => {
+	assert.equal(parsePost("a", file({ title: "t".repeat(60) })).title.length, 60);
+	assert.equal(
+		parsePost("a", file({ description: "d".repeat(160) })).description.length,
+		160,
+	);
+	assert.throws(
+		() => parsePost("a", file({ title: "t".repeat(61) })),
+		/a\.md: title is 61 characters long. The most is 60/,
+	);
+	assert.throws(
+		() => parsePost("a", file({ description: "d".repeat(161) })),
+		/a\.md: description is 161 characters long. The most is 160/,
+	);
+});
+
+test("a post can carry the day it was last changed", () => {
+	assert.equal("updated" in parsePost("a", file()), false);
+	assert.equal(parsePost("a", file({ updated: "2027-01-15" })).updated, "2027-01-15");
+	// The same day as the post is fine.
+	assert.equal(parsePost("a", file({ updated: "2026-12-01" })).updated, "2026-12-01");
+	for (const updated of ["15 January 2027", "2027-02-31", "2026-11-30"]) {
+		assert.throws(
+			() => parsePost("a", file({ updated })),
+			/a\.md: updated must be/,
+			updated,
+		);
+	}
+	const built = buildPosts(
+		[{ name: "a.md", raw: file({ updated: "2027-01-15" }) }],
+		{ drafts: false },
+	);
+	assert.equal(built.posts[0].updated, "2027-01-15");
+});
+
 test("reading time is words divided by 200, at least 1 minute", () => {
 	assert.equal(parsePost("a", file({}, "word ".repeat(10))).readingMinutes, 1);
 	assert.equal(parsePost("a", file({}, "word ".repeat(900))).readingMinutes, 5);
