@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { footerNavigation, socialLinks } from "@/data/navigation";
+import { footerNav, socialLinks } from "@/data/navigation";
+import { posts } from "@/data/posts";
 import { Icon } from "./Icon";
 
 // Brand marks are filled shapes, so they are not in the line icon set.
@@ -18,6 +19,7 @@ const headingClass =
 
 export function Footer() {
 	const year = new Date().getFullYear();
+	const footerNavigation = footerNav(posts.length > 0);
 
 	return (
 		<footer className="border-t border-line bg-page">
