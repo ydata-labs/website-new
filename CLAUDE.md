@@ -118,7 +118,7 @@ The site is dark only. There is no light theme.
 ### Copy
 - Plain words. No "cutting-edge", "revolutionize", "seamless"
 - Never claim a project or client that does not exist
-- True numbers: 20+ years in software, 10+ years in AI, 40+ papers
+- True numbers, confirmed by the owner: 20+ years in software, 10+ years in AI, 40+ papers, 100+ projects, 50+ clients. Not confirmed yet: 100+ talks
 
 ## Key Implementation Details
 
