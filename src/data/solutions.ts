@@ -1,97 +1,161 @@
+// What yDataLabs offers. Three groups with equal weight, plus advice.
+// No value imports here: `pnpm test` runs this file with plain Node.
+import type { IconName } from "@/components/ui/Icon";
+
+export type GroupId = "ai-engineering" | "platform-engineering" | "data-science";
+
 export interface Solution {
 	id: string;
 	title: string;
 	description: string;
-	icon: string;
+	icon: IconName;
 }
 
-export const capabilities: Solution[] = [
+export interface SolutionGroup {
+	id: GroupId;
+	title: string;
+	summary: string;
+	items: Solution[];
+}
+
+export const solutionGroups: SolutionGroup[] = [
 	{
-		id: "generative-ai",
-		title: "Generative AI & LLMs for Healthcare",
-		description:
-			"Harnessing the power of Large Language Models and Generative AI to revolutionize patient interaction, automate pharmacovigilance, and provide evidence-based clinical support.",
-		icon: "sparkles",
+		id: "ai-engineering",
+		title: "AI engineering",
+		summary: "We build AI systems that work in daily use, not only in a demo.",
+		items: [
+			{
+				id: "llm-applications",
+				title: "LLM applications",
+				description:
+					"Assistants, search over your own documents, and tools that read and write text for your team. Built on the model that fits the task, open or commercial.",
+				icon: "sparkles",
+			},
+			{
+				id: "llm-integration",
+				title: "LLM integration",
+				description:
+					"We connect language models to the systems you already run: databases, record systems, and internal tools. Your staff keep their way of working.",
+				icon: "plug",
+			},
+			{
+				id: "agentic-workflows",
+				title: "Agents and workflow automation",
+				description:
+					"AI agents that carry out multi-step work, such as collecting documents and preparing reports. A person stays in control of every decision that matters.",
+				icon: "workflow",
+			},
+			{
+				id: "language-vision",
+				title: "Language and vision models",
+				description:
+					"Models that pull structured facts out of free text, remove personal details from documents, and read images and scans. Tuned on your own data when needed.",
+				icon: "eye",
+			},
+		],
 	},
 	{
-		id: "clinical-data-science",
-		title: "Clinical Data Science & Predictive Modeling",
-		description:
-			"Advanced predictive modeling and risk stratification using vast medical datasets (EHRs, claims, imaging). We forecast patient outcomes and anticipate future results with high accuracy.",
-		icon: "chart-line",
+		id: "platform-engineering",
+		title: "Platform engineering",
+		summary: "We build and run the platforms that AI needs, inside your own walls.",
+		items: [
+			{
+				id: "local-llms",
+				title: "Local LLMs",
+				description:
+					"Open models that run on your own hardware. We pick the model, size the servers, and tune speed and cost. No prompt and no document leaves your network.",
+				icon: "chip",
+			},
+			{
+				id: "on-premises-ai",
+				title: "On-premises and air-gapped AI",
+				description:
+					"Full AI systems on your own servers, including networks with no internet access. Built with access control, audit logs, and the rules of your sector.",
+				icon: "building",
+			},
+			{
+				id: "mlops-platform",
+				title: "MLOps and AI platforms",
+				description:
+					"Platforms to train, test, deploy, and monitor models in a repeatable way. Every model version is tracked, so you can explain and reproduce each result.",
+				icon: "server",
+			},
+			{
+				id: "data-pipelines",
+				title: "Data pipelines",
+				description:
+					"Pipelines that collect, clean, and deliver data to your models and reports. Tested, monitored, and built to handle sensitive records safely.",
+				icon: "pipeline",
+			},
+		],
 	},
 	{
-		id: "nlp-clinical",
-		title: "Advanced NLP for Clinical Insights",
-		description:
-			"Specialized Natural Language Processing to unlock critical information from unstructured clinical documents, including de-identification of patient notes and extraction of complex medical entities.",
-		icon: "message-text",
-	},
-	{
-		id: "medical-vision",
-		title: "Medical Computer Vision",
-		description:
-			"Cutting-edge computer vision solutions for medical imaging analysis, including object detection, visual analysis for diagnostics, and AI-enhanced oncology data processing.",
-		icon: "eye",
-	},
-	{
-		id: "mlops-platform",
-		title: "Clinical-Grade MLOps & AI Platforms",
-		description:
-			"Building robust, scalable, and compliant MLOps platforms for the secure deployment and management of medical AI models, ensuring clinical-grade reliability and regulatory adherence.",
-		icon: "server",
-	},
-	{
-		id: "ai-strategy",
-		title: "Expert AI Strategy & Coaching",
-		description:
-			"Strategic guidance and mentorship from seasoned healthcare AI professionals. We help organizations define their AI roadmap, ensure successful implementation, and accelerate digital transformation.",
-		icon: "users",
-	},
-	{
-		id: "multi-criteria-decision",
-		title: "Multi-Criteria Decision Making",
-		description:
-			"Advanced decision support systems that evaluate complex healthcare scenarios across multiple weighted criteria. Optimize resource allocation, treatment selection, and operational decisions with transparent, explainable AI.",
-		icon: "scale",
-	},
-	{
-		id: "multi-agent-simulation",
-		title: "Multi-Agent Simulation",
-		description:
-			"Sophisticated agent-based modeling to simulate complex healthcare ecosystems, patient flows, and epidemic dynamics. Predict outcomes and test interventions in virtual environments before real-world implementation.",
-		icon: "network",
-	},
-	{
-		id: "agentic-workflows",
-		title: "Agentic Workflows for Automation",
-		description:
-			"Design and deploy autonomous AI agents that orchestrate complex healthcare workflows. From clinical documentation to care coordination, our agentic systems work seamlessly with human oversight.",
-		icon: "workflow",
+		id: "data-science",
+		title: "Data science",
+		summary: "We turn data into forecasts and decisions that you can explain.",
+		items: [
+			{
+				id: "predictive-modeling",
+				title: "Predictive modeling",
+				description:
+					"Models that forecast outcomes and rank risks from your historical data. For example patient outcomes, demand, or equipment failure.",
+				icon: "chart-line",
+			},
+			{
+				id: "decision-support",
+				title: "Multi-criteria decision support",
+				description:
+					"Tools that compare options across many weighted criteria. They make trade-offs visible, so a hard choice about resources can be explained and defended.",
+				icon: "scale",
+			},
+			{
+				id: "simulation",
+				title: "Multi-agent simulation",
+				description:
+					"Simulations of complex systems, such as patient flows or supply chains. Test a change in a virtual setting before you make it in the real one.",
+				icon: "network",
+			},
+			{
+				id: "model-evaluation",
+				title: "Model evaluation",
+				description:
+					"Independent testing of AI models before and after launch: accuracy, robustness, bias, and safety. Includes methods to check LLM answers at scale.",
+				icon: "gauge",
+			},
+		],
 	},
 ];
 
-export const coreFeatures = [
-	{
-		title: "Healthcare Focus",
-		description:
-			"Specialized in Healthcare and Life Sciences for over a decade",
-		stat: "10+",
-		statLabel: "Years Experience",
-	},
-	{
-		title: "Global Reach",
-		description:
-			"Partnered with leading healthcare companies across USA and EU",
-		stat: "50+",
-		statLabel: "Happy Clients",
-	},
-	{
-		title: "Proven Results",
-		description:
-			"Delivered measurable value through AI-driven healthcare innovation",
-		stat: "100+",
-		statLabel: "Projects Delivered",
-	},
-];
+export const advice = {
+	title: "Get advice",
+	intro:
+		"Not sure where to start? We help your leaders and your team make good AI decisions before you spend on building.",
+	items: [
+		{
+			title: "AI strategy and roadmap",
+			description:
+				"Where AI pays off in your organisation, in what order, and what it takes to get there.",
+		},
+		{
+			title: "Feasibility studies",
+			description:
+				"A short, honest check: can this idea work with your data, your budget, and your rules?",
+		},
+		{
+			title: "Workshops and training",
+			description:
+				"Hands-on sessions for your engineers, analysts, and managers, built around your own cases.",
+		},
+		{
+			title: "Mentorship and coaching",
+			description:
+				"A senior expert next to your team during design reviews and hard technical choices.",
+		},
+	],
+};
 
+// The owner has not confirmed these two numbers yet.
+export const proof = [
+	{ value: "100+", label: "projects" },
+	{ value: "50+", label: "clients" },
+];

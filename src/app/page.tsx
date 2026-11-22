@@ -1,6 +1,8 @@
 import { Header, Footer } from "@/components/ui";
 import {
     Hero,
+    Paths,
+    Advice,
     Products,
     Solutions,
     About,
@@ -18,7 +20,9 @@ export default function Home() {
             <Header />
             <main>
                 <Hero />
+                <Paths />
                 <Solutions />
+                <Advice />
                 <Products />
                 <About />
                 <PortfolioSummary />
