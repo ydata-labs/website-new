@@ -51,7 +51,7 @@ src/
 │   ├── layout.tsx          # Root layout: fonts, default metadata, JSON-LD
 │   ├── page.tsx            # Home page
 │   ├── globals.css         # Tailwind theme: the "Dark lab" tokens
-│   ├── sitemap.ts          # Sitemap (add every new page here)
+│   ├── sitemap.ts          # Sitemap, built from `pages` in src/data/seo.ts
 │   ├── robots.ts           # robots.txt
 │   ├── not-found.tsx       # 404 page
 │   ├── apple-icon.png      # Phone home-screen icon (source: scripts/apple-icon.html)
@@ -128,7 +128,7 @@ The site is dark only. There is no light theme.
 - Never set a canonical address in the root layout
 - JSON-LD for Organization and Person lives in `src/data/seo.ts`
 - The share image is `public/og-image.png` (source: `scripts/og-image.html`)
-- New pages must be added to `src/app/sitemap.ts`
+- The sitemap is built from `pages` in `src/data/seo.ts`. A page in that list is in the sitemap
 - One `h1` per page
 - The home page targets the private AI terms (LLM integration, local LLM, on-premises AI). The portfolio and research pages keep the healthcare terms
 
@@ -153,7 +153,7 @@ The site is dark only. There is no light theme.
 ### Adding a New Page
 1. Add the page to `pages` in `src/data/seo.ts` (and to the `PageKey` type)
 2. Create `src/app/<name>/page.tsx` with `export const metadata = pageMetadata("<name>")`
-3. Add it to `src/app/sitemap.ts` and, if needed, to `src/data/navigation.ts`
+3. If needed, add it to `src/data/navigation.ts`. The sitemap picks the page up from `pages` by itself
 
 ### Modifying Data
 - Products: `src/data/products.ts`

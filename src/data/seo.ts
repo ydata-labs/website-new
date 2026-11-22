@@ -43,6 +43,14 @@ export const pages: Record<
 	},
 };
 
+const SITE_URL = "https://ydatalabs.nl";
+
+// The sitemap is built from `pages`, so a new page cannot be forgotten.
+export const sitemapEntries = () =>
+	Object.values(pages).map(({ path }) => ({
+		url: path === "/" ? SITE_URL : SITE_URL + path,
+	}));
+
 // The home title already carries the brand name.
 export const fullTitle = (key: PageKey) =>
 	key === "home" ? pages.home.title : `${pages[key].title} | ${SITE}`;

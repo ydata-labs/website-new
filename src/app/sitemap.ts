@@ -1,12 +1,7 @@
 import type { MetadataRoute } from "next";
+import { sitemapEntries } from "@/data/seo";
 
-const BASE = "https://ydatalabs.nl";
-
+// Every page in `pages` (src/data/seo.ts) is listed. Nothing to edit here.
 export default function sitemap(): MetadataRoute.Sitemap {
-	return [
-		{ url: BASE },
-		{ url: `${BASE}/portfolio` },
-		{ url: `${BASE}/research` },
-		{ url: `${BASE}/privacy` },
-	];
+	return sitemapEntries();
 }
