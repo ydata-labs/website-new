@@ -54,7 +54,7 @@ These rules have no exceptions.
 | `date` | The day the post goes live |
 | `audience` | `leaders` or `research`. See the table above |
 | `topic` | The one that fits best: `ai-engineering`, `platform-engineering`, or `data-science` |
-| `author` | The real name of the writer |
+| `author` | The real name of the writer, or `yDataLabs` for a post that speaks for the company |
 | `image` | Optional. The picture for shared links. Best size: 1200 by 630 pixels |
 | `draft` | Keep `true` while you write |
 
@@ -124,7 +124,7 @@ Marks of machine text. Remove every one:
 Two last checks:
 
 1. **Read the post out loud.** Rewrite every sentence you would not say to a colleague.
-2. **The person named as `author` edits every sentence.** Their name is on the post, so the words must be theirs.
+2. **The author edits every sentence.** Their name is on the post, so the words must be theirs. For a post signed `yDataLabs`, one person at the company does this.
 
 ### Useful parts
 
@@ -184,7 +184,7 @@ The build cannot check these. A person must.
 - [ ] The title and the description hold the search phrase and read well alone.
 - [ ] No fact or idea appears twice.
 - [ ] The post holds something from our own work: a case, a number, or a clear opinion.
-- [ ] The author has read the post out loud and edited every sentence.
+- [ ] The author has read the post out loud and edited every sentence. For a post signed `yDataLabs`, one person at the company has done this.
 - [ ] Every fact, number, and name is true. Client work has the owner's yes.
 - [ ] Every link opens the right page.
 - [ ] Every image has a description.
