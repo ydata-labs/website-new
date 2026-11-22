@@ -20,7 +20,7 @@ The prompt is the text you send to the model. If a patient can be recognised in 
 
 In the European Union, the privacy law is the General Data Protection Regulation (GDPR). It puts health data in a special group. Using it is forbidden unless an exception applies. The exceptions are listed in [Article 9](https://gdpr-info.eu/art-9-gdpr/).
 
-The law does not forbid the cloud. It asks you to know where the data goes and who can read it. The large providers have answers. Microsoft, for example, [states](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/data-privacy) that prompts are not used to train the models, and that you can choose the region where they are processed. Your privacy officer must check the contract itself, because a web page is not a contract.
+The law does not forbid the cloud. It asks you to know where the data goes and who can read it. The large providers have answers. Microsoft, for example, [states](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/data-privacy) that prompts are not used to train the models, and that they are processed inside a geographic area that you choose. Be careful with that second promise. Some of its setups process data across the whole European Union, or worldwide, so the setup you buy matters. Your privacy officer must check the contract itself, because a web page is not a contract.
 
 So a cloud API can be legal for patient data. We still advise against it for daily work. A contract limits what the provider may do with your data. With a local model, the provider never receives the data at all.
 
@@ -68,7 +68,7 @@ A cloud API sends a bill for every use. A local model costs money before it give
 
 Low or uneven use favours the cloud. Think of a tool that a few specialists open twice a week. High and steady use favours local. A model that reads every referral that comes in, all day, is steady use.
 
-Where the two lines cross depends on your volume and on the model you need. A [2025 study](https://arxiv.org/abs/2509.18101) gives a method to work it out. Fill in your own numbers before you order hardware.
+Where the two lines cross depends on your volume and on the model you need. A [2025 study](https://arxiv.org/abs/2509.18101) gives a method to compare the cost of local models with commercial services. Fill in your own numbers before you order hardware.
 
 The people are the part that budgets forget. A [local LLM](/#solutions) needs updates, monitoring, and someone to call when it is slow. If you have no team for that and no partner, wait with local.
 

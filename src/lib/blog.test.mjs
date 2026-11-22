@@ -42,6 +42,11 @@ test("quote marks inside a value are kept", () => {
 	assert.equal(title('"Private" is not "offline"   # a comment'), '"Private" is not "offline"');
 	// A value in quotes still loses its outer quotes, and keeps a # sign.
 	assert.equal(title('"It\'s a # sign"'), "It's a # sign");
+	// One quote mark inside is an apostrophe. The outer quotes still go.
+	assert.equal(title("'What's new in local LLMs'"), "What's new in local LLMs");
+	assert.equal(title("'What's new'   # a comment"), "What's new");
+	// A quote mark in a comment does not confuse it.
+	assert.equal(title('"A title" # see "notes"'), "A title");
 });
 
 test("the example from the spec parses: comments, colons, quotes, Windows line endings", () => {
