@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { SectionHeader, Button, ArrowIcon, Icon } from "@/components/ui";
+// Single files, not the "@/components/ui" index: this is a client component,
+// and the index also exports the Header, which imports the post data.
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Button, ArrowIcon } from "@/components/ui/Button";
+import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
 import { readContactResult, SEND_FAILED } from "@/lib/contact";
 
