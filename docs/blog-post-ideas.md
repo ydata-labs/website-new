@@ -8,13 +8,14 @@ Every idea is based on something the site already names: a service, a product, o
 
 When a post is published, remove its row from this file.
 
+Already written: post 1, "Local LLM or cloud API: how to choose". It is `content/blog/local-llm-vs-cloud-api.md`.
+
 ## For leaders
 
 Use `audience: leaders`.
 
 | # | Working title | Search phrase | Topic | Based on |
 |---|---|---|---|---|
-| 1 | Local LLM or cloud API: how to choose | local LLM vs cloud API | `platform-engineering` | Service: Local LLMs |
 | 2 | What a local LLM costs to run | local LLM cost | `platform-engineering` | Service: Local LLMs |
 | 3 | What LLMs can safely do in a hospital today | LLM in hospital | `ai-engineering` | Healthcare work |
 | 4 | Air-gapped AI: what works without internet | air-gapped AI | `platform-engineering` | Service: On-premises and air-gapped AI |
@@ -67,7 +68,6 @@ The rule behind the rating: a small site cannot win a general question against I
 
 | # | Post | Who ranks today | How to raise the chance |
 |---|---|---|---|
-| 1 | Local LLM or cloud API: how to choose | Many small developer blogs | Narrow it: "for patient data" or "for sensitive data" |
 | 13 | Extracting facts from clinical notes with an LLM | Research papers | Write the practical version of what the papers say |
 | 8 | How to check if an AI idea is feasible | Google and Microsoft guides, and small agencies | Small agencies rank here, so we can too. Add a healthcare example |
 | 11 | LLM-as-a-judge: grading answers at scale | Microsoft, NVIDIA, Splunk | Narrow it to medical answers |
@@ -93,7 +93,6 @@ A low rating is about search only. Such a post can still be useful to send to a 
 1. **Post 3.** High potential, and our strongest field.
 2. **Post 4.** High potential, and almost no competition.
 3. **Post 12.** High potential, and our own papers back it.
-4. **Post 1,** with the narrow title. It matches the main search terms of the home page.
 
 ## Check before you pick one
 

@@ -5,7 +5,7 @@ date: 2026-11-22
 audience: leaders
 topic: platform-engineering
 author: yDataLabs
-draft: true
+draft: false
 ---
 
 Choose for each task, not once for the whole organisation. A cloud API is the right start for public text and for a first test. When patient data goes into the model every day, we choose a local LLM. A hospital that takes AI seriously ends up with both.
