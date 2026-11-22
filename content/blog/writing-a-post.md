@@ -31,7 +31,7 @@ updated: 2027-01-15
 
 | Key | Needed | Allowed values | Example | What it does |
 |---|---|---|---|---|
-| `title` | yes | any text, 60 characters at most | `Local LLMs: a short guide` | The heading of the page and the title in Google |
+| `title` | yes | any text, 48 characters at most | `Local LLMs: a short guide` | The heading of the page and the title in Google |
 | `description` | yes | one or two sentences, 160 characters at most | `What a local LLM is.` | Shown in the blog list and in Google |
 | `date` | yes | `YYYY-MM-DD` | `2026-12-01` | Shown on the post. Newer posts come first |
 | `audience` | yes | `leaders`, `research` | `leaders` | The label and the filter on the blog page |

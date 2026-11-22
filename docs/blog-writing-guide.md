@@ -49,7 +49,7 @@ These rules have no exceptions.
 
 | Detail | How to write it well |
 |---|---|
-| `title` | 60 characters at most. Put the search phrase near the start. Say what the reader gets. No tricks like "You won't believe" |
+| `title` | 48 characters at most. The page adds " \| yDataLabs", and Google cuts a full title after about 60. Put the search phrase near the start. Say what the reader gets. No tricks like "You won't believe" |
 | `description` | 160 characters at most. One or two sentences. It is the text under the title in Google and on the blog list, so it must make sense alone |
 | `date` | The day the post goes live |
 | `audience` | `leaders` or `research`. See the table above |
@@ -165,7 +165,7 @@ You do not need to check these by hand. The message names the file.
 |---|---|---|
 | A missing or misspelled detail, or a wrong value | stops | stops |
 | A date that is not a real day | stops | stops |
-| A title over 60 characters, or a description over 160 | stops | stops |
+| A title over 48 characters, or a description over 160 | stops | stops |
 | A `# ` heading in the text | stops | stops |
 | A broken formula | stops | stops |
 | An emoji | stops | does not check |

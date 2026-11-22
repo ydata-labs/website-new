@@ -36,6 +36,14 @@ test("reads the details of a post", () => {
 	assert.equal(parsePost("a", file({ draft: "true" })).draft, true);
 });
 
+test("quote marks inside a value are kept", () => {
+	const title = (value) => parsePost("a", file({ title: value })).title;
+	assert.equal(title('"Private" is not "offline"'), '"Private" is not "offline"');
+	assert.equal(title('"Private" is not "offline"   # a comment'), '"Private" is not "offline"');
+	// A value in quotes still loses its outer quotes, and keeps a # sign.
+	assert.equal(title('"It\'s a # sign"'), "It's a # sign");
+});
+
 test("the example from the spec parses: comments, colons, quotes, Windows line endings", () => {
 	const raw = [
 		"---",
@@ -84,14 +92,15 @@ test("rejects a post with missing or wrong details, and names the file", () => {
 });
 
 test("a title or description that Google would cut stops the build", () => {
-	assert.equal(parsePost("a", file({ title: "t".repeat(60) })).title.length, 60);
+	// 48, because the page adds " | yDataLabs" to the title of a post.
+	assert.equal(parsePost("a", file({ title: "t".repeat(48) })).title.length, 48);
 	assert.equal(
 		parsePost("a", file({ description: "d".repeat(160) })).description.length,
 		160,
 	);
 	assert.throws(
-		() => parsePost("a", file({ title: "t".repeat(61) })),
-		/a\.md: title is 61 characters long. The most is 60/,
+		() => parsePost("a", file({ title: "t".repeat(49) })),
+		/a\.md: title is 49 characters long. The most is 48/,
 	);
 	assert.throws(
 		() => parsePost("a", file({ description: "d".repeat(161) })),
@@ -220,6 +229,19 @@ test("finds a sentence that is written twice, and stock phrases", () => {
 	]) {
 		assert.match(styleProblems(`We ${phrase} things.`).join(), /stock phrase/, phrase);
 	}
+	// Two sentences that differ only in their code are not the same sentence.
+	assert.deepEqual(
+		styleProblems(
+			"- Set `temperature` to zero for this test run.\n- Set `top_p` to zero for this test run.\n",
+		),
+		[],
+	);
+	assert.equal(
+		styleProblems(
+			"Set `top_p` to zero for this test run.\n\nSet `top_p` to zero for this test run.\n",
+		).length,
+		1,
+	);
 	// A word in code is not a word in the text.
 	assert.deepEqual(styleProblems("Call `seamless()` first."), []);
 });

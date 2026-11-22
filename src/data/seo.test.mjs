@@ -120,6 +120,16 @@ test("the empty blog is hidden from Google, and the filled blog is not", () => {
 	}
 });
 
+test("the longest post title still fits in search results", async () => {
+	// src/lib/blog.mjs allows 48 characters. The page adds the brand name.
+	const { parsePost } = await import("../lib/blog.mjs");
+	const raw = (title) =>
+		`---\ntitle: ${title}\ndescription: d\ndate: 2026-12-01\naudience: leaders\ntopic: data-science\nauthor: a\n---\nText.`;
+	const longest = parsePost("a", raw("t".repeat(48)));
+	assert.ok(postMetadata(longest).title.absolute.length <= 60);
+	assert.throws(() => parsePost("a", raw("t".repeat(49))), /title/);
+});
+
 test("a post has its own title, address, and share data", () => {
 	const m = postMetadata(post);
 	assert.equal(m.title.absolute, `${post.title} | yDataLabs`);
