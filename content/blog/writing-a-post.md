@@ -36,7 +36,7 @@ updated: 2027-01-15
 | `date` | yes | `YYYY-MM-DD` | `2026-12-01` | Shown on the post. Newer posts come first |
 | `audience` | yes | `leaders`, `research` | `leaders` | The label and the filter on the blog page |
 | `topic` | yes | `ai-engineering`, `platform-engineering`, `data-science` | `data-science` | A label on the post |
-| `author` | yes | a name | `Dr. Veysel Kocaman` | Shown on the post |
+| `author` | yes | a name, or `yDataLabs` | `Dr. Veysel Kocaman` | Shown on the post |
 | `draft` | no | `true`, `false` | `true` | A draft is not on the live site |
 | `image` | no | a path that starts with `/` | `/images/blog/x.webp` | The picture for shared links |
 | `updated` | no | `YYYY-MM-DD`, not before `date` | `2027-01-15` | The day of the last change. Shown on the post and told to Google |

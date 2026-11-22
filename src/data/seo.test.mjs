@@ -160,6 +160,14 @@ test("a post carries BlogPosting data that a title cannot break", () => {
 		"2027-01-15",
 	);
 	assert.equal(s.author.name, "Dr. Veysel Kocaman");
+	assert.equal(s.author["@type"], "Person");
+	// A post signed by the company has an organisation as its author.
+	const byCompany = blogPostingSchema({ ...post, author: "yDataLabs" }).author;
+	assert.deepEqual(byCompany, {
+		"@type": "Organization",
+		name: "yDataLabs",
+		url: "https://ydatalabs.nl",
+	});
 	assert.equal(s.publisher.name, "yDataLabs");
 	assert.equal(s.mainEntityOfPage, "https://ydatalabs.nl/blog/first-post");
 	assert.equal(s.image, "https://ydatalabs.nl/og-image.png");

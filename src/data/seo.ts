@@ -151,7 +151,11 @@ export const blogPostingSchema = (post: PostMeta) => ({
 	description: post.description,
 	datePublished: post.date,
 	dateModified: post.updated ?? post.date,
-	author: { "@type": "Person", name: post.author },
+	// A post signed with the company name has the company as its author.
+	author:
+		post.author === SITE
+			? { "@type": "Organization", name: SITE, url: SITE_URL }
+			: { "@type": "Person", name: post.author },
 	publisher: {
 		"@type": "Organization",
 		name: SITE,
