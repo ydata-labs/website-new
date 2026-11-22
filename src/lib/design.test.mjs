@@ -1,7 +1,7 @@
 // Guards the rules of the Dark lab look. Run with `pnpm test`.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 
 const css = readFileSync("src/app/globals.css", "utf8");
 const token = (name) => {
@@ -68,12 +68,6 @@ test("type scale tokens are valid sizes with a line height", () => {
 // Files that still have the old look. Each task removes its files.
 // Task 8 deletes this list.
 const NOT_YET = [
-	"src/components/sections/About.tsx",
-	"src/components/sections/Products.tsx",
-	"src/components/sections/PortfolioSummary.tsx",
-	"src/components/sections/Partners.tsx",
-	"src/components/sections/Contact.tsx",
-	"src/data/products.ts",
 	"src/app/portfolio/page.tsx",
 	"src/app/privacy/page.tsx",
 ];
@@ -91,5 +85,30 @@ test("restyled files have no emoji, no entry animation, no old colors", () => {
 		if (f.endsWith(".css")) continue;
 		assert.ok(!/\banimate-|\bopacity-0\b/.test(src), `${f}: entry animation`);
 		assert.ok(!OLD_CLASS.test(src), `${f}: old color class`);
+	}
+});
+
+const allSrc = readdirSync("src", { recursive: true })
+	.map((f) => `src/${f}`)
+	.filter((f) => /\.tsx?$/.test(f));
+
+// Unused images get deleted. This catches a deleted image that is still used.
+test("every image path in src exists", () => {
+	for (const f of allSrc) {
+		const paths = readFileSync(f, "utf8").matchAll(/["'`](\/images\/[^"'`]+)["'`]/g);
+		for (const [, path] of paths) {
+			assert.ok(existsSync(`public${path}`), `${f}: ${path} is missing`);
+		}
+	}
+});
+
+// Google and other sites link to these anchors.
+test("old anchor links still land on a section", () => {
+	const sections = allSrc
+		.filter((f) => f.startsWith("src/components/sections/"))
+		.map((f) => readFileSync(f, "utf8"))
+		.join("\n");
+	for (const id of ["solutions", "advice", "healthcare", "products", "about", "contact"]) {
+		assert.match(sections, new RegExp(`id="${id}"`), `no section with id ${id}`);
 	}
 });

@@ -4,18 +4,17 @@ export interface Product {
 	tagline: string;
 	description: string;
 	features: string[];
-	image: string;
+	image: { src: string; width: number; height: number };
 	website: string;
-	gradient: string;
 }
 
 export const products: Product[] = [
 	{
 		id: "modelpark",
 		name: "ModelPark",
-		tagline: "Revolutionizing App Sharing",
+		tagline: "Share your AI apps with one link",
 		description:
-			"An innovative platform designed to revolutionize the way data scientists, AI researchers, and web developers share and demonstrate their applications. We simplify global app sharing by providing secure, easy-to-remember URLs for your locally deployed or cloud-based apps.",
+			"A platform for data scientists and developers to share and demo their apps. It gives a secure, easy-to-remember address to an app that runs on your laptop or in the cloud.",
 		features: [
 			"Secure URL Generation with custom, memorable URLs",
 			"Real-time Monitoring for app status and engagement",
@@ -25,16 +24,15 @@ export const products: Product[] = [
 			"Flexible Deployment for local and cloud apps",
 			"Community Platform for collaboration and feedback",
 		],
-		image: "/images/products/modelpark.png",
+		image: { src: "/images/products/modelpark.webp", width: 1200, height: 625 },
 		website: "https://modelpark.app",
-		gradient: "from-teal-500 to-emerald-500",
 	},
 	{
 		id: "minamed",
 		name: "MinaMed",
-		tagline: "Voice-Enabled AI Medical Assistant",
+		tagline: "Voice-enabled AI medical assistant",
 		description:
-			"A comprehensive AI-powered medical assistant designed to streamline healthcare workflows and enhance patient care. Our platform combines advanced natural language processing with medical domain expertise to provide intelligent assistance to healthcare professionals.",
+			"An AI assistant for healthcare professionals. It listens, writes the clinical note, and finds the medical reference a clinician needs, so less time goes to paperwork.",
 		features: [
 			"AI Medical Scribe for automatic transcription",
 			"Smart Documentation for EHR entry generation",
@@ -44,9 +42,7 @@ export const products: Product[] = [
 			"Custom Workflows for practice-specific needs",
 			"Integration Ready for existing EHR systems",
 		],
-		image: "/images/products/minamed.png",
+		image: { src: "/images/products/minamed.webp", width: 1200, height: 854 },
 		website: "https://minamed.app",
-		gradient: "from-navy to-slate-700",
 	},
 ];
-
