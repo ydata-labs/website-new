@@ -29,6 +29,8 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 The blog is hidden on the live site until the first post is published.
 
+Read [docs/blog-writing-guide.md](docs/blog-writing-guide.md) before you write. It covers what to think about first, how to write the title and the text, and a checklist.
+
 ## Preview
 
 Preview the application locally on the Cloudflare runtime:

@@ -148,7 +148,7 @@ The site is dark only. There is no light theme.
 ### Blog
 - A post is one Markdown file in `content/blog/`. The file name is the address: `my-post.md` is `/blog/my-post`. `content/blog/writing-a-post.md` is a template (a draft) that shows every feature
 - `scripts/build-posts.mjs` runs before `next dev` and `next build`. It checks every post with `src/lib/blog.mjs` and writes `src/data/posts.generated.json`. Pages import that JSON through `src/data/posts.ts`. So no page reads a file at run time, and the Markdown libraries never reach the Worker
-- A bad post (missing detail, misspelled key, wrong date, a `# ` heading, a broken formula) stops `pnpm test` and `pnpm build` with a message that names the file
+- A bad post (missing detail, misspelled key, wrong date, a title over 60 or a description over 160 characters, a `# ` heading, a broken formula) stops `pnpm test` and `pnpm build` with a message that names the file
 - Drafts (`draft: true`) show only under `pnpm dev`. `pnpm build` always writes the JSON again, without drafts
 - Everything depends on the number of published posts. With zero posts: no "Blog" menu link, no "Latest posts" on the home page, `/blog` is `noindex` and not in the sitemap. The first published post turns all of it on, with no code change
 - **A client component (`"use client"`) must never reach `@/data/posts`.** It holds the text of every post. Client components import single files (`@/components/ui/Button`), not the `@/components/ui` or `@/components/sections` index, because the index also exports the Header, which imports the posts. The `server-only` import in `posts.ts` fails the build on a leak, and a test in `design.test.mjs` fails `pnpm test`
@@ -179,8 +179,10 @@ The site is dark only. There is no light theme.
 3. If needed, add it to `src/data/navigation.ts`. The sitemap picks the page up from `pages` by itself
 
 ### Writing a Blog Post
+Read `docs/blog-writing-guide.md` first. It covers the reader, the search phrase, the title, the text, and a checklist before publishing.
+
 1. Copy `content/blog/writing-a-post.md` to a new file. The file name becomes the address
-2. Fill in the details block: `title`, `description`, `date`, `audience` (`leaders` or `research`), `topic` (`ai-engineering`, `platform-engineering`, or `data-science`), `author`. Optional: `draft`, `image`
+2. Fill in the details block: `title`, `description`, `date`, `audience` (`leaders` or `research`), `topic` (`ai-engineering`, `platform-engineering`, or `data-science`), `author`. Optional: `draft`, `image`, `updated` (the day of the last change)
 3. Images go in `public/images/blog/` as WebP
 4. `pnpm dev` shows the post, also as a draft. `pnpm test` checks it
 5. Set `draft: false` (or remove the line) and commit. The post is live with the next deploy
