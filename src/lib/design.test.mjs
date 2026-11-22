@@ -52,6 +52,19 @@ test("focus ring and reduced motion rules exist", () => {
 	assert.match(css, /prefers-reduced-motion:\s*reduce/);
 });
 
+// "3.5rem, 1.2" is not a valid font size. The browser drops it, and every
+// heading falls back to 16px. The old theme had this bug.
+test("type scale tokens are valid sizes with a line height", () => {
+	const sizes = [...css.matchAll(/--text-([a-z0-9-]+?):\s*([^;]+);/g)].filter(
+		([, name]) => !name.includes("--"),
+	);
+	assert.ok(sizes.length >= 8, `only ${sizes.length} type sizes found`);
+	for (const [, name, value] of sizes) {
+		assert.match(value.trim(), /^[\d.]+rem$/, `--text-${name}: ${value}`);
+		assert.match(css, new RegExp(`--text-${name}--line-height:`), `--text-${name} has no line height`);
+	}
+});
+
 // Files that still have the old look. Each task removes its files.
 // Task 8 deletes this list.
 const NOT_YET = [
