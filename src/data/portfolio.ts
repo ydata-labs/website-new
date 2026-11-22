@@ -1,3 +1,5 @@
+import type { IconName } from "@/components/ui/Icon";
+
 export interface Project {
 	id: string;
 	title: string;
@@ -60,7 +62,7 @@ export const allProjects: Project[] = [
         customer: "Pharmaceutical Company",
         duration: "2023 – Present",
         description:
-            "Integrated speech-to-text, language detection, and real-time translation into a patient-facing robotic assistant to enable seamless multilingual greetings and interactions.",
+            "Integrated speech-to-text, language detection, and real-time translation into a patient-facing robotic assistant to enable multilingual greetings and interactions.",
         impact: "Improved inclusivity in patient engagement, reducing communication barriers for non-English speakers.",
     },
     {
@@ -180,46 +182,6 @@ export const caseStudies = [
     },
 ];
 
-export const services = [
-    {
-        title: "Healthcare & Life Sciences AI Strategy & Consulting",
-        items: [
-            "AI/ML Feasibility Studies for Clinical & Research Applications",
-            "Data Governance & Ethics in Healthcare",
-            "Cloud Data Architecture for Health Data",
-            "Digital Transformation Roadmapping for Pharma & Biotech",
-            "Multilingual AI Translation & Global Communication Workflows",
-        ],
-    },
-    {
-        title: "Advanced AI & Generative AI Solutions for Healthcare",
-        items: [
-            "Clinical Natural Language Processing (NLP) & Large Language Models (LLMs)",
-            "Medical Computer Vision (CV)",
-            "Predictive Analytics for Patient Outcomes & Disease Progression",
-            "Generative AI for Drug Discovery & Research",
-            "AI-Powered Clinical Decision Support Systems",
-        ],
-    },
-    {
-        title: "MLOps & AI Operationalization in Regulated Environments",
-        items: [
-            "Clinical MLOps Platform Design & Implementation",
-            "Model Deployment & Integration with EHR/LIMS",
-            "Performance Monitoring & Explainability for Medical AI",
-            "Data Pipeline Engineering for Health Data",
-        ],
-    },
-    {
-        title: "Training & Enablement for Healthcare Professionals",
-        items: [
-            "Customized Workshops & Training",
-            "Mentorship & Coaching",
-            "Knowledge Transfer & Best Practices",
-        ],
-    },
-];
-
 export const founderInfo = {
     name: "Dr. Veysel Kocaman",
     title: "Founder & Director",
@@ -240,7 +202,11 @@ export const founderInfo = {
     ],
 };
 
-export const activities = [
+export const activities: {
+	title: string;
+	icon: IconName;
+	description: string;
+}[] = [
 	{
 		title: "Peer-reviewed Publications",
 		icon: "book",
