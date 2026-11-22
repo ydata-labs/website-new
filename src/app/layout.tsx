@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Libre_Franklin } from "next/font/google";
 import "./globals.css";
-import { shareImage } from "@/data/seo";
+import {
+    pages,
+    shareImage,
+    organizationSchema,
+    personSchema,
+} from "@/data/seo";
 
 const jetbrainsMono = JetBrains_Mono({
     variable: "--font-heading",
@@ -15,25 +20,29 @@ const libreFranklin = Libre_Franklin({
     display: "swap",
 });
 
+// Defaults only. Every page sets its own title, description, canonical
+// address, and share data with pageMetadata() from src/data/seo.ts.
+// Never set a canonical address here: every page would inherit it.
 export const metadata: Metadata = {
     metadataBase: new URL("https://ydatalabs.nl"),
     title: {
-        default:
-            "yDataLabs - Healthcare AI & Data Science Consulting | Dr. Veysel Kocaman",
+        default: pages.home.title,
         template: "%s | yDataLabs",
     },
-    description:
-        "Leading healthcare AI consulting firm specializing in medical NLP, clinical MLOps, and generative AI solutions. Founded by Dr. Veysel Kocaman, PhD, with 10+ years in healthcare AI.",
+    description: pages.home.description,
     keywords: [
+        "LLM integration",
+        "local LLM",
+        "private LLM",
+        "on-premises AI",
+        "AI engineering",
+        "platform engineering",
+        "MLOps",
+        "data science",
         "healthcare AI",
         "medical NLP",
         "clinical MLOps",
         "generative AI",
-        "healthcare data science",
-        "medical AI consulting",
-        "clinical decision support",
-        "healthcare machine learning",
-        "medical computer vision",
         "healthcare LLM",
         "Dr. Veysel Kocaman",
         "yDataLabs",
@@ -55,114 +64,13 @@ export const metadata: Metadata = {
     openGraph: {
         type: "website",
         locale: "en_US",
-        url: "https://ydatalabs.nl",
         siteName: "yDataLabs",
-        title: "yDataLabs - Healthcare AI & Data Science Consulting",
-        description:
-            "Leading healthcare AI consulting firm specializing in medical NLP, clinical MLOps, and generative AI solutions. Founded by Dr. Veysel Kocaman, PhD.",
         images: [shareImage],
     },
     twitter: {
         card: "summary_large_image",
-        title: "yDataLabs - Healthcare AI & Data Science Consulting",
-        description:
-            "Leading healthcare AI consulting firm specializing in medical NLP, clinical MLOps, and generative AI solutions.",
-        creator: "@ydatalabs",
         images: [shareImage],
     },
-};
-
-// JSON-LD Structured Data
-const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "yDataLabs",
-    alternateName: "yData Labs",
-    url: "https://ydatalabs.nl",
-    logo: "https://ydatalabs.nl/images/logo/logo-light.png",
-    description:
-        "Leading healthcare AI consulting firm specializing in medical NLP, clinical MLOps, and generative AI solutions for healthcare and life sciences organizations.",
-    foundingDate: "2020",
-    founder: {
-        "@type": "Person",
-        name: "Dr. Veysel Kocaman",
-        jobTitle: "Founder & Director",
-        description:
-            "PhD in Computer Vision, 20+ years in software, 10+ years in healthcare AI and machine learning",
-        alumniOf: "Leiden University",
-        knowsAbout: [
-            "Healthcare AI",
-            "Medical NLP",
-            "Clinical MLOps",
-            "Generative AI",
-            "Machine Learning",
-        ],
-    },
-    address: {
-        "@type": "PostalAddress",
-        addressLocality: "Maastricht",
-        addressCountry: "NL",
-    },
-    contactPoint: {
-        "@type": "ContactPoint",
-        email: "info@ydatalabs.nl",
-        contactType: "business inquiries",
-    },
-    sameAs: [
-        "https://linkedin.com/company/ydatalabs",
-        "https://twitter.com/ydatalabs",
-    ],
-    areaServed: "Global",
-    knowsAbout: [
-        "Healthcare AI",
-        "Medical Natural Language Processing",
-        "Clinical MLOps",
-        "Generative AI",
-        "Healthcare Machine Learning",
-        "Medical Computer Vision",
-        "Clinical Decision Support Systems",
-        "Healthcare Data Science",
-    ],
-};
-
-const personSchema = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Dr. Veysel Kocaman",
-    alternateName: "Veysel Kocaman",
-    jobTitle: "Founder & Director of yDataLabs",
-    description:
-        "PhD in Computer Vision, seasoned Data Scientist and ML Engineer with over 20 years of software development and architecture experience, specializing in healthcare AI.",
-    alumniOf: {
-        "@type": "Organization",
-        name: "Leiden University",
-    },
-    hasCredential: {
-        "@type": "EducationalOccupationalCredential",
-        credentialCategory: "degree",
-        educationalLevel: "PhD",
-        about: "Computer Vision",
-    },
-    knowsAbout: [
-        "Healthcare AI",
-        "Medical Natural Language Processing",
-        "Clinical MLOps",
-        "Generative AI",
-        "Machine Learning",
-        "Computer Vision",
-        "Data Science",
-        "Healthcare Technology",
-    ],
-    award: "Google ML Developer Expert",
-    memberOf: {
-        "@type": "Organization",
-        name: "yDataLabs",
-    },
-    email: "info@ydatalabs.nl",
-    sameAs: [
-        "https://linkedin.com/in/veyselkocaman",
-        "https://twitter.com/veyselkocaman",
-    ],
 };
 
 export default function RootLayout({
