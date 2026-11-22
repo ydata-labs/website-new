@@ -133,3 +133,13 @@ test("post text has styles for every block a post can use", () => {
 	// Wide blocks scroll inside their own box, not the page.
 	assert.match(css, /overflow-x:\s*auto/);
 });
+
+// `dynamicParams = false` tells Next.js to serve a post only from its page
+// cache. This site has no page cache on Cloudflare (open-next.config.ts), so
+// every post would be a 404 on the live site, while `pnpm start` looks fine.
+// The page calls notFound() for an unknown address instead.
+test("the post page works without a page cache", () => {
+	const page = readFileSync("src/app/blog/[slug]/page.tsx", "utf8");
+	assert.ok(!/export const dynamicParams/.test(page), "dynamicParams is set");
+	assert.match(page, /notFound\(\)/);
+});

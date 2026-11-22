@@ -10,8 +10,10 @@ import { postMetadata, blogPostingSchema, jsonLd } from "@/data/seo";
 type Props = { params: Promise<{ slug: string }> };
 
 // Only the posts that were built into the site exist. Any other address
-// under /blog/ is a 404.
-export const dynamicParams = false;
+// under /blog/ gets notFound() below, which is a 404.
+// Do not add `dynamicParams = false` here. It makes Next.js serve posts only
+// from its page cache, and this site has no page cache on Cloudflare. Every
+// post would then be a 404 on the live site.
 export const generateStaticParams = () => posts.map(({ slug }) => ({ slug }));
 
 const findPost = (slug: string) => posts.find((post) => post.slug === slug);
