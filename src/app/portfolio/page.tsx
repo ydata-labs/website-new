@@ -72,7 +72,7 @@ export default function PortfolioPage() {
                             <div className="flex flex-wrap justify-center gap-4 animate-fade-in-up delay-200">
                                 <Button
                                     href="/#contact"
-                                    variant="secondary"
+                                    variant="primary"
                                     icon={<ArrowIcon />}
                                 >
                                     Start Your AI Journey

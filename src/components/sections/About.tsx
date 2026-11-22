@@ -213,7 +213,7 @@ export function About() {
 
                         <Button
                             href="/portfolio"
-                            variant="secondary"
+                            variant="primary"
                             icon={<ArrowIcon />}
                         >
                             View Full Portfolio

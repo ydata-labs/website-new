@@ -174,7 +174,7 @@ export default function RootLayout({
         <html lang="en" className="scroll-smooth">
             <head>
                 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-                <meta name="theme-color" content="#0f172a" />
+                <meta name="theme-color" content="#0b1220" />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
