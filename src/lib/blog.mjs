@@ -91,9 +91,14 @@ function readDetails(raw, fail) {
 			fail(`unknown key "${key}". Allowed keys: ${KEYS.join(", ")}`);
 		}
 		// A value in quotes keeps everything inside the quotes. Otherwise
-		// " #" starts a comment. A value with the same quote mark inside it,
-		// like "Private" is not "offline", is not a value in quotes.
-		const quoted = rest.trim().match(/^(["'])((?:(?!\1).)*)\1\s*(#.*)?$/);
+		// " #" starts a comment.
+		// One quote mark inside is an apostrophe: 'What's new' is in quotes.
+		// Two or more belong to the text: "Private" is not "offline" is not
+		// a value in quotes, and keeps all four marks.
+		const value = rest.trim();
+		const quoted =
+			value.match(/^(["'])((?:(?!\1).)*)\1\s*(#.*)?$/) ??
+			value.match(/^(["'])((?:(?!\1).)*\1(?:(?!\1).)*)\1\s*(#.*)?$/);
 		details[key] = quoted
 			? quoted[2]
 			: rest.replace(/(^|\s)#.*$/, "").trim();
