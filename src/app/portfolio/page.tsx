@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { Header, Footer, SectionHeader, Button, ArrowIcon } from "@/components/ui";
 import {
 	founderInfo,
@@ -8,21 +7,9 @@ import {
 	activities,
 } from "@/data/portfolio";
 import { cn } from "@/lib/cn";
-import { shareImage } from "@/data/seo";
+import { pageMetadata } from "@/data/seo";
 
-export const metadata: Metadata = {
-	title: "Portfolio - Healthcare AI & Data Science Projects",
-	description:
-		"Explore yDataLabs portfolio of healthcare AI projects, medical NLP solutions, and clinical MLOps implementations. Over 100+ projects delivered with measurable impact.",
-	alternates: { canonical: "/portfolio" },
-	openGraph: {
-		url: "/portfolio",
-		images: [shareImage],
-		title: "Portfolio - yDataLabs Healthcare AI Projects",
-		description:
-			"Explore our portfolio of healthcare AI projects, medical NLP solutions, and clinical MLOps implementations.",
-	},
-};
+export const metadata = pageMetadata("portfolio");
 
 // Icon components for activities
 const activityIcons: Record<string, React.ReactNode> = {

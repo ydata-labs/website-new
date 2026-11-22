@@ -1,12 +1,7 @@
-import type { Metadata } from "next";
 import { Header, Footer } from "@/components/ui";
+import { pageMetadata } from "@/data/seo";
 
-export const metadata: Metadata = {
-	title: "Privacy",
-	description:
-		"How yDataLabs handles the details you send through the contact form.",
-	alternates: { canonical: "/privacy" },
-};
+export const metadata = pageMetadata("privacy");
 
 const sections = [
 	{
