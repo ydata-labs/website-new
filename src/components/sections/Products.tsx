@@ -83,7 +83,7 @@ export function Products() {
 								{/* CTA */}
 								<Button
 									href={product.website}
-									variant="secondary"
+									variant="primary"
 									size="sm"
 									external
 									icon={<ArrowIcon />}

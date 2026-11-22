@@ -1,0 +1,179 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=JetBrains+Mono:wght@400;500;700&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  .stack { display: grid; grid-template-columns: 1fr !important; gap: 2rem; }
+  .stack .card { padding: 0; overflow: hidden; }
+  .stack .card-body { padding: 1rem 1.25rem; }
+  .m { font-family: 'Libre Franklin', system-ui, sans-serif; text-align: left; line-height: 1.5; }
+  .m * { box-sizing: border-box; margin: 0; }
+  .m-nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 36px; font-size: 14px; }
+  .m-links { display: flex; gap: 26px; align-items: center; }
+  .m-hero { display: flex; flex-wrap: wrap; gap: 40px; padding: 44px 36px 52px; align-items: center; }
+  .m-left { flex: 1 1 380px; }
+  .m-right { flex: 1 1 300px; }
+  .m-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .m-btn { padding: 12px 22px; font-size: 14px; font-weight: 600; border-radius: 8px; display: inline-block; }
+  .m-proof { display: flex; gap: 32px; flex-wrap: wrap; margin-top: 36px; font-size: 13px; }
+
+  /* A: Clean clinic */
+  .mA { background: #f8fafc; color: #0f172a; }
+  .mA .m-nav { background: #fff; border-bottom: 1px solid #e2e8f0; }
+  .mA .logo { font-weight: 700; font-size: 18px; }
+  .mA .logo span { color: #0d9488; }
+  .mA .m-links { color: #475569; }
+  .mA .pill { background: #0f172a; color: #fff; padding: 8px 16px; border-radius: 999px; font-weight: 600; }
+  .mA .tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #0d9488; letter-spacing: .08em; text-transform: uppercase; }
+  .mA h1 { font-size: 44px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 14px 0 16px; }
+  .mA p.sub { font-size: 17px; color: #475569; max-width: 30em; }
+  .mA .primary { background: #0d9488; color: #fff; }
+  .mA .ghost { border: 1.5px solid #cbd5e1; color: #0f172a; }
+  .mA .m-proof { color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+  .mA .m-proof b { color: #0f172a; font-size: 20px; display: block; }
+  .mA .path { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 22px; margin-bottom: 14px; box-shadow: 0 1px 2px rgba(15,23,42,.04); }
+  .mA .path h4 { font-size: 17px; margin-bottom: 6px; }
+  .mA .path p { font-size: 14px; color: #64748b; }
+  .mA .path .go { color: #0d9488; font-weight: 600; font-size: 14px; margin-top: 10px; display: block; }
+
+  /* B: Dark lab */
+  .mB { background: #0b1220; color: #e2e8f0;
+        background-image: linear-gradient(rgba(148,163,184,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.06) 1px, transparent 1px);
+        background-size: 32px 32px; }
+  .mB .logo { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 17px; }
+  .mB .logo span { color: #2dd4bf; }
+  .mB .m-links { color: #94a3b8; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+  .mB .pill { border: 1px solid #2dd4bf; color: #2dd4bf; padding: 7px 14px; border-radius: 6px; }
+  .mB .tag { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #2dd4bf; }
+  .mB h1 { font-family: 'JetBrains Mono', monospace; font-size: 36px; line-height: 1.2; font-weight: 700; margin: 14px 0 16px; color: #f8fafc; }
+  .mB h1 em { font-style: normal; color: #2dd4bf; }
+  .mB p.sub { font-size: 16px; color: #94a3b8; max-width: 30em; }
+  .mB .primary { background: #2dd4bf; color: #0b1220; border-radius: 6px; }
+  .mB .ghost { border: 1px solid #334155; color: #e2e8f0; border-radius: 6px; }
+  .mB .m-proof { color: #64748b; font-family: 'JetBrains Mono', monospace; }
+  .mB .m-proof b { color: #f8fafc; font-size: 18px; display: block; }
+  .mB .panel { background: #111a2e; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; box-shadow: 0 0 60px rgba(45,212,191,.08); }
+  .mB .panel .bar { padding: 10px 14px; border-bottom: 1px solid #1e293b; color: #64748b; }
+  .mB .panel .body { padding: 16px; color: #cbd5e1; line-height: 1.7; }
+  .mB .panel mark { background: rgba(45,212,191,.18); color: #5eead4; padding: 1px 3px; border-radius: 3px; }
+  .mB .panel .out { border-top: 1px dashed #1e293b; padding: 14px 16px; color: #94a3b8; }
+  .mB .panel .out span { color: #5eead4; }
+
+  /* C: Editorial */
+  .mC { background: #faf7f2; color: #1c1917; }
+  .mC .m-nav { border-bottom: 1px solid #e7e0d5; }
+  .mC .logo { font-family: 'Fraunces', serif; font-weight: 600; font-size: 21px; }
+  .mC .m-links { color: #57534e; }
+  .mC .pill { color: #115e59; font-weight: 600; border-bottom: 2px solid #115e59; }
+  .mC .tag { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #115e59; font-weight: 600; }
+  .mC h1 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 50px; line-height: 1.05; letter-spacing: -0.02em; margin: 14px 0 18px; }
+  .mC h1 em { color: #115e59; }
+  .mC p.sub { font-size: 17px; color: #57534e; max-width: 30em; }
+  .mC .primary { background: #1c1917; color: #faf7f2; border-radius: 2px; }
+  .mC .ghost { color: #1c1917; text-decoration: underline; text-underline-offset: 4px; padding-left: 6px; }
+  .mC .m-proof { color: #78716c; }
+  .mC .m-proof b { font-family: 'Fraunces', serif; font-weight: 600; color: #1c1917; font-size: 22px; display: block; }
+  .mC .list { border-top: 2px solid #1c1917; }
+  .mC .list .head { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; padding: 10px 0; color: #57534e; }
+  .mC .item { border-top: 1px solid #e7e0d5; padding: 14px 0; }
+  .mC .item small { color: #115e59; font-size: 12px; font-weight: 600; }
+  .mC .item h4 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px; line-height: 1.3; margin-top: 2px; }
+</style>
+
+<h2>Which look fits yDataLabs?</h2>
+<p class="subtitle">Same words in all three. Only the look changes. Click the one you like, then tell me in the chat. You can also mix, for example "A, but with the panel from B".</p>
+
+<div class="cards stack">
+
+  <div class="card" data-choice="a-clean-clinic" onclick="toggleSelect(this)">
+    <div class="m mA">
+      <div class="m-nav">
+        <div class="logo">y<span>Data</span>Labs</div>
+        <div class="m-links"><span>Solutions</span><span>Work</span><span>Research</span><span>Blog</span><span class="pill">Contact</span></div>
+      </div>
+      <div class="m-hero">
+        <div class="m-left">
+          <div class="tag">Healthcare AI consulting</div>
+          <h1>LLM and AI solutions for hospitals and pharma.</h1>
+          <p class="sub">We advise your team, and we build the system. Clinical language models, automation, and MLOps from a research-led team.</p>
+          <div class="m-btns"><span class="m-btn primary">Book a call</span><span class="m-btn ghost">See our work</span></div>
+          <div class="m-proof"><div><b>100+</b>projects delivered</div><div><b>50+</b>clients</div><div><b>Partners</b>John Snow Labs, Gesund.ai</div></div>
+        </div>
+        <div class="m-right">
+          <div class="path"><h4>Get advice</h4><p>Strategy, reviews, and coaching for your AI team.</p><span class="go">Consulting →</span></div>
+          <div class="path"><h4>Get it built</h4><p>We design and deliver the LLM solution for you.</p><span class="go">Solutions →</span></div>
+          <div class="path" style="margin-bottom:0"><h4>Read the research</h4><p>Papers, talks, and technical posts.</p><span class="go">Research →</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Clean clinic</h3>
+      <p>Your current navy and teal, made calmer. Light, open, easy to trust. The three reader paths sit right in the first screen. Lowest risk.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b-dark-lab" onclick="toggleSelect(this)">
+    <div class="m mB">
+      <div class="m-nav">
+        <div class="logo">y<span>Data</span>Labs</div>
+        <div class="m-links"><span>solutions</span><span>work</span><span>research</span><span>blog</span><span class="pill">contact</span></div>
+      </div>
+      <div class="m-hero">
+        <div class="m-left">
+          <div class="tag">// healthcare AI consulting</div>
+          <h1>LLM and AI solutions for <em>hospitals</em> and <em>pharma</em>.</h1>
+          <p class="sub">We advise your team, and we build the system. Clinical language models, automation, and MLOps from a research-led team.</p>
+          <div class="m-btns"><span class="m-btn primary">Book a call</span><span class="m-btn ghost">See our work</span></div>
+          <div class="m-proof"><div><b>100+</b>projects</div><div><b>50+</b>clients</div><div><b>partners</b>John Snow Labs, Gesund.ai</div></div>
+        </div>
+        <div class="m-right">
+          <div class="panel">
+            <div class="bar">clinical note → structured data</div>
+            <div class="body">Patient is a <mark>72-year-old</mark> male with <mark>type 2 diabetes</mark>. Started <mark>metformin 500 mg</mark> <mark>twice daily</mark>. Follow-up in <mark>3 months</mark>.</div>
+            <div class="out">
+              age: <span>72</span><br>
+              condition: <span>type 2 diabetes</span><br>
+              drug: <span>metformin 500 mg</span><br>
+              dose: <span>twice daily</span><br>
+              follow_up: <span>3 months</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Dark lab</h3>
+      <p>Dark and technical. The first screen shows what an LLM does with a clinical note. Strong with researchers and engineers. Some hospital leaders may find it less warm.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c-editorial" onclick="toggleSelect(this)">
+    <div class="m mC">
+      <div class="m-nav">
+        <div class="logo">yDataLabs</div>
+        <div class="m-links"><span>Solutions</span><span>Work</span><span>Research</span><span>Blog</span><span class="pill">Contact</span></div>
+      </div>
+      <div class="m-hero" style="align-items:flex-start">
+        <div class="m-left">
+          <div class="tag">Healthcare AI consulting</div>
+          <h1>LLM and AI solutions for <em>hospitals and pharma.</em></h1>
+          <p class="sub">We advise your team, and we build the system. Clinical language models, automation, and MLOps from a research-led team.</p>
+          <div class="m-btns"><span class="m-btn primary">Book a call</span><span class="m-btn ghost">See our work</span></div>
+          <div class="m-proof"><div><b>100+</b>projects delivered</div><div><b>50+</b>clients</div><div><b>Partners</b>John Snow Labs, Gesund.ai</div></div>
+        </div>
+        <div class="m-right">
+          <div class="list">
+            <div class="head">Latest writing (example titles)</div>
+            <div class="item"><small>FOR LEADERS</small><h4>What LLMs can safely do in a hospital today</h4></div>
+            <div class="item"><small>RESEARCH</small><h4>De-identifying clinical notes at scale</h4></div>
+            <div class="item"><small>CASE STUDY</small><h4>From pilot to production: clinical MLOps</h4></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. Journal</h3>
+      <p>Warm paper tone and a serif headline, like a medical journal. The blog and research lead the page. Feels expert and serious. The biggest change from today.</p>
+    </div>
+  </div>
+
+</div>

@@ -123,7 +123,7 @@ The form has a required checkbox today. It says "you agree to our terms and cons
 ## 7. Phase 2: the new look ("Dark lab")
 
 The owner picked this look from three mockups. The mockup file is kept at
-`.superpowers/brainstorm/95335-1795273382/content/visual-style.html` (option B).
+`docs/superpowers/mockups/2026-11-21-visual-style.html` (option B).
 The mockup shows the look only. Its words are out of date: they still say "for hospitals and pharma". Section 8 has the current wording.
 
 ### Tokens

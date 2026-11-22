@@ -12,29 +12,23 @@ export function SectionHeader({
 	eyebrow,
 	title,
 	description,
-	centered = true,
+	centered = false,
 	className,
 }: SectionHeaderProps) {
 	return (
 		<div
-			className={cn(
-				"max-w-3xl",
-				centered && "mx-auto text-center",
-				className
-			)}
+			className={cn("max-w-3xl", centered && "mx-auto text-center", className)}
 		>
 			{eyebrow && (
-				<span className="inline-block px-4 py-1.5 mb-4 text-sm font-heading font-medium tracking-wider text-teal bg-teal/10 rounded-full uppercase">
+				<p className="mb-3 font-heading text-sm text-accent">
+					{"// "}
 					{eyebrow}
-				</span>
-			)}
-			<h2 className="text-h2 md:text-h1 text-navy mb-4">{title}</h2>
-			{description && (
-				<p className="text-body-lg text-slate-600 max-w-2xl mx-auto">
-					{description}
 				</p>
+			)}
+			<h2 className="text-h3 md:text-h2 mb-4">{title}</h2>
+			{description && (
+				<p className="text-body-lg text-muted max-w-2xl">{description}</p>
 			)}
 		</div>
 	);
 }
-

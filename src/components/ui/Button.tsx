@@ -6,7 +6,7 @@ import Link from "next/link";
 interface ButtonProps {
 	children: React.ReactNode;
 	href?: string;
-	variant?: "primary" | "secondary" | "outline" | "ghost";
+	variant?: "primary" | "outline";
 	size?: "sm" | "md" | "lg";
 	className?: string;
 	external?: boolean;
@@ -31,22 +31,18 @@ export function Button({
 	iconPosition = "right",
 }: ButtonProps) {
 	const baseStyles =
-		"inline-flex items-center justify-center font-heading font-medium rounded-full transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+		"inline-flex items-center justify-center font-heading font-medium rounded-md transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
 
 	const variants = {
-		primary:
-			"bg-navy text-white hover:bg-navy-light focus:ring-navy btn-glow",
-		secondary:
-			"bg-teal text-white hover:bg-teal-light focus:ring-teal btn-glow",
+		primary: "bg-accent text-page hover:bg-accent-bright",
 		outline:
-			"border-2 border-navy text-navy hover:bg-navy hover:text-white focus:ring-navy",
-		ghost: "text-navy hover:bg-slate-100 focus:ring-slate-300",
+			"border border-line-strong text-ink hover:border-accent hover:text-accent",
 	};
 
 	const sizes = {
 		sm: "px-4 py-2 text-sm gap-1.5",
-		md: "px-6 py-3 text-base gap-2",
-		lg: "px-8 py-4 text-lg gap-2.5",
+		md: "px-5 py-2.5 text-sm gap-2",
+		lg: "px-6 py-3 text-base gap-2.5",
 	};
 
 	const classes = cn(baseStyles, variants[variant], sizes[size], className);
