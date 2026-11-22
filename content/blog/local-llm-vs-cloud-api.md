@@ -8,9 +8,9 @@ author: yDataLabs
 draft: true
 ---
 
-Choose for each task, not once for the whole organisation. A cloud API is the right start for public text and for a first test. A local LLM is the right choice when patient data goes into the model every day. A hospital that takes AI seriously ends up with both.
+Choose for each task, not once for the whole organisation. A cloud API is the right start for public text and for a first test. When patient data goes into the model every day, we choose a local LLM. A hospital that takes AI seriously ends up with both.
 
-Three terms first. An LLM (large language model) is a model that reads and writes text. A cloud API is a way to send your text over the internet to a model that a provider runs. A local LLM runs on servers that you control, in your own building or your own data centre.
+Three terms first. An LLM (large language model) is a model that reads and writes text. A cloud API is a way to send your text over the internet to a model that a provider runs. A local LLM, also called a self-hosted LLM, runs on servers that you control, in your own building or your own data centre.
 
 Four questions decide the choice. Ask them in this order.
 
@@ -18,7 +18,7 @@ Four questions decide the choice. Ask them in this order.
 
 The prompt is the text you send to the model. If a patient can be recognised in it, the rules change.
 
-In the European Union, the privacy law is the General Data Protection Regulation (GDPR). It puts health data in a special group. Using it is forbidden unless an exception applies. The exceptions are listed in [Article 9](https://gdpr-info.eu/art-9-gdpr/).
+In the European Union, the privacy law is the [General Data Protection Regulation](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng) (GDPR). Every use of personal data needs a legal ground. Health data sits in a special group on top of that. Using it is forbidden unless an exception applies. The exceptions are listed in [Article 9](https://gdpr-info.eu/art-9-gdpr/).
 
 The law does not forbid the cloud. It asks you to know where the data goes and who can read it. The large providers have answers. Microsoft, for example, [states](https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/data-privacy) that prompts are not used to train the models, and that they are processed inside a geographic area that you choose. Be careful with that second promise. Some of its setups process data across the whole European Union, or worldwide, so the setup you buy matters. Your privacy officer must check the contract itself, because a web page is not a contract.
 
@@ -29,12 +29,12 @@ Here is how we would sort five common tasks.
 | Task | Patient data in the prompt? | Our choice |
 |---|---|---|
 | Draft a discharge letter from the patient record | Yes, in every prompt | Local |
-| Remove names and birth dates from notes before research | Yes, that is the whole task | Local |
+| De-identify clinical notes before research | Yes, that is the whole task | Local |
 | Sort incoming referrals by urgency | Yes | Local |
 | Answer staff questions about public treatment guidelines | No | Cloud |
 | Rewrite a patient leaflet in simpler words | No | Cloud |
 
-The second row has no real alternative. The notes are sent for cleaning because they may not leave the building in their raw form.
+The second row needs a word of explanation. To de-identify a note is to remove everything that points to one person. Names and birth dates are only the start. A rare diagnosis or an admission date can give a patient away too. This task belongs inside by its nature: the notes are cleaned because they may not leave the building in their raw form.
 
 ## 2. How hard is the task?
 
@@ -48,23 +48,23 @@ A general model learned its language from the open internet. A clinical note is 
 
 A medical LLM is a model that was trained further on medical text. Some are trained for one field only.
 
-Two public examples show what exists. Google released [MedGemma](https://research.google/blog/medgemma-our-most-capable-open-models-for-health-ai-development), a family of open medical models that run on a single graphics card (GPU). Memorial Sloan Kettering Cancer Center trained an open oncology model, [Woollie](https://www.nature.com/articles/s41746-025-01780-2), on its own cancer records. Woollie read about 39,000 radiology notes of 4,000 patients and judged whether the cancer was progressing. On a score where 0.5 is a guess and 1 is perfect, it reached 0.97.
+Two public examples show what exists. Google released [MedGemma](https://research.google/blog/medgemma-our-most-capable-open-models-for-health-ai-development), a family of open medical models. Google says they run on a single graphics card (GPU). Memorial Sloan Kettering Cancer Center trained an open oncology model, [Woollie](https://www.nature.com/articles/s41746-025-01780-2), on its own cancer records. Woollie read about 39,000 radiology notes of 4,000 patients and judged whether the cancer was progressing. On a score called AUROC, where 0.5 is a guess and 1 is perfect, it reached 0.97. This score is not the share of right answers. It tells how well the model separates the patients whose cancer is progressing from the others.
 
 That study holds a second number. At another hospital, the University of California, San Francisco, the same model scored 0.88. A likely reason is that every hospital writes its notes in its own way. Try a medical model on your own notes before you trust the number on its label.
 
-For the choice between local and cloud, medical models point to local. Both models above are open, so you can run them on your own servers. If you train one further on your own records, that training is work with patient data from start to finish.
+Both models above are open, so you may run them on your own servers. Open does not mean local, because a cloud provider can run an open model for you too. Training is another matter. If you train a model further on your own records, that work uses patient data from start to finish.
 
 We have used healthcare-specific models in our own projects, for example to build timelines of oncology patients. Those projects are on our [portfolio page](/portfolio).
 
 ### What a fixed workflow adds
 
-A 2026 [technical report](https://arxiv.org/abs/2607.22555) from John Snow Labs, which our founder co-wrote, measured what happens when the work is cut into clear steps. A small medical model worked through 915 diagnosis cases. On its own, it found the right diagnosis in 24% of them. Inside a workflow of five fixed steps, the same model reached 60%. That was about 9 points more than two large cloud models on the same cases, and 35 to 45% cheaper for each case.
+A 2026 [technical report](https://arxiv.org/abs/2607.22555) from John Snow Labs, which our founder co-wrote, measured what happens when the work is cut into clear steps. A small medical model worked through 915 diagnosis cases. On its own, it found the right diagnosis in 24% of them. Inside a workflow of five fixed steps, the same model reached 60%. That was about 9 points more than two large cloud models on the same cases, and, by the report's own cost figures, 35 to 45% cheaper for each case.
 
-One benchmark does not settle every task. It does show that a well-designed process can count for more than the size of the model. More of this work is on our [research page](/research).
+This is a benchmark, not a test in a hospital, and one benchmark does not settle every task. It does show that a well-designed process can count for more than the size of the model. More of this work is on our [research page](/research).
 
 ## 3. How much will you use it?
 
-A cloud API sends a bill for every use. A local model costs money before it gives its first answer: servers with GPUs, and people who keep them running. After that, one more answer costs almost nothing.
+A cloud API sends a bill for every use. A local model costs money before it gives its first answer: servers with GPUs, and people who keep them running. After that, one more answer costs little, mostly electricity.
 
 Low or uneven use favours the cloud. Think of a tool that a few specialists open twice a week. High and steady use favours local. A model that reads every referral that comes in, all day, is steady use.
 
@@ -78,13 +78,19 @@ Cloud providers retire models. OpenAI keeps a public [list of retirement dates](
 
 In a hospital, that is more than a technical detail. Suppose you tested a model on five hundred of your own letters and a medical lead signed off on the result. A different model is a different product. The test has to be done again.
 
-With a local model, you keep the exact version for as long as you want. You change it when you have had time to test the next one.
+With a local model, you keep the exact version and its settings for as long as you want. You change it when you have had time to test the next one.
+
+## What the four questions leave out
+
+Where a model runs says nothing about whether its answers are safe. Take the referrals from the table. A model that sorts them by urgency helps decide who is seen first. Such a task needs a test on your own cases and a person who can overrule the model.
+
+The law looks at this too. The EU AI Act [lists](https://ai-act-service-desk.ec.europa.eu/en/ai-act/annex-3) triage systems for emergency patients among its high-risk uses. Whether your own system falls under such a rule depends on what you use it for. A local model has to pass the same checks as a cloud model.
 
 ## How to start
 
 1. Write down the tasks you want a model for. One line for each.
 2. Answer the four questions for every task.
 3. Try the most promising task on a cloud API, with invented or public text. You learn fast whether the idea works at all.
-4. Move a task to a local model once it has proven its worth and needs real patient data.
+4. When a task has proven its worth, set it up where your four answers point.
 
 Do not build a local platform first and look for tasks later. The tasks tell you how large the platform must be.
