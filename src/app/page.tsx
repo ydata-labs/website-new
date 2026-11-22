@@ -7,6 +7,7 @@ import {
 	Healthcare,
 	Products,
 	Founder,
+	LatestPosts,
 	Contact,
 } from "@/components/sections";
 import { pageMetadata } from "@/data/seo";
@@ -25,6 +26,7 @@ export default function Home() {
 				<Healthcare />
 				<Products />
 				<Founder />
+				<LatestPosts />
 				<Contact />
 			</main>
 			<Footer />

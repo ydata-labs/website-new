@@ -105,3 +105,165 @@
 		}
 	}
 }
+
+/* Post text on /blog/<slug>. The HTML comes from Markdown, so it has no
+   classes of its own. Wide blocks (code, tables, formulas) scroll inside
+   their own box, so the page never scrolls sideways on a phone. */
+@layer components {
+	.post-body {
+		line-height: 1.7;
+		overflow-wrap: break-word;
+	}
+
+	.post-body > * + * {
+		margin-top: 1.25rem;
+	}
+
+	.post-body h2 {
+		margin-top: 3rem;
+		font-size: var(--text-h3);
+		line-height: var(--text-h3--line-height);
+	}
+
+	.post-body h3 {
+		margin-top: 2.25rem;
+		font-size: var(--text-h4);
+		line-height: var(--text-h4--line-height);
+	}
+
+	.post-body h4 {
+		margin-top: 2rem;
+	}
+
+	.post-body a {
+		color: var(--color-accent);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.post-body a:hover {
+		color: var(--color-accent-bright);
+	}
+
+	.post-body strong {
+		color: var(--color-bright);
+		font-weight: 600;
+	}
+
+	.post-body ul,
+	.post-body ol {
+		padding-left: 1.5rem;
+	}
+
+	.post-body ul {
+		list-style: disc;
+	}
+
+	.post-body ol {
+		list-style: decimal;
+	}
+
+	.post-body li + li {
+		margin-top: 0.4rem;
+	}
+
+	.post-body li::marker {
+		color: var(--color-muted);
+	}
+
+	.post-body blockquote {
+		border-left: 2px solid var(--color-accent);
+		padding-left: 1rem;
+		color: var(--color-muted);
+	}
+
+	.post-body hr {
+		margin-block: 2.5rem;
+		border-top: 1px solid var(--color-line);
+	}
+
+	.post-body img {
+		max-width: 100%;
+		height: auto;
+		border: 1px solid var(--color-line);
+		border-radius: 0.5rem;
+	}
+
+	.post-body code {
+		border: 1px solid var(--color-line);
+		border-radius: 0.25rem;
+		background: var(--color-surface);
+		padding: 0.1em 0.35em;
+		font-family: var(--font-heading);
+		font-size: 0.875em;
+	}
+
+	.post-body pre {
+		overflow-x: auto;
+		border: 1px solid var(--color-line);
+		border-radius: 0.5rem;
+		background: var(--color-surface);
+		padding: 1rem 1.25rem;
+		font-size: 0.875rem;
+		line-height: 1.6;
+	}
+
+	.post-body pre code {
+		border: 0;
+		background: none;
+		padding: 0;
+		font-size: inherit;
+	}
+
+	.post-body table {
+		display: block;
+		max-width: 100%;
+		overflow-x: auto;
+		border-collapse: collapse;
+		font-size: 0.875rem;
+	}
+
+	.post-body th,
+	.post-body td {
+		border: 1px solid var(--color-line);
+		padding: 0.5rem 0.75rem;
+		text-align: left;
+		vertical-align: top;
+	}
+
+	.post-body th {
+		background: var(--color-surface);
+		color: var(--color-bright);
+		font-family: var(--font-heading);
+		font-weight: 500;
+		white-space: nowrap;
+	}
+
+	.post-body .katex-display {
+		overflow-x: auto;
+		overflow-y: hidden;
+		padding-block: 0.25rem;
+	}
+
+	/* Code colors from highlight.js, with the Dark lab tokens only. */
+	.post-body .hljs-keyword,
+	.post-body .hljs-built_in,
+	.post-body .hljs-literal {
+		color: var(--color-accent);
+	}
+
+	.post-body .hljs-string,
+	.post-body .hljs-number {
+		color: var(--color-accent-bright);
+	}
+
+	.post-body .hljs-comment {
+		color: var(--color-muted);
+		font-style: italic;
+	}
+
+	.post-body .hljs-title,
+	.post-body .hljs-attr {
+		color: var(--color-bright);
+	}
+}
