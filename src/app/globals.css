@@ -59,7 +59,7 @@
 
 	html {
 		scroll-behavior: smooth;
-		scroll-padding-top: 5rem; /* anchors stop below the fixed header */
+		scroll-padding-top: 6rem; /* anchors stop below the fixed header */
 	}
 
 	body {

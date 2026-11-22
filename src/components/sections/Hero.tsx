@@ -53,15 +53,16 @@ export function Hero() {
 			<div className="max-w-xl mx-auto grid gap-12 px-4 md:px-8 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
 				<div>
 					<p className="mb-5 font-heading text-sm text-accent">
-						{"// private AI · proven in healthcare"}
+						{"// yDataLabs · private AI · proven in healthcare"}
 					</p>
 					<h1 className="text-h2 sm:text-h1 xl:text-display mb-6">
 						LLMs and AI that run{" "}
 						<span className="text-accent">where your data lives.</span>
 					</h1>
 					<p className="text-body-lg text-muted max-w-prose mb-8">
-						We advise your team, and we build the system. AI engineering,
-						platform engineering, and data science from a research-led team.
+						<strong className="font-semibold text-bright">yDataLabs</strong>{" "}
+						advises your team and builds the system. AI engineering, platform
+						engineering, and data science from a research-led team.
 					</p>
 					<div className="flex flex-wrap gap-4">
 						<Button href="/#contact" size="lg" icon={<ArrowIcon />}>
