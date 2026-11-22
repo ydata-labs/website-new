@@ -199,8 +199,7 @@ Key bindings in `wrangler.jsonc`:
 
 1. Create route directory in `src/app/`
 2. Add the page to `pages` in `src/data/seo.ts` and export `metadata = pageMetadata("<key>")` from `page.tsx`
-3. Add it to `src/app/sitemap.ts`
-4. Update navigation in `data/navigation.ts`
+3. Update navigation in `data/navigation.ts` (the sitemap is built from `pages` by itself)
 
 ### Adding New Sections
 

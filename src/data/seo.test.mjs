@@ -7,6 +7,7 @@ import {
 	pageMetadata,
 	organizationSchema,
 	personSchema,
+	sitemapEntries,
 } from "./seo.ts";
 
 const keys = Object.keys(pages);
@@ -70,4 +71,15 @@ test("structured data names all three strengths and points to a real logo", () =
 	const [width, height] = [png.readUInt32BE(16), png.readUInt32BE(20)];
 	assert.ok(width >= 112 && height >= 112, `logo is ${width}x${height}`);
 	assert.match(personSchema.description, /20\+ years/);
+});
+
+test("the sitemap lists every page once, with full addresses", () => {
+	const urls = sitemapEntries().map((e) => e.url);
+	assert.equal(urls.length, keys.length);
+	assert.equal(new Set(urls).size, urls.length);
+	assert.equal(new Set(keys.map((k) => pages[k].path)).size, keys.length);
+	assert.ok(urls.includes("https://ydatalabs.nl"));
+	for (const key of keys.filter((k) => k !== "home")) {
+		assert.ok(urls.includes(`https://ydatalabs.nl${pages[key].path}`), key);
+	}
 });
