@@ -65,17 +65,13 @@ test("type scale tokens are valid sizes with a line height", () => {
 	}
 });
 
-// Files that still have the old look. Each task removes its files.
-// Task 8 deletes this list.
-const NOT_YET = [
-];
 const OLD_CLASS =
 	/\b(?:bg|text|border|from|via|to|ring|fill|stroke|divide|outline|decoration|placeholder|shadow)-(?:navy|teal|slate|white|black|amber|emerald|rose|primary|secondary|background|foreground)\b/;
 
-test("restyled files have no emoji, no entry animation, no old colors", () => {
+test("no file has emoji, entry animation, or old colors", () => {
 	const files = readdirSync("src", { recursive: true })
 		.map((f) => `src/${f}`)
-		.filter((f) => /\.(tsx?|css)$/.test(f) && !NOT_YET.includes(f));
+		.filter((f) => /\.(tsx?|css)$/.test(f));
 	for (const f of files) {
 		const src = readFileSync(f, "utf8");
 		// assert.ok keeps the failure short. doesNotMatch prints the whole file.

@@ -2,7 +2,7 @@
 
 ## System Overview
 
-The yDataLabs website is a modern Next.js application deployed on Cloudflare Pages. It serves as a marketing and portfolio site for a healthcare AI consulting firm.
+The yDataLabs website is a Next.js application deployed on Cloudflare Workers through OpenNext. It is the marketing, portfolio, and research site of yDataLabs, a firm that builds private LLM and AI systems, proven in healthcare.
 
 ## Architecture Diagram
 
@@ -31,11 +31,12 @@ The yDataLabs website is a modern Next.js application deployed on Cloudflare Pag
 │  │  ┌─────────────────┐    ┌─────────────────────────────┐  │  │
 │  │  │   UI Components │    │      Section Components     │  │  │
 │  │  │  - Header       │    │  - Hero                     │  │  │
-│  │  │  - Footer       │    │  - Products                 │  │  │
+│  │  │  - Footer       │    │  - Paths                    │  │  │
 │  │  │  - Button       │    │  - Solutions                │  │  │
-│  │  │  - SectionHeader│    │  - About                    │  │  │
-│  │  └─────────────────┘    │  - PortfolioSummary         │  │  │
-│  │                         │  - Partners                 │  │  │
+│  │  │  - SectionHeader│    │  - Advice                   │  │  │
+│  │  │  - Icon         │    │  - Healthcare               │  │  │
+│  │  └─────────────────┘    │  - Products                 │  │  │
+│  │                         │  - Founder                  │  │  │
 │  │                         │  - Contact                  │  │  │
 │  │                         └─────────────────────────────┘  │  │
 │  └──────────────────────────────────────────────────────────┘  │
@@ -98,10 +99,12 @@ All content is stored in TypeScript files under `src/data/`:
 
 ```
 data/
-├── navigation.ts   # Menu items, footer links
+├── navigation.ts   # Menu items, footer links, social links
 ├── products.ts     # ModelPark, MinaMed product info
-├── solutions.ts    # AI/ML capabilities, features
-└── portfolio.ts    # Projects, case studies, founder info
+├── solutions.ts    # Three solution groups, advice items, proof numbers
+├── portfolio.ts    # Projects, case studies, founder info, partners
+├── research.ts     # Selected publications and talks
+└── seo.ts          # Page titles, share data, structured data
 ```
 
 ### Contact Form Flow
@@ -116,37 +119,39 @@ User Input → Contact.tsx → POST /api/contact → src/lib/contact.ts → Rese
 
 ## Styling Architecture
 
-### Tailwind CSS 4 Theme
+### Tailwind CSS 4 Theme: the "Dark lab" look
 
-Custom theme tokens defined in `globals.css`:
+The site is dark only. The tokens live in `globals.css`:
 
 ```css
 @theme {
-  /* Colors */
-  --color-navy: #0f172a;
-  --color-teal: #0d9488;
-  --color-slate-bg: #f8fafc;
+  --color-page: #0b1220;        /* page background, with a faint 32px grid */
+  --color-surface: #111a2e;     /* cards and panels */
+  --color-line: #1e293b;        /* borders */
+  --color-line-strong: #64748b; /* input borders */
+  --color-ink: #e2e8f0;         /* text */
+  --color-bright: #f8fafc;      /* headings */
+  --color-muted: #94a3b8;       /* secondary text */
+  --color-accent: #2dd4bf;      /* the one accent color */
 
-  /* Typography */
   --font-heading: "JetBrains Mono", monospace;
   --font-body: "Libre Franklin", sans-serif;
-
-  /* Animations */
-  --animate-fade-in-up: fade-in-up 0.6s ease-out forwards;
 }
 ```
 
-### CSS Utility Patterns
+Use them as `bg-page`, `bg-surface`, `border-line`, `text-ink`, `text-bright`,
+`text-muted`, `text-accent`.
 
-```css
-/* Custom utilities in globals.css */
-.text-gradient       /* Gradient text effect */
-.bg-gradient-mesh    /* Decorative background */
-.bg-grid-pattern     /* Grid pattern overlay */
-.card-hover          /* Card hover animation */
-.link-underline      /* Animated underline */
-.btn-glow            /* Button glow effect */
-```
+### Rules of the look
+
+`src/lib/design.test.mjs` checks these on every `pnpm test`:
+
+- Text colors meet WCAG AA contrast (4.5:1). Input borders meet 3:1.
+- No emoji. Icons come from `src/components/ui/Icon.tsx`.
+- No entry animation: no `animate-` class and no `opacity-0` class. Content is visible at once.
+- One global `:focus-visible` ring, and motion turns off for "reduced motion".
+- Every `/images/...` path in the code exists in `public/`.
+- The anchors `solutions`, `advice`, `healthcare`, `products`, `about`, `contact` exist.
 
 ## Deployment Architecture
 
@@ -176,8 +181,8 @@ Key bindings in `wrangler.jsonc`:
 
 1. **Static Generation**: All pages are statically generated
 2. **Font Optimization**: Google Fonts with `display: swap`
-3. **Image Optimization**: Next.js Image component
-4. **CSS-only Animations**: No JavaScript animation library
+3. **Images**: sized and converted to WebP by hand. `next/image` runs unoptimized, because Workers has no image optimizer
+4. **No entry animations**: content is visible at once
 5. **Edge Deployment**: Cloudflare global CDN
 
 ## Security Considerations
@@ -192,8 +197,9 @@ Key bindings in `wrangler.jsonc`:
 ### Adding New Pages
 
 1. Create route directory in `src/app/`
-2. Add `page.tsx` with metadata export
-3. Update navigation in `data/navigation.ts`
+2. Add the page to `pages` in `src/data/seo.ts` and export `metadata = pageMetadata("<key>")` from `page.tsx`
+3. Add it to `src/app/sitemap.ts`
+4. Update navigation in `data/navigation.ts`
 
 ### Adding New Sections
 
