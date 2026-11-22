@@ -231,6 +231,12 @@
 		vertical-align: top;
 	}
 
+	/* Code in a cell stays on one line. A wide table scrolls instead. */
+	.post-body td code,
+	.post-body th code {
+		white-space: nowrap;
+	}
+
 	.post-body th {
 		background: var(--color-surface);
 		color: var(--color-bright);
@@ -243,6 +249,14 @@
 		overflow-x: auto;
 		overflow-y: hidden;
 		padding-block: 0.25rem;
+	}
+
+	/* A dark scroll bar. The default one is a bright bar on this dark page. */
+	.post-body pre,
+	.post-body table,
+	.post-body .katex-display {
+		scrollbar-width: thin;
+		scrollbar-color: var(--color-line-strong) transparent;
 	}
 
 	/* Code colors from highlight.js, with the Dark lab tokens only. */

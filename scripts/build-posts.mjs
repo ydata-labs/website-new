@@ -32,6 +32,14 @@ function build() {
 build();
 
 if (process.argv.includes("--watch") && existsSync(DIR)) {
+	// `pnpm dev` starts this watcher in the background, next to `next dev`.
+	// When the dev server is gone, the shell that started both is gone too,
+	// and this process gets a new parent. Stop then, so no watcher is left over.
+	const parent = process.ppid;
+	setInterval(() => {
+		if (process.ppid !== parent) process.exit(0);
+	}, 2000);
+
 	watch(DIR, () => {
 		try {
 			build();

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is the yDataLabs website. yDataLabs builds LLM and AI systems that run where the customer's data lives ("private AI, proven in healthcare"). The site shows three strengths with equal weight: AI engineering, platform engineering, and data science. It has a home page, a portfolio page, a research page, and a privacy page. ModelPark and MinaMed are the company's own products.
+This is the yDataLabs website. yDataLabs builds LLM and AI systems that run where the customer's data lives ("private AI, proven in healthcare"). The site shows three strengths with equal weight: AI engineering, platform engineering, and data science. It has a home page, a portfolio page, a research page, a blog, and a privacy page. ModelPark and MinaMed are the company's own products.
 
 ## Technology Stack
 
@@ -14,6 +14,7 @@ This is the yDataLabs website. yDataLabs builds LLM and AI systems that run wher
 - **Styling**: Tailwind CSS 4 with custom theme configuration
 - **Deployment**: Cloudflare Workers via OpenNext
 - **Package Manager**: pnpm
+- **Blog**: Markdown files, turned into HTML at build time with `marked`, `highlight.js`, and `katex` (all three are build-time only)
 
 ## Build & Development Commands
 
@@ -22,9 +23,10 @@ This is the yDataLabs website. yDataLabs builds LLM and AI systems that run wher
 pnpm install
 
 # Start development server at http://localhost:3000
+# (first builds the blog posts, drafts included, and watches them)
 pnpm dev
 
-# Build for production
+# Build for production (first builds the blog posts, without drafts)
 pnpm build
 
 # Run production build locally
@@ -46,6 +48,8 @@ pnpm deploy
 ## Project Structure
 
 ```
+content/blog/               # Blog posts. One Markdown file per post
+scripts/build-posts.mjs     # Turns the posts into src/data/posts.generated.json
 src/
 ├── app/
 │   ├── layout.tsx          # Root layout: fonts, default metadata, JSON-LD
@@ -57,25 +61,34 @@ src/
 │   ├── apple-icon.png      # Phone home-screen icon (source: scripts/apple-icon.html)
 │   ├── portfolio/page.tsx  # Portfolio page ("Work" in the menu)
 │   ├── research/page.tsx   # Research page: papers and talks
+│   ├── blog/page.tsx       # Blog list. PostList.tsx holds the two filters
+│   ├── blog/[slug]/page.tsx  # One post
+│   ├── blog/rss.xml/route.ts # The feed
 │   ├── privacy/page.tsx    # Privacy page (linked from the contact form and footer)
 │   └── api/contact/route.ts  # Contact form API (sends through Resend)
 ├── components/
 │   ├── sections/           # Home page sections, in page order:
 │   │                       # Hero, Paths, Solutions, Advice, Healthcare,
-│   │                       # Products, Founder, Contact
-│   └── ui/                 # Header, Footer, Button, SectionHeader, Icon
+│   │                       # Products, Founder, LatestPosts, Contact
+│   └── ui/                 # Header (server) + HeaderNav (client), Footer,
+│                           # Button, SectionHeader, Icon, PostCard
 ├── data/                   # Static data files (no value imports: tests run them)
-│   ├── navigation.ts       # Menu, footer links, social links
+│   ├── navigation.ts       # Menu and footer links (functions of "has posts"), social links
 │   ├── products.ts
 │   ├── solutions.ts        # Three solution groups, advice, proof numbers
 │   ├── portfolio.ts        # Projects, case studies, founder, partners
 │   ├── research.ts         # Publications and talks
-│   ├── seo.ts              # Page titles, share data, structured data
+│   ├── seo.ts              # Page titles, share data, structured data, sitemap, feed
+│   ├── blog.ts             # Blog types, labels, date format (no imports)
+│   ├── posts.ts            # The posts as data. Server components only
+│   ├── posts.generated.json  # Written by the build script. Not in git
 │   └── *.test.mjs          # Tests for the data files
 └── lib/
     ├── cn.ts               # Tailwind merge utility
     ├── contact.ts          # Contact form logic (no imports, tested)
     ├── contact.test.mjs
+    ├── blog.mjs            # Post logic: details block, checks, Markdown (tested)
+    ├── blog.test.mjs       # Also checks every file in content/blog
     └── design.test.mjs     # Guards the rules of the look
 ```
 
@@ -132,6 +145,16 @@ The site is dark only. There is no light theme.
 - One `h1` per page
 - The home page targets the private AI terms (LLM integration, local LLM, on-premises AI). The portfolio and research pages keep the healthcare terms
 
+### Blog
+- A post is one Markdown file in `content/blog/`. The file name is the address: `my-post.md` is `/blog/my-post`. `content/blog/writing-a-post.md` is a template (a draft) that shows every feature
+- `scripts/build-posts.mjs` runs before `next dev` and `next build`. It checks every post with `src/lib/blog.mjs` and writes `src/data/posts.generated.json`. Pages import that JSON through `src/data/posts.ts`. So no page reads a file at run time, and the Markdown libraries never reach the Worker
+- A bad post (missing detail, misspelled key, wrong date, a `# ` heading, a broken formula) stops `pnpm test` and `pnpm build` with a message that names the file
+- Drafts (`draft: true`) show only under `pnpm dev`. `pnpm build` always writes the JSON again, without drafts
+- Everything depends on the number of published posts. With zero posts: no "Blog" menu link, no "Latest posts" on the home page, `/blog` is `noindex` and not in the sitemap. The first published post turns all of it on, with no code change
+- **A client component (`"use client"`) must never reach `@/data/posts`.** It holds the text of every post. Client components import single files (`@/components/ui/Button`), not the `@/components/ui` or `@/components/sections` index, because the index also exports the Header, which imports the posts. The `server-only` import in `posts.ts` fails the build on a leak, and a test in `design.test.mjs` fails `pnpm test`
+- **Do not set `dynamicParams = false` on the post page.** It serves posts only from the Next.js page cache. This site has no page cache on Cloudflare (`open-next.config.ts`), so every post would be a 404 on the live site while `pnpm start` looks fine. The page calls `notFound()` instead. Check blog changes with `pnpm preview`
+- Post text is styled by `.post-body` in `globals.css`. Wide blocks (code, tables, formulas) scroll inside their own box
+
 ### Contact Form
 - The form posts to `/api/contact` (`src/app/api/contact/route.ts`, a thin wrapper)
 - All logic is in `src/lib/contact.ts`: input checks, a honeypot field named `ref_code` (a meaningless name, so browser autofill never fills it), and one HTTP call to Resend
@@ -139,7 +162,7 @@ The site is dark only. There is no light theme.
 - The form must never show "sent" when the email was not sent
 
 ### Static Pages
-- Every page is built as a static page. There is no file system at run time on Cloudflare Workers
+- Every page is built as a static page. There is no file system at run time on Cloudflare Workers. The Worker may still render a page again on a request, so a page must never read a file. Blog posts are bundled as data for this reason
 - The only dynamic route is `POST /api/contact`
 - `pnpm test` needs Node 22.18 or newer (Node runs the TypeScript file directly)
 
@@ -154,6 +177,14 @@ The site is dark only. There is no light theme.
 1. Add the page to `pages` in `src/data/seo.ts` (and to the `PageKey` type)
 2. Create `src/app/<name>/page.tsx` with `export const metadata = pageMetadata("<name>")`
 3. If needed, add it to `src/data/navigation.ts`. The sitemap picks the page up from `pages` by itself
+
+### Writing a Blog Post
+1. Copy `content/blog/writing-a-post.md` to a new file. The file name becomes the address
+2. Fill in the details block: `title`, `description`, `date`, `audience` (`leaders` or `research`), `topic` (`ai-engineering`, `platform-engineering`, or `data-science`), `author`. Optional: `draft`, `image`
+3. Images go in `public/images/blog/` as WebP
+4. `pnpm dev` shows the post, also as a draft. `pnpm test` checks it
+5. Set `draft: false` (or remove the line) and commit. The post is live with the next deploy
+6. Never invent a post. Do not write about client work without the owner's yes
 
 ### Modifying Data
 - Products: `src/data/products.ts`

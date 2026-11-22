@@ -6,6 +6,7 @@ export interface NavItem {
 
 // "Contact" is the button in the header, so it is not in this list.
 // "Blog" shows only when the blog has at least one published post.
+// Header.tsx and Footer.tsx pass in `posts.length > 0`.
 export const mainNav = (hasBlog: boolean): NavItem[] => [
 	{ label: "Solutions", href: "/#solutions" },
 	{ label: "Work", href: "/portfolio" },
