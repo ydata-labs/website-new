@@ -5,4 +5,5 @@ export { Advice } from "./Advice";
 export { Healthcare } from "./Healthcare";
 export { Products } from "./Products";
 export { Founder } from "./Founder";
+export { LatestPosts } from "./LatestPosts";
 export { Contact } from "./Contact";

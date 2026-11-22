@@ -109,3 +109,21 @@ test("old anchor links still land on a section", () => {
 		assert.match(sections, new RegExp(`id="${id}"`), `no section with id ${id}`);
 	}
 });
+
+// The post data holds the full text of every post. A client component that
+// imports it would send all of it to the browser.
+test("no client component imports the post data", () => {
+	for (const f of allSrc) {
+		const src = readFileSync(f, "utf8");
+		if (!/^["']use client["']/.test(src)) continue;
+		assert.ok(!/data\/posts["']/.test(src), `${f}: imports the post data`);
+	}
+});
+
+test("post text has styles for every block a post can use", () => {
+	for (const part of ["h2", "h3", "a", "ul", "ol", "blockquote", "pre", "code", "table", "img", "\\.katex-display", "\\.hljs-keyword"]) {
+		assert.match(css, new RegExp(`\\.post-body [^{]*(?<![\\w-])${part}(?![\\w-])`), `.post-body has no rule for ${part}`);
+	}
+	// Wide blocks scroll inside their own box, not the page.
+	assert.match(css, /overflow-x:\s*auto/);
+});
