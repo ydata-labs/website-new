@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-	/* config options here */
+	// Cloudflare Workers has no image optimizer. Images are sized and
+	// converted to WebP by hand before they go into public/.
+	images: { unoptimized: true },
 };
 
 export default nextConfig;
