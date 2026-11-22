@@ -23,6 +23,10 @@ The yDataLabs website is a Next.js application deployed on Cloudflare Workers th
 │  │  │  page.tsx  │  │ portfolio/ │  │   api/contact/     │  │  │
 │  │  │  (Landing) │  │  page.tsx  │  │     route.ts       │  │  │
 │  │  └────────────┘  └────────────┘  └────────────────────┘  │  │
+│  │  ┌────────────┐  ┌────────────┐  ┌────────────────────┐  │  │
+│  │  │ research/  │  │   blog/    │  │   blog/[slug]/     │  │  │
+│  │  │  page.tsx  │  │  page.tsx  │  │     page.tsx       │  │  │
+│  │  └────────────┘  └────────────┘  └────────────────────┘  │  │
 │  └──────────────────────────────────────────────────────────┘  │
 │                              │                                  │
 │                              ▼                                  │
@@ -72,6 +76,7 @@ export default function Home() {
         <Healthcare />
         <Products />
         <Founder />
+        <LatestPosts />   {/* hidden until the blog has a post */}
         <Contact />
       </main>
       <Footer />
@@ -105,8 +110,30 @@ data/
 ├── solutions.ts    # Three solution groups, advice items, proof numbers
 ├── portfolio.ts    # Projects, case studies, founder info, partners
 ├── research.ts     # Selected publications and talks
-└── seo.ts          # Page titles, share data, structured data
+├── seo.ts          # Page titles, share data, structured data, sitemap, feed
+├── blog.ts         # Blog types, labels, date format
+└── posts.ts        # Blog posts as data (imports posts.generated.json)
 ```
+
+### Blog Flow
+
+```
+content/blog/*.md
+      │  scripts/build-posts.mjs (runs before `next dev` and `next build`)
+      │  src/lib/blog.mjs: read the details, check them, Markdown to HTML
+      ▼
+src/data/posts.generated.json (not in git)
+      │  src/data/posts.ts (server components only)
+      ▼
+/blog · /blog/<slug> · /blog/rss.xml · sitemap · menu link · "Latest posts" on the home page
+```
+
+- A post is one Markdown file. The file name is the address.
+- The posts are data inside the bundle. No page reads a file at run time. The Markdown libraries (`marked`, `highlight.js`, `katex`) run at build time only and are not in the Worker.
+- A bad post stops the build with a message that names the file.
+- Drafts (`draft: true`) show only under `pnpm dev`.
+- With zero published posts the blog is hidden: no menu link, no home section, `/blog` is `noindex` and not in the sitemap.
+- The Worker has no page cache, so it renders pages on request. The post page therefore does not use `dynamicParams = false`. It calls `notFound()` for an unknown address.
 
 ### Contact Form Flow
 
@@ -153,6 +180,9 @@ Use them as `bg-page`, `bg-surface`, `border-line`, `text-ink`, `text-bright`,
 - The stylesheet has one global `:focus-visible` ring and a "reduced motion" rule. No file uses `scroll-smooth` or `outline-none`, which would defeat them.
 - Every `/images/...` path in the code exists in `public/`.
 - The anchors `solutions`, `advice`, `healthcare`, `products`, `about`, `contact` exist.
+- No client component can reach the post data.
+- The post page works without a page cache (no `dynamicParams`).
+- `.post-body` has a style for every block a post can use.
 
 ## Deployment Architecture
 

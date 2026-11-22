@@ -19,6 +19,16 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Write a blog post
+
+1. Copy `content/blog/writing-a-post.md` to a new file in the same folder. The file name becomes the address: `my-post.md` is `/blog/my-post`.
+2. Change the details at the top and write your text in Markdown.
+3. Run `pnpm dev` and open `http://localhost:3000/blog` to see it. Drafts show here only.
+4. Run `pnpm test`. It checks every post.
+5. Set `draft: false` and commit. The post is live with the next deploy.
+
+The blog is hidden on the live site until the first post is published.
+
 ## Preview
 
 Preview the application locally on the Cloudflare runtime:
