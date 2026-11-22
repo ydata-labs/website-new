@@ -319,8 +319,6 @@ Then start small. Pick one pain point, one tool and one owner. Name the metric b
 
 ## An applied view: lessons from building AI on real patient records
 
-This section describes my own company’s work, so read it as you would any vendor’s claims.
-
 Three design rules came out of that work, and they apply to any clinical AI:
 
 1. **Read the text, not just the codes.** As shown above, codes miss much of the story.
