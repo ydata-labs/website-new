@@ -46,3 +46,6 @@ next-env.d.ts
 
 # brainstorm mockups
 .superpowers/
+
+# blog posts as data, written by scripts/build-posts.mjs
+/src/data/posts.generated.json
