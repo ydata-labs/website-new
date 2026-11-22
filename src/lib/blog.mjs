@@ -13,9 +13,10 @@ const AUDIENCES = ["leaders", "research"];
 const TOPICS = ["ai-engineering", "platform-engineering", "data-science"];
 const REQUIRED = ["title", "description", "date", "audience", "topic", "author"];
 const KEYS = [...REQUIRED, "draft", "image", "updated"];
-// Google cuts longer text in its results. The same limits as for the pages
-// (src/data/seo.test.mjs).
-const MAX_LENGTH = { title: 60, description: 160 };
+// Google cuts longer text in its results. The limit for a full page title is
+// 60, and the page adds " | yDataLabs" (12 characters) to the title of a post.
+// A test in src/data/seo.test.mjs keeps the two numbers in step.
+const MAX_LENGTH = { title: 48, description: 160 };
 const WORDS_PER_MINUTE = 200;
 
 const escapeHtml = (text) =>
@@ -90,8 +91,9 @@ function readDetails(raw, fail) {
 			fail(`unknown key "${key}". Allowed keys: ${KEYS.join(", ")}`);
 		}
 		// A value in quotes keeps everything inside the quotes. Otherwise
-		// " #" starts a comment.
-		const quoted = rest.trim().match(/^(["'])(.*)\1\s*(#.*)?$/);
+		// " #" starts a comment. A value with the same quote mark inside it,
+		// like "Private" is not "offline", is not a value in quotes.
+		const quoted = rest.trim().match(/^(["'])((?:(?!\1).)*)\1\s*(#.*)?$/);
 		details[key] = quoted
 			? quoted[2]
 			: rest.replace(/(^|\s)#.*$/, "").trim();
@@ -197,11 +199,13 @@ export function styleProblems(body) {
 		.replace(/\r\n?/g, "\n")
 		.replace(/^(```|~~~)[\s\S]*?^\1.*$/gm, "") // code blocks
 		.replace(/^\s*[|#].*$/gm, "") // table rows and headings
-		.replace(/`[^`\n]*`/g, "") // code inside a line
 		.replace(/’/g, "'");
 	const problems = [];
+	// A word in code is not a word in the text. The repeat check below keeps
+	// the code: two sentences that differ only in their code are different.
+	const words = prose.replace(/`[^`\n]*`/g, "");
 	for (const pattern of STOCK_PHRASES) {
-		const m = prose.match(pattern);
+		const m = words.match(pattern);
 		if (m) problems.push(`stock phrase "${m[0]}". Say it in plain words`);
 	}
 	const seen = new Set();

@@ -32,11 +32,11 @@ Use `audience: research`.
 |---|---|---|---|---|
 | 10 | How to size a server for a local LLM | LLM server sizing | `platform-engineering` | Service: Local LLMs |
 | 11 | LLM-as-a-judge: grading answers at scale | LLM as a judge | `data-science` | A portfolio project, and Service: Model evaluation |
-| 12 | De-identifying clinical text: rules, models, or LLMs? | clinical de-identification | `ai-engineering` | The papers on de-identification |
+| 12 | De-identifying notes: rules, models, or LLMs? | clinical de-identification | `ai-engineering` | The papers on de-identification |
 | 13 | Extracting facts from clinical notes with an LLM | clinical information extraction | `ai-engineering` | Service: Language and vision models |
 | 14 | RAG on FHIR: search over patient records | RAG FHIR | `ai-engineering` | A portfolio project |
-| 15 | Tracking model versions so results can be repeated | model versioning | `platform-engineering` | Service: MLOps and AI platforms |
-| 16 | Multi-criteria decision support: a short worked example | multi-criteria decision analysis | `data-science` | Service: Multi-criteria decision support |
+| 15 | Model versions: how to repeat a result | model versioning | `platform-engineering` | Service: MLOps and AI platforms |
+| 16 | Multi-criteria decisions: a worked example | multi-criteria decision analysis | `data-science` | Service: Multi-criteria decision support |
 
 ## From our own work
 
@@ -59,7 +59,7 @@ The rule behind the rating: a small site cannot win a general question against I
 |---|---|---|---|
 | 3 | What LLMs can safely do in a hospital today | Research papers only | No plain, practical answer exists. Healthcare is our field |
 | 4 | Air-gapped AI: what works without internet | Almost only NVIDIA product manuals | No plain guide exists. The post matches a service we sell |
-| 12 | De-identifying clinical text: rules, models, or LLMs? | Research papers only | We have our own papers on this subject |
+| 12 | De-identifying notes: rules, models, or LLMs? | Research papers only | We have our own papers on this subject |
 | 14 | RAG on FHIR: search over patient records | One personal blog post and a few papers | Very narrow. Few pages compete |
 | 2 | What a local LLM costs to run | One paper, small blogs, vendor reports | Buyers search this before they spend. Our own numbers would stand out |
 
@@ -82,8 +82,8 @@ The rule behind the rating: a small site cannot win a general question against I
 | 6 | AI agents: where a person must stay in control | AWS, Atlassian, Zapier, Oracle, Auth0 |
 | 9 | MLOps explained for the people who pay for it | IBM, Google, Lenovo, ServiceNow |
 | 10 | How to size a server for a local LLM | Lenovo, VMware, DigitalOcean. Better as a part of post 2 |
-| 15 | Tracking model versions so results can be repeated | Many tool vendors |
-| 16 | Multi-criteria decision support: a short worked example | Government guides. Few buyers search this |
+| 15 | Model versions: how to repeat a result | Many tool vendors |
+| 16 | Multi-criteria decisions: a worked example | Government guides. Few buyers search this |
 | 18 | How ModelPark or MinaMed solves one concrete problem | Few people search for it. Better on the product sites |
 
 A low rating is about search only. Such a post can still be useful to send to a client.
@@ -99,7 +99,7 @@ A low rating is about search only. Such a post can still be useful to send to a 
 
 - **Posts 11 and 14 come from client projects.** They need the client's yes, or they must stay general.
 - **Posts 2 and 10 need real numbers.** They only work with costs and sizes from our own projects.
-- **All working titles fit the limit** of 60 characters. A new title must fit too.
+- **All working titles fit the limit** of 48 characters. A new title must fit too.
 
 ## Abbreviations
 
