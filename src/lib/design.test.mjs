@@ -110,13 +110,19 @@ test("old anchor links still land on a section", () => {
 	}
 });
 
-// The post data holds the full text of every post. A client component that
-// imports it would send all of it to the browser.
-test("no client component imports the post data", () => {
+// The post data holds the full text of every post. If a client component
+// reaches it, all of it goes to the browser. The index files of
+// components/ui and components/sections re-export server components that
+// import the post data, so a client component must import single files.
+test("no client component can reach the post data", () => {
 	for (const f of allSrc) {
 		const src = readFileSync(f, "utf8");
 		if (!/^["']use client["']/.test(src)) continue;
 		assert.ok(!/data\/posts["']/.test(src), `${f}: imports the post data`);
+		assert.ok(
+			!/from ["']@\/components\/(ui|sections)["']/.test(src),
+			`${f}: imports a components index. Import the single file, for example "@/components/ui/Button"`,
+		);
 	}
 });
 
