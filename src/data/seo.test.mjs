@@ -8,12 +8,18 @@ import {
 	organizationSchema,
 	personSchema,
 	sitemapEntries,
+	shareImage,
+	blogMetadata,
+	postMetadata,
+	blogPostingSchema,
+	jsonLd,
+	rssXml,
 } from "./seo.ts";
 
 const keys = Object.keys(pages);
 
-test("there are four pages", () => {
-	assert.deepEqual([...keys].sort(), ["home", "portfolio", "privacy", "research"]);
+test("there are five pages", () => {
+	assert.deepEqual([...keys].sort(), ["blog", "home", "portfolio", "privacy", "research"]);
 });
 
 test("every page has its own canonical address and full share data", () => {
@@ -73,13 +79,83 @@ test("structured data names all three strengths and points to a real logo", () =
 	assert.match(personSchema.description, /20\+ years/);
 });
 
-test("the sitemap lists every page once, with full addresses", () => {
-	const urls = sitemapEntries().map((e) => e.url);
-	assert.equal(urls.length, keys.length);
-	assert.equal(new Set(urls).size, urls.length);
-	assert.equal(new Set(keys.map((k) => pages[k].path)).size, keys.length);
-	assert.ok(urls.includes("https://ydatalabs.nl"));
-	for (const key of keys.filter((k) => k !== "home")) {
-		assert.ok(urls.includes(`https://ydatalabs.nl${pages[key].path}`), key);
+const post = {
+	slug: "first-post",
+	title: "Why <script> & friends need care",
+	description: "A short text about the post.",
+	date: "2026-12-01",
+	audience: "leaders",
+	topic: "ai-engineering",
+	author: "Dr. Veysel Kocaman",
+	draft: false,
+	readingMinutes: 4,
+};
+
+test("the sitemap lists every page once, and the blog only when it has posts", () => {
+	const empty = sitemapEntries().map((e) => e.url);
+	assert.equal(empty.length, keys.length - 1);
+	assert.equal(new Set(empty).size, empty.length);
+	assert.ok(empty.includes("https://ydatalabs.nl"));
+	assert.ok(!empty.some((u) => u.includes("/blog")));
+	for (const key of keys.filter((k) => k !== "home" && k !== "blog")) {
+		assert.ok(empty.includes(`https://ydatalabs.nl${pages[key].path}`), key);
 	}
+
+	const full = sitemapEntries([post]);
+	assert.equal(full.length, keys.length + 1);
+	assert.ok(full.some((e) => e.url === "https://ydatalabs.nl/blog"));
+	const entry = full.find((e) => e.url === "https://ydatalabs.nl/blog/first-post");
+	assert.equal(entry.lastModified, "2026-12-01");
+});
+
+test("the empty blog is hidden from Google, and the filled blog is not", () => {
+	assert.deepEqual(blogMetadata(0).robots, { index: false, follow: true });
+	assert.equal(blogMetadata(1).robots, undefined);
+	for (const m of [blogMetadata(0), blogMetadata(1)]) {
+		assert.equal(m.alternates.canonical, "/blog");
+		assert.equal(m.alternates.types["application/rss+xml"], "/blog/rss.xml");
+		assert.equal(m.openGraph.images.length, 1);
+	}
+});
+
+test("a post has its own title, address, and share data", () => {
+	const m = postMetadata(post);
+	assert.equal(m.title.absolute, `${post.title} | yDataLabs`);
+	assert.equal(m.description, post.description);
+	assert.equal(m.alternates.canonical, "/blog/first-post");
+	assert.equal(m.openGraph.type, "article");
+	assert.equal(m.openGraph.url, "/blog/first-post");
+	assert.equal(m.openGraph.publishedTime, "2026-12-01");
+	assert.deepEqual(m.openGraph.images, [shareImage]);
+	assert.equal(m.twitter.card, "summary_large_image");
+	const own = postMetadata({ ...post, image: "/images/blog/x.webp" });
+	assert.deepEqual(own.openGraph.images, [{ url: "/images/blog/x.webp" }]);
+	assert.deepEqual(own.twitter.images, [{ url: "/images/blog/x.webp" }]);
+});
+
+test("a post carries BlogPosting data that a title cannot break", () => {
+	const s = blogPostingSchema(post);
+	assert.equal(s["@type"], "BlogPosting");
+	assert.equal(s.headline, post.title);
+	assert.equal(s.datePublished, "2026-12-01");
+	assert.equal(s.author.name, "Dr. Veysel Kocaman");
+	assert.equal(s.publisher.name, "yDataLabs");
+	assert.equal(s.mainEntityOfPage, "https://ydatalabs.nl/blog/first-post");
+	assert.equal(s.image, "https://ydatalabs.nl/og-image.png");
+	const text = jsonLd(s);
+	assert.ok(!text.includes("<"));
+	assert.deepEqual(JSON.parse(text), s);
+});
+
+test("the feed is valid with zero posts and escapes titles", () => {
+	const empty = rssXml([]);
+	assert.match(empty, /^<\?xml version="1\.0" encoding="UTF-8"\?>\n<rss version="2\.0"/);
+	assert.match(empty, /<link>https:\/\/ydatalabs\.nl\/blog<\/link>/);
+	assert.doesNotMatch(empty, /<item>/);
+
+	const xml = rssXml([post]);
+	assert.match(xml, /<title>Why &lt;script&gt; &amp; friends need care<\/title>/);
+	assert.match(xml, /<link>https:\/\/ydatalabs\.nl\/blog\/first-post<\/link>/);
+	assert.match(xml, /<guid>https:\/\/ydatalabs\.nl\/blog\/first-post<\/guid>/);
+	assert.match(xml, /<pubDate>Tue, 01 Dec 2026 00:00:00 GMT<\/pubDate>/);
 });

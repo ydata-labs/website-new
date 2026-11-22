@@ -5,16 +5,17 @@ export interface NavItem {
 }
 
 // "Contact" is the button in the header, so it is not in this list.
-// "Blog" joins when the blog has its first post (phase 3).
-export const mainNavigation: NavItem[] = [
+// "Blog" shows only when the blog has at least one published post.
+export const mainNav = (hasBlog: boolean): NavItem[] => [
 	{ label: "Solutions", href: "/#solutions" },
 	{ label: "Work", href: "/portfolio" },
 	{ label: "Research", href: "/research" },
+	...(hasBlog ? [{ label: "Blog", href: "/blog" }] : []),
 ];
 
-export const footerNavigation = {
+export const footerNav = (hasBlog: boolean) => ({
 	site: [
-		...mainNavigation,
+		...mainNav(hasBlog),
 		{ label: "Contact", href: "/#contact" },
 		{ label: "Privacy", href: "/privacy" },
 	],
@@ -22,7 +23,7 @@ export const footerNavigation = {
 		{ label: "ModelPark", href: "https://modelpark.app", external: true },
 		{ label: "MinaMed", href: "https://minamed.app", external: true },
 	],
-};
+});
 
 // Keep these in step with `sameAs` in src/data/seo.ts.
 export const socialLinks: NavItem[] = [

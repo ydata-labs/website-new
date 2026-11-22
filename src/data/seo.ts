@@ -1,6 +1,7 @@
 // Page titles, descriptions, share data, and structured data.
 // Keep this file free of value imports: `pnpm test` runs it with plain Node.
 import type { Metadata } from "next";
+import type { PostMeta } from "./blog";
 
 const SITE = "yDataLabs";
 
@@ -11,7 +12,7 @@ export const shareImage = {
 	alt: "yDataLabs: LLMs and AI that run where your data lives.",
 };
 
-export type PageKey = "home" | "portfolio" | "research" | "privacy";
+export type PageKey = "home" | "portfolio" | "research" | "blog" | "privacy";
 
 export const pages: Record<
 	PageKey,
@@ -35,6 +36,12 @@ export const pages: Record<
 		description:
 			"Selected papers and talks by Dr. Veysel Kocaman on clinical NLP, medical language models, and healthcare AI. 40+ peer-reviewed publications.",
 	},
+	blog: {
+		path: "/blog",
+		title: "Blog: Notes on Private AI and LLMs",
+		description:
+			"Posts from yDataLabs on LLMs, on-premises AI, platform engineering, and data science. For leaders who plan AI work and for researchers.",
+	},
 	privacy: {
 		path: "/privacy",
 		title: "Privacy",
@@ -45,11 +52,22 @@ export const pages: Record<
 
 const SITE_URL = "https://ydatalabs.nl";
 
+const FEED_PATH = "/blog/rss.xml";
+const postPath = (post: PostMeta) => `${pages.blog.path}/${post.slug}`;
+
 // The sitemap is built from `pages`, so a new page cannot be forgotten.
-export const sitemapEntries = () =>
-	Object.values(pages).map(({ path }) => ({
-		url: path === "/" ? SITE_URL : SITE_URL + path,
-	}));
+// The blog page is listed only when the blog has posts. Every post is listed.
+export const sitemapEntries = (
+	posts: PostMeta[] = [],
+): { url: string; lastModified?: string }[] => [
+	...Object.values(pages)
+		.filter(({ path }) => path !== pages.blog.path || posts.length > 0)
+		.map(({ path }) => ({ url: path === "/" ? SITE_URL : SITE_URL + path })),
+	...posts.map((post) => ({
+		url: SITE_URL + postPath(post),
+		lastModified: post.date,
+	})),
+];
 
 // The home title already carries the brand name.
 export const fullTitle = (key: PageKey) =>
@@ -81,6 +99,106 @@ export function pageMetadata(key: PageKey): Metadata {
 			images: [shareImage],
 		},
 	};
+}
+
+// The blog list. While the blog is empty, Google is asked not to index it.
+export function blogMetadata(postCount: number): Metadata {
+	const base = pageMetadata("blog");
+	return {
+		...base,
+		alternates: {
+			...base.alternates,
+			types: { "application/rss+xml": FEED_PATH },
+		},
+		...(postCount === 0 && { robots: { index: false, follow: true } }),
+	};
+}
+
+// One post. Same shape as pageMetadata(), with the details of the post.
+export function postMetadata(post: PostMeta): Metadata {
+	const title = `${post.title} | ${SITE}`;
+	const path = postPath(post);
+	const images = [post.image ? { url: post.image } : shareImage];
+	return {
+		title: { absolute: title },
+		description: post.description,
+		alternates: { canonical: path },
+		openGraph: {
+			type: "article",
+			siteName: SITE,
+			locale: "en_US",
+			url: path,
+			title,
+			description: post.description,
+			publishedTime: post.date,
+			authors: [post.author],
+			images,
+		},
+		twitter: {
+			card: "summary_large_image",
+			title,
+			description: post.description,
+			images,
+		},
+	};
+}
+
+export const blogPostingSchema = (post: PostMeta) => ({
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	headline: post.title,
+	description: post.description,
+	datePublished: post.date,
+	author: { "@type": "Person", name: post.author },
+	publisher: {
+		"@type": "Organization",
+		name: SITE,
+		logo: { "@type": "ImageObject", url: `${SITE_URL}/apple-icon.png` },
+	},
+	mainEntityOfPage: SITE_URL + postPath(post),
+	image: SITE_URL + (post.image ?? shareImage.url),
+});
+
+// Text for a <script type="application/ld+json"> tag. A "<" in a post title
+// (for example "</script>") must not end the tag early.
+export const jsonLd = (data: object) =>
+	JSON.stringify(data).replace(/</g, "\\u003c");
+
+const xml = (text: string) =>
+	text
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;");
+
+// The feed at /blog/rss.xml (RSS 2.0). Valid with zero posts.
+export function rssXml(posts: PostMeta[]): string {
+	const items = posts.map((post) => {
+		const url = SITE_URL + postPath(post);
+		return [
+			"<item>",
+			`<title>${xml(post.title)}</title>`,
+			`<link>${url}</link>`,
+			`<guid>${url}</guid>`,
+			`<pubDate>${new Date(post.date).toUTCString()}</pubDate>`,
+			`<description>${xml(post.description)}</description>`,
+			"</item>",
+		].join("\n");
+	});
+	return [
+		`<?xml version="1.0" encoding="UTF-8"?>`,
+		`<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">`,
+		"<channel>",
+		`<title>${SITE} Blog</title>`,
+		`<link>${SITE_URL}${pages.blog.path}</link>`,
+		`<description>${xml(pages.blog.description)}</description>`,
+		"<language>en</language>",
+		`<atom:link href="${SITE_URL}${FEED_PATH}" rel="self" type="application/rss+xml" />`,
+		...items,
+		"</channel>",
+		"</rss>",
+		"",
+	].join("\n");
 }
 
 const founderFacts =
