@@ -78,9 +78,53 @@ Do not write your own "contact us" ending. Every post page already ends with a "
 ### Words
 
 - Use plain words and short sentences.
-- Do not use sales words: "cutting-edge", "revolutionize", "seamless", and words like them.
+- Do not use sales words: "cutting-edge", "revolutionize", "seamless", and words like them. `pnpm test` fails on the most common ones.
 - Explain an abbreviation the first time you use it.
 - No emoji. `pnpm test` fails on one.
+
+### Say each thing once
+
+A reader notices fast when a text repeats itself. It feels like padding.
+
+- **Each fact appears once.** If two sections need the same fact, the sections are cut in the wrong place. Move them.
+- **No opening that lists what the post will say.** Start with the answer.
+- **No closing that repeats what the post said.** Stop after the last new point.
+- **The first sentence under a heading must not repeat the heading.**
+- **Test every paragraph:** what is new here? If the answer is "nothing", delete the paragraph.
+
+`pnpm test` fails when the same sentence appears twice in a post. It cannot find the same idea in other words. Only a reader can find that.
+
+### Sound like a person
+
+A reader must not be able to tell that an AI assistant helped. There is no trick for this. The text sounds like a person when the content comes from a person.
+
+Where the content comes from:
+
+- **Start from your own material.** A case you saw, a number you measured, a mistake you made, a choice you would not make again. An assistant can turn notes into a draft. It cannot supply the experience.
+- **Take a position.** "We would not use a cloud model for this, because..." is a sentence only someone with experience writes. A text that weighs "on the one hand" and "on the other hand" with no conclusion reads as machine text.
+- **Be concrete.** Replace "many organisations" with who. Replace "significant" with the number.
+
+Marks of machine text. Remove every one:
+
+| Mark | Example | Do this |
+|---|---|---|
+| An opening that sets a scene | "In today's fast-paced world..." | Start with the answer |
+| A closing that sums up | "In conclusion...", "Overall..." | End on the last new point |
+| A filler warning | "It is important to note that..." | Say the thing |
+| Groups of three, again and again | "fast, safe, and simple" | Name the one that matters |
+| A fake contrast | "It is not just a tool, it is a partner" | Say what it is |
+| A question as a bridge | "So what does this mean?" | Go straight to the point |
+| Fashion words | "delve", "landscape", "unlock", "game-changer" | Use the plain word |
+| The same shape in every section | One intro line, three bullets, one closing line | Let each section have the shape its content needs |
+| Many long dashes | A dash in every paragraph | Use a full stop |
+| Bold at the start of every bullet | As in a slide deck | Bold only what the reader must not miss |
+
+`pnpm test` fails on the most common stock phrases. The list is `STOCK_PHRASES` in `src/lib/blog.mjs`.
+
+Two last checks:
+
+1. **Read the post out loud.** Rewrite every sentence you would not say to a colleague.
+2. **The person named as `author` edits every sentence.** Their name is on the post, so the words must be theirs.
 
 ### Useful parts
 
@@ -125,6 +169,8 @@ You do not need to check these by hand. The message names the file.
 | A `# ` heading in the text | stops | stops |
 | A broken formula | stops | stops |
 | An emoji | stops | does not check |
+| The same sentence twice | stops | does not check |
+| A stock phrase, such as "cutting-edge" or "in conclusion" | stops | does not check |
 | An image file that does not exist | stops | does not check |
 
 So always run `pnpm test` before you publish.
@@ -136,6 +182,9 @@ The build cannot check these. A person must.
 - [ ] The post answers one question for one reader.
 - [ ] The first paragraph gives the answer.
 - [ ] The title and the description hold the search phrase and read well alone.
+- [ ] No fact or idea appears twice.
+- [ ] The post holds something from our own work: a case, a number, or a clear opinion.
+- [ ] The author has read the post out loud and edited every sentence.
 - [ ] Every fact, number, and name is true. Client work has the owner's yes.
 - [ ] Every link opens the right page.
 - [ ] Every image has a description.
