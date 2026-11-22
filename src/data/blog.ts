@@ -19,6 +19,25 @@ export interface PostMeta {
 	readingMinutes: number;
 }
 
+// The shape of posts.generated.json.
+export interface PostData {
+	posts: PostMeta[];
+	html: Record<string, string>;
+}
+
+// The second guard against a draft on the live site. The build script already
+// leaves drafts out. But the JSON on disk can be stale: `pnpm dev` writes it
+// with drafts, and a build that skips the script would use that file.
+export function withoutDrafts(data: PostData): PostData {
+	const posts = data.posts.filter((post) => !post.draft);
+	return {
+		posts,
+		html: Object.fromEntries(
+			posts.map((post) => [post.slug, data.html[post.slug]]),
+		),
+	};
+}
+
 export const audienceLabels: Record<Audience, string> = {
 	leaders: "For leaders",
 	research: "Research",

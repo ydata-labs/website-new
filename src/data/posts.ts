@@ -10,9 +10,11 @@
 // too big (some hundreds of posts).
 import "server-only";
 import generated from "./posts.generated.json";
-import type { PostMeta } from "./blog";
+import { withoutDrafts, type PostData } from "./blog";
 
-const data = generated as { posts: PostMeta[]; html: Record<string, string> };
+const all = generated as PostData;
+// A production build never holds a draft, even when the JSON file is stale.
+const data = process.env.NODE_ENV === "production" ? withoutDrafts(all) : all;
 
 // Newest first. Drafts are in here only under `pnpm dev`.
 export const posts = data.posts;

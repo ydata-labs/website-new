@@ -55,12 +55,13 @@ const markdown = new Marked({
 		{
 			// $...$ inside a line. The rule that keeps prices like "$5 and $10"
 			// as text: no space right after the first $, no space right before
-			// the last $, and no digit right after the last $.
+			// the last $, and no digit right after the last $. A formula also
+			// never holds a backtick, so it cannot run into a code span.
 			name: "mathInline",
 			level: "inline",
 			start: (src) => src.match(/(?<!\\)\$/)?.index,
 			tokenizer(src) {
-				const m = /^\$(?!\s)((?:\\[^\n]|[^\\$\n])+?)(?<!\s)\$(?!\d)/.exec(src);
+				const m = /^\$(?!\s)((?:\\[^\n]|[^\\$\n`])+?)(?<!\s)\$(?!\d)/.exec(src);
 				if (m) return { type: "mathInline", raw: m[0], text: m[1] };
 			},
 			renderer: (token) => math(token.text, false),
