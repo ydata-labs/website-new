@@ -52,7 +52,7 @@ export function Header() {
 							href="/#contact"
 							variant="outline"
 							size="sm"
-							className="border-accent text-accent lowercase"
+							className="border-accent text-accent lowercase hover:bg-accent hover:text-page"
 						>
 							Contact
 						</Button>
