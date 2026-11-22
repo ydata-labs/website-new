@@ -45,17 +45,60 @@ Use `audience: research`.
 | 17 | "Our paper in plain words": one post per paper | The facts are already published. The research page lists the papers |
 | 18 | How ModelPark or MinaMed solves one concrete problem | Our own products. No client approval is needed |
 
-## A good start
+## Search potential
 
-1. **Post 1.** It matches the main search terms of the home page.
-2. **Post 3.** Healthcare is our strongest field.
-3. **Post 17.** It is the fastest to write, and nothing in it needs approval.
+Checked on 2026-11-22 with one web search per phrase. The check looked at who is on the first page of results.
+
+The rule behind the rating: a small site cannot win a general question against IBM, Google, or Microsoft. It can win a narrow question that only papers or product manuals answer today.
+
+**What the check does not show:** how many people search for a phrase. A keyword tool or Google Search Console gives that number.
+
+### High
+
+| # | Post | Who ranks today | Why we can win |
+|---|---|---|---|
+| 3 | What LLMs can safely do in a hospital today | Research papers only | No plain, practical answer exists. Healthcare is our field |
+| 4 | Air-gapped AI: what works without internet | Almost only NVIDIA product manuals | No plain guide exists. The post matches a service we sell |
+| 12 | De-identifying clinical text: rules, models, or LLMs? | Research papers only | We have our own papers on this subject |
+| 14 | RAG on FHIR: search over patient records | One personal blog post and a few papers | Very narrow. Few pages compete |
+| 2 | What a local LLM costs to run | One paper, small blogs, vendor reports | Buyers search this before they spend. Our own numbers would stand out |
+
+### Medium
+
+| # | Post | Who ranks today | How to raise the chance |
+|---|---|---|---|
+| 1 | Local LLM or cloud API: how to choose | Many small developer blogs | Narrow it: "for patient data" or "for sensitive data" |
+| 13 | Extracting facts from clinical notes with an LLM | Research papers | Write the practical version of what the papers say |
+| 8 | How to check if an AI idea is feasible | Google and Microsoft guides, and small agencies | Small agencies rank here, so we can too. Add a healthcare example |
+| 11 | LLM-as-a-judge: grading answers at scale | Microsoft, NVIDIA, Splunk | Narrow it to medical answers |
+| 7 | How to test an LLM before you trust it | Thoughtworks, Microsoft | Narrow it to medical LLMs. Our paper on red teaming medical LLMs supports it |
+| 17 | Our paper in plain words | The paper itself | Few searches, but easy to rank for the paper title. It builds trust |
+
+### Low
+
+| # | Post | Who ranks today |
+|---|---|---|
+| 5 | Open or commercial LLM: which fits your task? | Salesforce, Cloudera, Udemy, and many more |
+| 6 | AI agents: where a person must stay in control | AWS, Atlassian, Zapier, Oracle, Auth0 |
+| 9 | MLOps explained for the people who pay for it | IBM, Google, Lenovo, ServiceNow |
+| 10 | How to size a server for a local LLM | Lenovo, VMware, DigitalOcean. Better as a part of post 2 |
+| 15 | Tracking model versions so results can be repeated | Many tool vendors |
+| 16 | Multi-criteria decision support: a short worked example | Government guides. Few buyers search this |
+| 18 | How ModelPark or MinaMed solves one concrete problem | Few people search for it. Better on the product sites |
+
+A low rating is about search only. Such a post can still be useful to send to a client.
+
+## A good order
+
+1. **Post 3.** High potential, and our strongest field.
+2. **Post 4.** High potential, and almost no competition.
+3. **Post 12.** High potential, and our own papers back it.
+4. **Post 1,** with the narrow title. It matches the main search terms of the home page.
 
 ## Check before you pick one
 
 - **Posts 11 and 14 come from client projects.** They need the client's yes, or they must stay general.
 - **Posts 2 and 10 need real numbers.** They only work with costs and sizes from our own projects.
-- **Nobody has checked the search phrases.** They are guesses at what people type. Confirm them with a keyword tool.
 - **All working titles fit the limit** of 60 characters. A new title must fit too.
 
 ## Abbreviations
