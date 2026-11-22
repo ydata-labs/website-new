@@ -11,6 +11,7 @@ export interface PostMeta {
 	title: string;
 	description: string;
 	date: string; // YYYY-MM-DD
+	updated?: string; // YYYY-MM-DD. The day of the last change, if any
 	audience: Audience;
 	topic: Topic;
 	author: string;

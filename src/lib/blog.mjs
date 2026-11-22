@@ -12,7 +12,10 @@ import katex from "katex";
 const AUDIENCES = ["leaders", "research"];
 const TOPICS = ["ai-engineering", "platform-engineering", "data-science"];
 const REQUIRED = ["title", "description", "date", "audience", "topic", "author"];
-const KEYS = [...REQUIRED, "draft", "image"];
+const KEYS = [...REQUIRED, "draft", "image", "updated"];
+// Google cuts longer text in its results. The same limits as for the pages
+// (src/data/seo.test.mjs).
+const MAX_LENGTH = { title: 60, description: 160 };
 const WORDS_PER_MINUTE = 200;
 
 const escapeHtml = (text) =>
@@ -115,8 +118,19 @@ export function parsePost(slug, raw) {
 	for (const key of REQUIRED) {
 		if (!details[key]) fail(`"${key}" is missing`);
 	}
+	for (const [key, most] of Object.entries(MAX_LENGTH)) {
+		const { length } = details[key];
+		if (length > most) {
+			fail(`${key} is ${length} characters long. The most is ${most}`);
+		}
+	}
 	if (!isRealDay(details.date)) {
 		fail("date must be a real day, written as YYYY-MM-DD");
+	}
+	// Dates in this form sort as text.
+	const { updated } = details;
+	if (updated !== undefined && !(isRealDay(updated) && updated >= details.date)) {
+		fail("updated must be a real day, written as YYYY-MM-DD, and not before date");
 	}
 	if (!AUDIENCES.includes(details.audience)) {
 		fail(`audience must be one of: ${AUDIENCES.join(", ")}`);
@@ -145,6 +159,7 @@ export function parsePost(slug, raw) {
 		author: details.author,
 		draft: draft === "true",
 		...(details.image && { image: details.image }),
+		...(updated && { updated }),
 		readingMinutes: Math.max(
 			1,
 			Math.round(body.trim().split(/\s+/).length / WORDS_PER_MINUTE),

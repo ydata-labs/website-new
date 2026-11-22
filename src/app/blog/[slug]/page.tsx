@@ -58,6 +58,12 @@ export default async function PostPage({ params }: Props) {
 					<h1 className="text-h2 md:text-h1 mb-4 break-words">{post.title}</h1>
 					<p className="font-heading text-sm text-muted">
 						<time dateTime={post.date}>{formatDate(post.date)}</time>
+						{post.updated && (
+							<>
+								{" · Updated "}
+								<time dateTime={post.updated}>{formatDate(post.updated)}</time>
+							</>
+						)}
 						{" · "}
 						{post.author}
 						{" · "}

@@ -106,6 +106,8 @@ test("the sitemap lists every page once, and the blog only when it has posts", (
 	assert.ok(full.some((e) => e.url === "https://ydatalabs.nl/blog"));
 	const entry = full.find((e) => e.url === "https://ydatalabs.nl/blog/first-post");
 	assert.equal(entry.lastModified, "2026-12-01");
+	const changed = sitemapEntries([{ ...post, updated: "2027-01-15" }]);
+	assert.equal(changed.at(-1).lastModified, "2027-01-15");
 });
 
 test("the empty blog is hidden from Google, and the filled blog is not", () => {
@@ -126,6 +128,9 @@ test("a post has its own title, address, and share data", () => {
 	assert.equal(m.openGraph.type, "article");
 	assert.equal(m.openGraph.url, "/blog/first-post");
 	assert.equal(m.openGraph.publishedTime, "2026-12-01");
+	assert.equal("modifiedTime" in m.openGraph, false);
+	const changed = postMetadata({ ...post, updated: "2027-01-15" });
+	assert.equal(changed.openGraph.modifiedTime, "2027-01-15");
 	assert.deepEqual(m.openGraph.images, [shareImage]);
 	assert.equal(m.twitter.card, "summary_large_image");
 	const own = postMetadata({ ...post, image: "/images/blog/x.webp" });
@@ -138,6 +143,12 @@ test("a post carries BlogPosting data that a title cannot break", () => {
 	assert.equal(s["@type"], "BlogPosting");
 	assert.equal(s.headline, post.title);
 	assert.equal(s.datePublished, "2026-12-01");
+	// Without an "updated" day, the post was last changed when it went live.
+	assert.equal(s.dateModified, "2026-12-01");
+	assert.equal(
+		blogPostingSchema({ ...post, updated: "2027-01-15" }).dateModified,
+		"2027-01-15",
+	);
 	assert.equal(s.author.name, "Dr. Veysel Kocaman");
 	assert.equal(s.publisher.name, "yDataLabs");
 	assert.equal(s.mainEntityOfPage, "https://ydatalabs.nl/blog/first-post");
