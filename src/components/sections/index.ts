@@ -6,3 +6,5 @@ export { Partners } from "./Partners";
 export { Contact } from "./Contact";
 export { PortfolioSummary } from "./PortfolioSummary";
 
+export { Paths } from "./Paths";
+export { Advice } from "./Advice";

@@ -62,13 +62,13 @@ export default function ResearchPage() {
 						{"// research"}
 					</p>
 					<h1 className="text-h2 md:text-h1 mb-6">Papers and talks</h1>
-					<p className="text-body-lg text-muted max-w-2xl">
+					<p className="text-body-lg text-muted max-w-prose">
 						Our work starts in research. Dr. Veysel Kocaman, the founder of
 						yDataLabs, has more than 40 peer-reviewed publications in medical
 						AI. His work covers clinical language processing, medical language
 						models, and how to test them before they reach a hospital.
 					</p>
-					<p className="mt-4 text-muted max-w-2xl">
+					<p className="mt-4 text-muted max-w-prose">
 						He holds a PhD in Computer Vision from Leiden University. This page
 						shows a selection.
 					</p>
@@ -96,7 +96,7 @@ export default function ResearchPage() {
 
 					<section className="mt-16 rounded-lg border border-line bg-surface p-8">
 						<h2 className="text-h4 mb-3">Want to work on a hard problem?</h2>
-						<p className="text-muted mb-6 max-w-xl">
+						<p className="text-muted mb-6 max-w-prose">
 							We bring this research into systems that run on your own
 							servers. Tell us what you are working on.
 						</p>
