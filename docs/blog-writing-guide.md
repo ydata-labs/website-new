@@ -8,6 +8,8 @@ The file `content/blog/writing-a-post.md` is the template. It shows the syntax: 
 
 ## 1. Before you write
 
+Need a subject? [blog-post-ideas.md](blog-post-ideas.md) has a list of possible posts.
+
 Answer these five questions first. If you cannot answer one, the post is not ready.
 
 | Question | Why it matters |
