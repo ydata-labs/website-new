@@ -68,8 +68,6 @@ test("type scale tokens are valid sizes with a line height", () => {
 // Files that still have the old look. Each task removes its files.
 // Task 8 deletes this list.
 const NOT_YET = [
-	"src/components/ui/Header.tsx",
-	"src/components/ui/Footer.tsx",
 	"src/components/sections/Hero.tsx",
 	"src/components/sections/Solutions.tsx",
 	"src/components/sections/About.tsx",

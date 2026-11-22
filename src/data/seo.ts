@@ -115,6 +115,7 @@ export const organizationSchema = {
 	sameAs: [
 		"https://linkedin.com/company/ydatalabs",
 		"https://twitter.com/ydatalabs",
+		"https://github.com/ydata-labs",
 	],
 	areaServed: "Global",
 	knowsAbout: [
