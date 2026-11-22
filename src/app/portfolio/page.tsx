@@ -34,7 +34,7 @@ const approach = [
 	},
 	{
 		title: "Measured results",
-		desc: "Every project reports its impact in numbers",
+		desc: "We report impact in numbers wherever we can measure it",
 	},
 ];
 
@@ -58,8 +58,7 @@ export default function PortfolioPage() {
 						</h1>
 						<p className="text-body-lg text-muted max-w-prose mb-8">
 							LLM systems, medical language processing, and clinical MLOps
-							platforms for hospitals and pharma. Built and run where the data
-							lives.
+							platforms for hospitals and pharma.
 						</p>
 						<div className="flex flex-wrap gap-4">
 							<Button href="/#contact" icon={<ArrowIcon />}>
@@ -78,7 +77,7 @@ export default function PortfolioPage() {
 						<SectionHeader
 							eyebrow="about yDataLabs"
 							title="AI for the most sensitive data"
-							description="yDataLabs is a Dutch consultancy for healthcare AI and medical data science. We advise teams, and we build the systems."
+							description="yDataLabs is a Dutch AI consultancy with deep roots in healthcare. We advise teams, and we build and run the systems."
 						/>
 
 						<div className="mt-12 grid gap-6 lg:grid-cols-2">
@@ -277,7 +276,7 @@ export default function PortfolioPage() {
 									</tr>
 								</thead>
 								<tbody>
-									{allProjects.slice(0, 10).map((project) => (
+									{allProjects.map((project) => (
 										<tr
 											key={project.id}
 											className="border-b border-line align-top last:border-b-0"
@@ -291,7 +290,7 @@ export default function PortfolioPage() {
 											<td className="px-5 py-4 whitespace-nowrap text-muted">
 												{project.duration}
 											</td>
-											<td className="hidden max-w-md px-5 py-4 text-muted lg:table-cell">
+											<td className="hidden max-w-[28rem] px-5 py-4 text-muted lg:table-cell">
 												{project.description}
 											</td>
 											<td className="px-5 py-4 text-ink">{project.impact}</td>
@@ -382,7 +381,6 @@ export default function PortfolioPage() {
 									href="mailto:info@ydatalabs.nl"
 									variant="outline"
 									size="lg"
-									external
 									icon={<Icon name="mail" className="h-5 w-5" />}
 									iconPosition="left"
 								>

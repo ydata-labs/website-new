@@ -79,6 +79,9 @@ test("no file has emoji, entry animation, or old colors", () => {
 		if (f.endsWith(".css")) continue;
 		assert.ok(!/\banimate-|\bopacity-0\b/.test(src), `${f}: entry animation`);
 		assert.ok(!OLD_CLASS.test(src), `${f}: old color class`);
+		// `scroll-smooth` as a utility class beats the reduced-motion rule in the
+		// base layer. `outline-none` removes the global focus ring.
+		assert.ok(!/\bscroll-smooth\b|\boutline-none\b/.test(src), `${f}: scroll-smooth or outline-none`);
 	}
 });
 

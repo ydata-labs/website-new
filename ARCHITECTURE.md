@@ -66,11 +66,12 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <Products />
+        <Paths />
         <Solutions />
-        <About />
-        <PortfolioSummary />
-        <Partners />
+        <Advice />
+        <Healthcare />
+        <Products />
+        <Founder />
         <Contact />
       </main>
       <Footer />
@@ -149,7 +150,7 @@ Use them as `bg-page`, `bg-surface`, `border-line`, `text-ink`, `text-bright`,
 - Text colors meet WCAG AA contrast (4.5:1). Input borders meet 3:1.
 - No emoji. Icons come from `src/components/ui/Icon.tsx`.
 - No entry animation: no `animate-` class and no `opacity-0` class. Content is visible at once.
-- One global `:focus-visible` ring, and motion turns off for "reduced motion".
+- The stylesheet has one global `:focus-visible` ring and a "reduced motion" rule. No file uses `scroll-smooth` or `outline-none`, which would defeat them.
 - Every `/images/...` path in the code exists in `public/`.
 - The anchors `solutions`, `advice`, `healthcare`, `products`, `about`, `contact` exist.
 

@@ -63,7 +63,7 @@ export const solutionGroups: SolutionGroup[] = [
 				id: "local-llms",
 				title: "Local LLMs",
 				description:
-					"Open models that run on your own hardware. We pick the model, size the servers, and tune speed and cost. No prompt and no document leaves your network.",
+					"A private LLM on your own hardware. We pick the open model, size the servers, and tune speed and cost. No prompt and no document leaves your network.",
 				icon: "chip",
 			},
 			{

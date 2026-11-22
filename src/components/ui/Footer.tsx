@@ -30,7 +30,7 @@ export function Footer() {
 						>
 							y<span className="text-accent">Data</span>Labs
 						</Link>
-						<p className="mt-4 max-w-sm text-sm text-muted">
+						<p className="mt-4 max-w-[24rem] text-sm text-muted">
 							LLMs and AI that run where your data lives. AI engineering,
 							platform engineering, and data science, proven in healthcare.
 						</p>
