@@ -1,7 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { parsePost, renderMarkdown, selectPosts, buildPosts } from "./blog.mjs";
+import {
+	parsePost,
+	renderMarkdown,
+	selectPosts,
+	buildPosts,
+	styleProblems,
+} from "./blog.mjs";
 
 const good = {
 	title: "A title",
@@ -185,6 +191,39 @@ test("a broken formula stops the build, and the message names the file", () => {
 
 
 // A bad post fails here, before the build.
+test("finds a sentence that is written twice, and stock phrases", () => {
+	assert.deepEqual(
+		styleProblems("A local model keeps your data inside.\n\nIt costs more at the start."),
+		[],
+	);
+	const twice = [
+		"A local model keeps your data inside your walls.",
+		"## Next",
+		"More text here. A local  model keeps your data inside your walls!",
+	].join("\n\n");
+	const found = styleProblems(twice);
+	assert.equal(found.length, 1);
+	assert.match(found[0], /same sentence appears twice: "A local  model keeps/);
+	// Short sentences may repeat. Code, tables, and headings are not prose.
+	assert.deepEqual(styleProblems("It works. Really.\n\nIt works. Yes."), []);
+	const line = "const a = 1; // one two three four five six.";
+	assert.deepEqual(styleProblems(`\`\`\`js\n${line}\n${line}\n\`\`\`\n`), []);
+	const row = "| one two three four five six. | b |";
+	assert.deepEqual(styleProblems(`${row}\n${row}\n`), []);
+	for (const phrase of [
+		"cutting-edge",
+		"Seamlessly",
+		"revolutionise",
+		"In today's fast-paced world",
+		"delve into",
+		"It is important to note",
+	]) {
+		assert.match(styleProblems(`We ${phrase} things.`).join(), /stock phrase/, phrase);
+	}
+	// A word in code is not a word in the text.
+	assert.deepEqual(styleProblems("Call `seamless()` first."), []);
+});
+
 test("every file in content/blog is a valid post", () => {
 	const names = readdirSync("content/blog").filter((n) => n.endsWith(".md"));
 	assert.ok(names.includes("writing-a-post.md"), "the sample post is missing");
@@ -194,6 +233,7 @@ test("every file in content/blog is a valid post", () => {
 		// buildPosts renders the post. Its errors name the file.
 		buildPosts([{ name, raw }], { drafts: true });
 		assert.ok(!/\p{Extended_Pictographic}/u.test(raw), `${name}: emoji`);
+		assert.deepEqual(styleProblems(post.body), [], name);
 		const images = [...raw.matchAll(/\]\((\/[^)\s]+)/g)].map((m) => m[1]);
 		if (post.image) images.push(post.image);
 		for (const path of images.filter((p) => p.startsWith("/images/"))) {

@@ -168,6 +168,57 @@ export function parsePost(slug, raw) {
 	};
 }
 
+// Words that mark sales text or machine-written text.
+// docs/blog-writing-guide.md explains the rule.
+const STOCK_PHRASES = [
+	/cutting[- ]edge/i,
+	/revolutioni[sz]/i,
+	/seamless/i,
+	/game[- ]chang/i,
+	/fast[- ]paced/i,
+	/ever[- ]evolving/i,
+	/\bdelv(e|es|ed|ing)\b/i,
+	/important to note/i,
+	/worth noting/i,
+	/\bin conclusion\b/i,
+	/(unlock|harness)\w* the (full )?(power|potential)/i,
+	/look no further/i,
+	/testament to/i,
+	/navigat\w+ the complexit/i,
+];
+// Shorter sentences ("It works.") may repeat.
+const MIN_WORDS = 6;
+
+// Two style checks on the text of a post. Returns one message per problem.
+// ponytail: it finds the same sentence, not the same idea in other words.
+// Only a reader can find that.
+export function styleProblems(body) {
+	const prose = body
+		.replace(/\r\n?/g, "\n")
+		.replace(/^(```|~~~)[\s\S]*?^\1.*$/gm, "") // code blocks
+		.replace(/^\s*[|#].*$/gm, "") // table rows and headings
+		.replace(/`[^`\n]*`/g, "") // code inside a line
+		.replace(/’/g, "'");
+	const problems = [];
+	for (const pattern of STOCK_PHRASES) {
+		const m = prose.match(pattern);
+		if (m) problems.push(`stock phrase "${m[0]}". Say it in plain words`);
+	}
+	const seen = new Set();
+	for (const sentence of prose.split(/(?<=[.!?])\s+|\n{2,}/)) {
+		const key = sentence
+			.toLowerCase()
+			.replace(/[^\p{L}\p{N}]+/gu, " ")
+			.trim();
+		if (key.split(" ").length < MIN_WORDS) continue;
+		if (seen.has(key)) {
+			problems.push(`the same sentence appears twice: "${sentence.trim()}"`);
+		}
+		seen.add(key);
+	}
+	return problems;
+}
+
 // Newest first. Posts of the same day sort by name, so the order is stable.
 export const selectPosts = (posts, { drafts }) =>
 	posts
