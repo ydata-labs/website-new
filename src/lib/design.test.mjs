@@ -143,3 +143,12 @@ test("the post page works without a page cache", () => {
 	assert.ok(!/export const dynamicParams/.test(page), "dynamicParams is set");
 	assert.match(page, /notFound\(\)/);
 });
+
+// The mono heading font is wide. A long word such as "Immunohistochemistry"
+// in a post title must wrap, not push the phone page sideways.
+test("a long word in a post title cannot widen the page", () => {
+	const page = readFileSync("src/app/blog/[slug]/page.tsx", "utf8");
+	const card = readFileSync("src/components/ui/PostCard.tsx", "utf8");
+	assert.match(page, /<h1 className="[^"]*\bbreak-words\b/);
+	assert.match(card, /<Heading className="[^"]*\bbreak-words\b/);
+});

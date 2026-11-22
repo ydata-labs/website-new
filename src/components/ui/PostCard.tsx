@@ -33,7 +33,7 @@ export function PostCard({
 					</span>
 				)}
 			</p>
-			<Heading className="text-h4 mb-2">
+			<Heading className="text-h4 mb-2 break-words">
 				{/* The ::after layer makes the whole card a link. */}
 				<Link
 					href={`/blog/${post.slug}`}

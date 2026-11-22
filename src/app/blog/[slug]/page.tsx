@@ -38,7 +38,9 @@ export default async function PostPage({ params }: Props) {
 						href="/blog"
 						className="mb-6 inline-block font-heading text-sm text-accent transition-colors hover:text-accent-bright"
 					>
-						{"// blog"}
+						{/* A screen reader would read the slashes out loud. */}
+						<span aria-hidden="true">{"// "}</span>
+						blog
 					</Link>
 					<p className="mb-4 flex flex-wrap gap-2 font-heading text-xs">
 						<span className={`${labelClass} border-accent/40 text-accent`}>
@@ -53,7 +55,7 @@ export default async function PostPage({ params }: Props) {
 							</span>
 						)}
 					</p>
-					<h1 className="text-h2 md:text-h1 mb-4">{post.title}</h1>
+					<h1 className="text-h2 md:text-h1 mb-4 break-words">{post.title}</h1>
 					<p className="font-heading text-sm text-muted">
 						<time dateTime={post.date}>{formatDate(post.date)}</time>
 						{" · "}

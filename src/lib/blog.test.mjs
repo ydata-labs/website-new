@@ -134,10 +134,18 @@ test("text that looks like math stays text", () => {
 	assert.doesNotMatch(renderMarkdown("A price of \\$5 or \\$x\\$."), /katex/);
 	assert.doesNotMatch(renderMarkdown("Run `echo $HOME $PATH` now."), /katex/);
 	assert.doesNotMatch(renderMarkdown("```\n$a$\n```\n"), /katex/);
+	// A formula never starts before a code span and ends inside it.
+	for (const text of ["Set $HOME and `$PATH` first.", "It costs $5 to run `$HOME/bin` here."]) {
+		const html = renderMarkdown(text);
+		assert.doesNotMatch(html, /katex/);
+		assert.match(html, /<code>\$(PATH|HOME\/bin)<\/code>/);
+	}
 });
 
-test("a broken formula stops the build", () => {
+test("a broken formula stops the build, and the message names the file", () => {
 	assert.throws(() => renderMarkdown("$\\frac{a$"));
+	const files = [{ name: "bad-math.md", raw: file({}, "A formula: $\\frac{a$\n") }];
+	assert.throws(() => buildPosts(files, { drafts: true }), /^Error: bad-math\.md: /);
 });
 
 
@@ -148,7 +156,8 @@ test("every file in content/blog is a valid post", () => {
 	for (const name of names) {
 		const raw = readFileSync(`content/blog/${name}`, "utf8");
 		const post = parsePost(name.slice(0, -3), raw);
-		renderMarkdown(post.body);
+		// buildPosts renders the post. Its errors name the file.
+		buildPosts([{ name, raw }], { drafts: true });
 		assert.ok(!/\p{Extended_Pictographic}/u.test(raw), `${name}: emoji`);
 		const images = [...raw.matchAll(/\]\((\/[^)\s]+)/g)].map((m) => m[1]);
 		if (post.image) images.push(post.image);
@@ -161,6 +170,30 @@ test("every file in content/blog is a valid post", () => {
 test("the sample post is a draft", () => {
 	const raw = readFileSync("content/blog/writing-a-post.md", "utf8");
 	assert.equal(parsePost("writing-a-post", raw).draft, true);
+});
+
+// The second guard against a draft on the live site. The first one is the
+// build script, which leaves drafts out of the JSON.
+test("a production build drops drafts, even from a stale JSON file", async () => {
+	const { withoutDrafts } = await import("../data/blog.ts");
+	const data = {
+		posts: [
+			{ slug: "live", draft: false },
+			{ slug: "wip", draft: true },
+		],
+		html: { live: "<p>live</p>", wip: "<p>wip</p>" },
+	};
+	assert.deepEqual(withoutDrafts(data), {
+		posts: [{ slug: "live", draft: false }],
+		html: { live: "<p>live</p>" },
+	});
+	assert.match(readFileSync("src/data/posts.ts", "utf8"), /NODE_ENV === "production" \? withoutDrafts\(/);
+});
+
+test("pnpm build builds the posts first, without drafts", () => {
+	const { scripts } = JSON.parse(readFileSync("package.json", "utf8"));
+	assert.match(scripts.build, /^node scripts\/build-posts\.mjs && next build$/);
+	assert.match(scripts.dev, /build-posts\.mjs --drafts --watch/);
 });
 
 test("dates read well", async () => {
