@@ -22,7 +22,7 @@ export function Header() {
 			<div className="max-w-xl mx-auto px-4 md:px-8">
 				<nav
 					aria-label="Main"
-					className="flex h-16 items-center justify-between"
+					className="flex h-20 items-center justify-between"
 				>
 					<Link href="/" className="flex items-center">
 						<Image
@@ -31,7 +31,7 @@ export function Header() {
 							width={500}
 							height={103}
 							priority
-							className="h-7 w-auto"
+							className="h-9 w-auto md:h-10"
 						/>
 					</Link>
 
