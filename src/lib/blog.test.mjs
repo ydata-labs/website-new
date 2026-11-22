@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { parsePost, renderMarkdown, selectPosts, buildPosts } from "./blog.mjs";
 
 const good = {
@@ -137,4 +138,32 @@ test("text that looks like math stays text", () => {
 
 test("a broken formula stops the build", () => {
 	assert.throws(() => renderMarkdown("$\\frac{a$"));
+});
+
+
+// A bad post fails here, before the build.
+test("every file in content/blog is a valid post", () => {
+	const names = readdirSync("content/blog").filter((n) => n.endsWith(".md"));
+	assert.ok(names.includes("writing-a-post.md"), "the sample post is missing");
+	for (const name of names) {
+		const raw = readFileSync(`content/blog/${name}`, "utf8");
+		const post = parsePost(name.slice(0, -3), raw);
+		renderMarkdown(post.body);
+		assert.ok(!/\p{Extended_Pictographic}/u.test(raw), `${name}: emoji`);
+		const images = [...raw.matchAll(/\]\((\/[^)\s]+)/g)].map((m) => m[1]);
+		if (post.image) images.push(post.image);
+		for (const path of images.filter((p) => p.startsWith("/images/"))) {
+			assert.ok(existsSync(`public${path}`), `${name}: ${path} is missing`);
+		}
+	}
+});
+
+test("the sample post is a draft", () => {
+	const raw = readFileSync("content/blog/writing-a-post.md", "utf8");
+	assert.equal(parsePost("writing-a-post", raw).draft, true);
+});
+
+test("dates read well", async () => {
+	const { formatDate } = await import("../data/blog.ts");
+	assert.equal(formatDate("2026-12-01"), "1 December 2026");
 });
