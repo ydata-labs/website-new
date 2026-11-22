@@ -40,15 +40,31 @@ The second row has no real alternative. The notes are sent for cleaning because 
 
 The largest models run in the cloud. For open questions that need broad knowledge, they are usually ahead of what you can run yourself.
 
-Most hospital tasks are not open questions. Pull the medication list out of a letter. Find the tumour stage in a pathology report. Summarise one visit. These are narrow tasks, and a smaller open model handles a narrow task well. It does even better when the work is cut into clear steps.
+Most hospital tasks are not open questions. Pull the medication list out of a letter. Find the tumour stage in a pathology report. Summarise one visit. These are narrow tasks, and a smaller open model handles a narrow task well.
 
-A 2026 [technical report](https://arxiv.org/abs/2607.22555) from John Snow Labs, which our founder co-wrote, measured this. A small medical model worked through 915 diagnosis cases. On its own, it found the right diagnosis in 24% of them. Inside a workflow of five fixed steps, the same model reached 60%. That was about 9 points more than two large cloud models on the same cases, and 35 to 45% cheaper for each case.
+### A model that knows medicine
+
+A general model learned its language from the open internet. A clinical note is written in another way, full of short forms and half sentences. Oncology adds a vocabulary of its own: tumour stages, treatment lines, drug combinations known only by their initials.
+
+A medical LLM is a model that was trained further on medical text. Some are trained for one field only.
+
+Two public examples show what exists. Google released [MedGemma](https://research.google/blog/medgemma-our-most-capable-open-models-for-health-ai-development), a family of open medical models that run on a single graphics card (GPU). Memorial Sloan Kettering Cancer Center trained an open oncology model, [Woollie](https://www.nature.com/articles/s41746-025-01780-2), on its own cancer records. Woollie read about 39,000 radiology notes of 4,000 patients and judged whether the cancer was progressing. On a score where 0.5 is a guess and 1 is perfect, it reached 0.97.
+
+That study holds a second number. At another hospital, the University of California, San Francisco, the same model scored 0.88. A likely reason is that every hospital writes its notes in its own way. Try a medical model on your own notes before you trust the number on its label.
+
+For the choice between local and cloud, medical models point to local. Both models above are open, so you can run them on your own servers. If you train one further on your own records, that training is work with patient data from start to finish.
+
+We have used healthcare-specific models in our own projects, for example to build timelines of oncology patients. Those projects are on our [portfolio page](/portfolio).
+
+### What a fixed workflow adds
+
+A 2026 [technical report](https://arxiv.org/abs/2607.22555) from John Snow Labs, which our founder co-wrote, measured what happens when the work is cut into clear steps. A small medical model worked through 915 diagnosis cases. On its own, it found the right diagnosis in 24% of them. Inside a workflow of five fixed steps, the same model reached 60%. That was about 9 points more than two large cloud models on the same cases, and 35 to 45% cheaper for each case.
 
 One benchmark does not settle every task. It does show that a well-designed process can count for more than the size of the model. More of this work is on our [research page](/research).
 
 ## 3. How much will you use it?
 
-A cloud API sends a bill for every use. A local model costs money before it gives its first answer: servers with graphics cards (GPUs), and people who keep them running. After that, one more answer costs almost nothing.
+A cloud API sends a bill for every use. A local model costs money before it gives its first answer: servers with GPUs, and people who keep them running. After that, one more answer costs almost nothing.
 
 Low or uneven use favours the cloud. Think of a tool that a few specialists open twice a week. High and steady use favours local. A model that reads every referral that comes in, all day, is steady use.
 
