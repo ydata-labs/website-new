@@ -319,7 +319,7 @@ Then start small. Pick one pain point, one tool and one owner. Name the metric b
 
 ## An applied view: lessons from building AI on real patient records
 
-This section describes my own company’s work, so read it as you would any vendor’s claims. Our platform, Patient Journey Intelligence (PJI), is used for the secondary use of clinical data: research, registries, quality work and trials. It is deployed at many sites and runs inside each hospital’s own infrastructure. It brings in notes, PDFs, EHR data and FHIR feeds, de-identifies them, extracts facts from free text with a source and a confidence, and builds one timeline per patient on the open OMOP data model.
+This section describes my own company’s work, so read it as you would any vendor’s claims.
 
 Three design rules came out of that work, and they apply to any clinical AI:
 
