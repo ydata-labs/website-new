@@ -238,7 +238,7 @@ The studies are striking. Language models found adverse social needs in 93.8% of
 
 ### More of the chart is not better input
 
-The obvious fix is to give the AI the whole chart. Unfortunately, more is not better. A long history is mostly copied-forward text, so the one decisive sentence competes with thousands of others. Every irrelevant page is also a chance to report a diagnosis that was never made. In our own registry tests, adding irrelevant pages cut precision by about 15 points.
+The obvious fix is to give the AI the whole chart. Unfortunately, more is not better. A long history is mostly copied-forward text, so the one decisive sentence competes with thousands of others. Every irrelevant page is also a chance to report a diagnosis that was never made.
 
 Citations do not solve this on their own. In one study, 50 to 90% of AI answers were not fully supported by the sources they cited. AI does not fix data problems. It amplifies them.
 
@@ -319,15 +319,15 @@ Then start small. Pick one pain point, one tool and one owner. Name the metric b
 
 ## An applied view: lessons from building AI on real patient records
 
-Three design rules came out of that work, and they apply to any clinical AI:
+Three design rules apply to any clinical AI that reads real patient records:
 
 1. **Read the text, not just the codes.** As shown above, codes miss much of the story.
-2. **Cut the noise before the model reasons.** We rank documents first. In one registry test, 984 documents became 120. Recall stayed at 100%, and precision rose from 60% to 75%. Less input gave a better answer.
-3. **Every value has a source and a reviewer.** Click a value, and the source note opens with the supporting sentence highlighted. A person approves the value before it counts.
+2. **Cut the noise before the model reasons.** Rank the documents first. Less input gives a better answer.
+3. **Every value has a source and a reviewer.** Each value links to the sentence in the source note that supports it. A person approves the value before it counts.
 
-The results support specialised, grounded models, when you measure them. On AJCC cancer staging from pathology reports, a domain-tuned oncology model reached 90.73% against 76.36% for the best general model before it (Scientific Reports, 2025). On 56 registry fields and 269 unseen documents, we measured 87.7% strict accuracy. In one deployment, registrar time per case fell from about two hours to about two minutes, with a person still reviewing.
+Published results support specialised, grounded models, when you measure them. On AJCC cancer staging from pathology reports, a domain-tuned oncology model reached 90.73% against 76.36% for the best general model before it (Scientific Reports, 2025).
 
-These are our own benchmarks. Ask every vendor, including us, for results on your own data, judged by your own clinicians. The deeper lesson is that the clinical value is rarely one clever model. It is a complete, sourced record that registries, care-gap checks, trial prescreening, cohorts and quality measures can all share.
+Ask every vendor for results on your own data, judged by your own clinicians. The deeper lesson is that the clinical value is rarely one clever model. It is a complete, sourced record that registries, care-gap checks, trial prescreening, cohorts and quality measures can all share.
 
 ## On the horizon: research not yet in clinics
 
