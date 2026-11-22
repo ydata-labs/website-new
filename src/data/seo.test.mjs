@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import {
 	pages,
 	fullTitle,
@@ -62,9 +62,12 @@ test("structured data names all three strengths and points to a real logo", () =
 	for (const s of [/AI engineering/i, /platform engineering/i, /data science/i]) {
 		assert.match(text, s);
 	}
-	assert.ok(
-		existsSync("public" + new URL(organizationSchema.logo).pathname),
-		"logo file is missing",
-	);
+	// Google wants a logo of at least 112x112 pixels.
+	const logoPath = new URL(organizationSchema.logo).pathname;
+	const file = ["public", "src/app"].map((dir) => dir + logoPath).find(existsSync);
+	assert.ok(file, "logo file is missing");
+	const png = readFileSync(file);
+	const [width, height] = [png.readUInt32BE(16), png.readUInt32BE(20)];
+	assert.ok(width >= 112 && height >= 112, `logo is ${width}x${height}`);
 	assert.match(personSchema.description, /20\+ years/);
 });

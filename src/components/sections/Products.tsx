@@ -9,7 +9,7 @@ export function Products() {
 				<SectionHeader
 					eyebrow="products"
 					title="Products we built and run"
-					description="We do not only advise. These are our own products, live and in use."
+					description="We do not only advise. These are our own products."
 				/>
 
 				<div className="mt-12 grid gap-6 lg:grid-cols-2">
@@ -23,7 +23,7 @@ export function Products() {
 								alt={`Screenshot of ${product.name}`}
 								width={product.image.width}
 								height={product.image.height}
-								className="aspect-[16/9] w-full border-b border-line object-cover object-top"
+								className="aspect-[3/1] w-full border-b border-line object-cover object-left-top"
 							/>
 							<div className="flex flex-1 flex-col p-6 md:p-8">
 								<h3 className="text-h3 mb-1">{product.name}</h3>

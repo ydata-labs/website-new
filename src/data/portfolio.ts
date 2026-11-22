@@ -195,9 +195,9 @@ export const founderInfo = {
         "Google-recognized ML Developer Expert",
         {
             text: "40+ peer-reviewed publications in medical AI",
-            link: "https://scholar.google.co.id/citations?hl=nl&user=rrDNhSEAAAAJ",
+            link: "https://scholar.google.com/citations?user=rrDNhSEAAAAJ",
         },
-        "100+ keynote talks at conferences worldwide",
+        "100+ talks at conferences worldwide",
         "PhD in Computer Vision from Leiden University",
     ],
 };
@@ -217,7 +217,7 @@ export const activities: {
 		title: "Public Speaking Engagements",
 		icon: "microphone",
 		description:
-			"As a frequent keynote speaker, Dr. Kocaman has delivered over 100 talks at conferences, meetups, and workshops around the world, sharing insights on AI in healthcare, machine learning best practices, and the future of medical technology.",
+			"As a frequent speaker, Dr. Kocaman has delivered over 100 talks at conferences, meetups, and workshops around the world, sharing insights on AI in healthcare, machine learning best practices, and the future of medical technology.",
 	},
 	{
 		title: "Technical Blogposts",

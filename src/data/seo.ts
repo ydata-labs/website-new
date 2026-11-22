@@ -84,7 +84,8 @@ export const organizationSchema = {
 	name: SITE,
 	alternateName: "yData Labs",
 	url: "https://ydatalabs.nl",
-	logo: "https://ydatalabs.nl/images/logo/logo-light.png",
+	// Served by src/app/apple-icon.png. Google wants at least 112x112.
+	logo: "https://ydatalabs.nl/apple-icon.png",
 	description:
 		"yDataLabs builds LLM and AI systems that run where the customer's data lives: LLM integration, local LLMs, and on-premises AI. AI engineering, platform engineering, and data science, proven in healthcare and life sciences.",
 	foundingDate: "2020",

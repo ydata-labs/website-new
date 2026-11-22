@@ -99,14 +99,16 @@ The site is dark only. There is no light theme.
 | `text-bright` | `#f8fafc` | Headings |
 | `text-muted` | `#94a3b8` | Secondary text |
 | `text-accent` / `bg-accent` | `#2dd4bf` | The one accent color |
+| `text-accent-bright` | `#5eead4` | Hover state of the accent, marked text |
+| `text-danger` | `#fca5a5` | Error messages |
 
 ### Rules (checked by `src/lib/design.test.mjs`)
 - No emoji. Use `<Icon name="..." />` from `src/components/ui/Icon.tsx`
 - No entry animation: no `animate-` class, no `opacity-0` class. Content is visible at once
 - Text meets WCAG AA contrast
-- Do not add `focus:outline-none`. One global `:focus-visible` ring covers every control
+- Do not add `outline-none` or `scroll-smooth`. One global `:focus-visible` ring covers every control, and smooth scrolling is set in the base layer so that "reduced motion" can turn it off
 - Page container: `max-w-xl mx-auto px-4 md:px-8`. Text blocks: `max-w-prose`. Note that `max-w-sm/md/lg/xl/2xl` are overridden in the theme (40, 48, 64, 80, 90rem)
-- Old anchors must keep working: `solutions`, `advice`, `healthcare`, `products`, `about`, `contact`
+- Section anchors must keep working, because other sites link to them: `solutions`, `products`, `about`, `contact` (old), and `advice`, `healthcare` (new)
 
 ### Images
 - Cloudflare Workers has no image optimizer. `next.config.ts` sets `images.unoptimized`

@@ -24,7 +24,8 @@ export const products: Product[] = [
 			"Flexible Deployment for local and cloud apps",
 			"Community Platform for collaboration and feedback",
 		],
-		image: { src: "/images/products/modelpark.webp", width: 1200, height: 625 },
+		// Cropped on purpose: the full screenshot shows user names and app names.
+		image: { src: "/images/products/modelpark.webp", width: 1200, height: 297 },
 		website: "https://modelpark.app",
 	},
 	{
