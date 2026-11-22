@@ -5,7 +5,7 @@ date: 2026-11-16
 audience: leaders
 topic: ai-engineering
 author: Dr. Veysel Kocaman
-draft: true
+draft: false
 ---
 
 AI is already in many clinics, but the proof that it helps patients is still thin. I recently gave a talk to physicians on this gap. This post is the full talk in writing: what the evidence shows, which tools are in use today, how to adopt AI safely, and what research is coming next.
